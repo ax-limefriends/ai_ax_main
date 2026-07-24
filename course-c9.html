@@ -1,0 +1,550 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DX/AX 마스터 커리큘럼 | GptClass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+ :root {
+ --blue: #16A974;
+ --blue-dark: #0E7A52;
+ --blue-mid: #5FD9A8;
+ --blue-light: #E2F6EC;
+ --blue-pale: #EAFBF2;
+ --white: #FFFFFF;
+ --bg: #FFFFFF;
+ --bg2: #F7F8FA;
+ --bg3: #EFF2F7;
+ --ink: #1c1b1b;
+ --ink-mid: #555770;
+ --ink-light: #9094A8;
+ --text: #1c1b1b;
+ --text-mid: #555770;
+ --text-dim: #9094A8;
+ --border: #e5e2e1;
+ --border-mid: #BFE6D2;
+ --card: #FFFFFF;
+ --shadow-sm: 0 2px 12px rgba(0,0,0,0.06);
+ --shadow-md: 0 8px 32px rgba(0,0,0,0.10);
+ --shadow-lg: 0 16px 48px rgba(0,0,0,0.13);
+ --sky: #0EA5E9;
+ --sky-dark: #0369A1;
+ --sky-light: #E0F2FE;
+ --sky-pale: #F0F9FF;
+ --sky-border: #BAE6FD;
+ }
+
+ html { scroll-behavior: smooth; }
+
+ body {
+ font-family: 'Inter', 'Noto Sans KR', sans-serif;
+ background: #fcf9f8;
+ color: #1c1b1b;
+ line-height: 1.6;
+ overflow-x: hidden;
+ }
+
+ /* ── HEADER ── */
+ header {
+ position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+ background: rgba(252,249,248,0.88);
+ backdrop-filter: blur(20px);
+ -webkit-backdrop-filter: blur(20px);
+ border-bottom: 1px solid #bccac1;
+ padding: 0 5%;
+ }
+ .header-inner {
+ display: flex; align-items: center; justify-content: space-between;
+ height: 64px;
+ }
+ .logo {
+ font-size: 1.3rem; font-weight: 900;
+ color: #1c1b1b; letter-spacing: -0.5px; text-decoration: none;
+ }
+ .logo span { color: #006c4c; }
+ .header-contact {
+ font-size: 0.82rem; color: #3d4a43;
+ display: flex; align-items: center; gap: 0.4rem;
+ }
+ .header-contact::before {
+ content: ''; display: inline-block;
+ width: 6px; height: 6px; border-radius: 50%; background: #22C55E;
+ }
+
+ /* ── TAB NAV ── */
+ .tab-nav-wrapper {
+ position: sticky; top: 64px; z-index: 100;
+ background: #FFFFFF; border-bottom: 1px solid #E4E8F0; padding: 0 5%;
+ }
+ .tab-nav { display: flex; max-width: 1100px; margin: 0 auto; }
+ .tab-btn {
+ flex: 1; padding: 0 1rem; height: 56px;
+ font-family: 'Inter', 'Noto Sans KR', sans-serif; font-size: 0.97rem; font-weight: 700;
+ color: #9094A8; background: transparent; border: none;
+ border-bottom: 3px solid transparent; cursor: pointer; text-decoration: none;
+ transition: all 0.18s; display: flex; align-items: center;
+ justify-content: center; white-space: nowrap; letter-spacing: -0.01em;
+ }
+ .tab-btn:hover { color: #0E7A52; background: #D6F5E8; border-bottom-color: rgba(14,122,82,0.25); }
+ .tab-btn.active { color: #0E7A52; border-bottom-color: #16A974; font-weight: 800; }
+
+ /* ── EYEBROW ── */
+ .eyebrow {
+ display: inline-flex; align-items: center; gap: 0.5rem;
+ font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+ font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+ padding: 0.35rem 0.9rem; border-radius: 100px; margin-bottom: 1.8rem;
+ }
+
+ /* ── 상세 화면 ── */
+ .course-detail-screen { margin-top: 120px; }
+ .detail-back-bar { background: #FFFFFF; border-bottom: 1px solid #E4E8F0; padding: 0.8rem 5%; position: sticky; top: 120px; z-index: 88; }
+ .back-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 600; color: #16A974; background: none; border: none; cursor: pointer; padding: 0.3rem 0; transition: opacity 0.15s; text-decoration: none; }
+ .back-btn:hover { opacity: 0.7; }
+
+ .detail-hero { padding: 3rem 5% 2.5rem; position: relative; overflow: hidden; }
+ .detail-hero-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+ .detail-hero h1 { font-size: clamp(1.5rem, 3.2vw, 2.4rem); font-weight: 900; letter-spacing: -0.025em; color: #1A1A2E; line-height: 1.2; margin-bottom: 0.8rem; }
+ .detail-hero h1 .dh-accent { color: var(--sky); }
+ .detail-hero-desc { font-size: 0.97rem; color: #555770; line-height: 1.85; max-width: 600px; margin-bottom: 2rem; }
+ .detail-badges { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+ .detail-badge { display: flex; align-items: center; gap: 0.4rem; background: var(--sky-light); border: 1px solid var(--sky-border); border-radius: 100px; padding: 0.4rem 0.9rem; font-size: 0.8rem; font-weight: 600; color: var(--sky-dark); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+
+ .detail-content { padding: 0 5% 5rem; background: #FFFFFF; }
+ .detail-inner { max-width: 900px; margin: 0 auto; }
+
+ /* 세션 탭 */
+ .session-tabs-bar { background: rgba(255,255,255,0.97); border-bottom: 1px solid #E4E8F0; padding: 0; position: sticky; top: 162px; z-index: 85; overflow-x: auto; scrollbar-width: none; }
+ .session-tabs-bar::-webkit-scrollbar { display: none; }
+ .session-tabs { display: flex; max-width: 900px; margin: 0 auto; padding: 0 5%; overflow-x: visible; }
+ .stab { flex-shrink: 0; padding: 0 1rem; height: 46px; font-family: 'Inter', 'Noto Sans KR', sans-serif; font-size: 0.84rem; font-weight: 600; color: #9094A8; background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: all 0.18s; white-space: nowrap; }
+ .stab:hover { color: var(--sky); }
+ .stab.sactive { color: var(--sky); border-bottom-color: var(--sky); }
+ label.stab { color: #9094A8; border-bottom: 3px solid transparent; cursor: pointer;
+ padding: 0 1rem; height: 44px; display: inline-flex; align-items: center;
+ font-size: 0.88rem; font-weight: 600; white-space: nowrap; background: transparent; }
+
+ .spanel { display: none !important; }
+
+ /* 세션 헤더 */
+ .session-header { display: flex; align-items: flex-start; gap: 1.2rem; padding: 1.8rem; margin-bottom: 2rem; background: var(--sky-pale); border: 1px solid var(--sky-border); border-radius: 16px; border-left: 4px solid var(--sky); }
+ .s-num-badge { flex-shrink: 0; min-width: 52px; height: 52px; border-radius: 12px; background: var(--sky); color: #FFFFFF; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; }
+ .s-num-badge .snb-label { font-size: 0.5rem; letter-spacing: 0.08em; opacity: 0.8; text-transform: uppercase; }
+ .s-num-badge .snb-num { font-size: 1.25rem; font-weight: 700; line-height: 1; }
+ .s-header-text { flex: 1; }
+ .s-topic { font-size: 1.1rem; font-weight: 800; color: #1A1A2E; margin-bottom: 0.35rem; letter-spacing: -0.01em; }
+ .s-goal { font-size: 0.85rem; color: #9094A8; line-height: 1.7; }
+ .s-goal strong { color: var(--sky-dark); font-weight: 600; }
+ .s-duration { flex-shrink: 0; margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 600; color: var(--sky-dark); background: var(--sky-light); border: 1px solid var(--sky-border); padding: 0.28rem 0.65rem; border-radius: 6px; white-space: nowrap; align-self: flex-start; }
+
+ /* 파트 블록 */
+ .parts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.4rem; }
+ .parts-grid.col1 { grid-template-columns: 1fr; }
+ .part-block { background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 14px; padding: 1.5rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+ .part-label { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sky); margin-bottom: 0.55rem; }
+ .part-title { font-size: 0.95rem; font-weight: 700; color: #1A1A2E; margin-bottom: 0.9rem; line-height: 1.4; }
+ .part-items { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+ .part-items li { font-size: 0.83rem; color: #555770; line-height: 1.6; display: flex; align-items: flex-start; gap: 0.5rem; }
+ .part-items li::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--sky); flex-shrink: 0; margin-top: 0.5rem; }
+
+ /* 결과물 배너 */
+ .deliverable-banner { display: flex; align-items: center; gap: 0.9rem; padding: 1.1rem 1.5rem; background: linear-gradient(135deg, var(--sky-light), var(--sky-pale)); border: 1px solid var(--sky-border); border-radius: 12px; margin-top: 0.3rem; margin-bottom: 2.5rem; }
+ .deliverable-banner .db-icon { font-size: 1.4rem; flex-shrink: 0; }
+ .deliverable-banner .db-label { font-family: 'JetBrains Mono', monospace; font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sky-dark); margin-bottom: 0.15rem; }
+ .deliverable-banner .db-items { font-size: 0.86rem; font-weight: 700; color: #1A1A2E; line-height: 1.5; }
+
+ /* CTA */
+ .cta-section { padding: 5rem 5%; text-align: center; background: linear-gradient(160deg, #E0F2FE 0%, #FFFFFF 50%, #F0F9FF 100%); }
+ .cta-inner { max-width: 640px; margin: 0 auto; }
+ .cta-section h2 { font-size: clamp(1.7rem, 3.5vw, 2.6rem); font-weight: 900; letter-spacing: -0.02em; color: #1A1A2E; margin-bottom: 1rem; line-height: 1.25; }
+ .cta-section h2 span { color: var(--sky); }
+ .cta-section p { font-size: 1rem; color: #9094A8; line-height: 1.8; margin-bottom: 2.5rem; }
+ .btn-apply {
+ display: inline-flex; align-items: center; gap: 0.6rem;
+ background: var(--sky); color: #FFFFFF;
+ font-family: 'Inter', 'Noto Sans KR', sans-serif; font-size: 1.05rem; font-weight: 700;
+ padding: 1rem 2.8rem; border-radius: 10px; text-decoration: none;
+ transition: all 0.2s; box-shadow: 0 6px 24px rgba(14,165,233,0.3);
+ border: none; cursor: pointer;
+ }
+ .btn-apply:hover { background: var(--sky-dark); transform: translateY(-2px); box-shadow: 0 10px 32px rgba(14,165,233,0.35); }
+ .btn-apply .arrow { font-size: 1.1rem; transition: transform 0.2s; }
+ .btn-apply:hover .arrow { transform: translateX(3px); }
+
+ /* FOOTER */
+ footer { background: #f6f3f2; border-top: 1px solid #E4E8F0; padding: 2rem 5%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; font-size: 0.8rem; color: #9094A8; }
+ .footer-links { display: flex; gap: 1.5rem; }
+ .footer-links a { color: #9094A8; text-decoration: none; transition: color 0.2s; }
+ .footer-links a:hover { color: #16A974; }
+
+ /* ── CSS-only 세션 탭 제어 ── */
+ #stab-c9-s1:checked ~ * #c9-s1,
+ #stab-c9-s2:checked ~ * #c9-s2,
+ #stab-c9-s3:checked ~ * #c9-s3,
+ #stab-c9-s4:checked ~ * #c9-s4,
+ #stab-c9-s5:checked ~ * #c9-s5,
+ #stab-c9-s6:checked ~ * #c9-s6 { display: block !important; }
+
+ #stab-c9-s1:checked ~ * label[for="stab-c9-s1"],
+ #stab-c9-s2:checked ~ * label[for="stab-c9-s2"],
+ #stab-c9-s3:checked ~ * label[for="stab-c9-s3"],
+ #stab-c9-s4:checked ~ * label[for="stab-c9-s4"],
+ #stab-c9-s5:checked ~ * label[for="stab-c9-s5"],
+ #stab-c9-s6:checked ~ * label[for="stab-c9-s6"] {
+ color: var(--sky); border-bottom-color: var(--sky);
+ }
+
+ /* Dark footer */
+ footer { background: #0A1F14 !important; border-top-color: rgba(255,255,255,0.08) !important; color: rgba(255,255,255,0.45); }
+ footer .logo { color: #5FD9A8 !important; }
+ footer .logo span { color: rgba(255,255,255,0.7) !important; }
+ .footer-links a { color: rgba(255,255,255,0.45) !important; }
+ .footer-links a:hover { color: #5FD9A8 !important; }
+ footer > div { color: rgba(255,255,255,0.35); }
+
+ /* ── FOOTER CONTACT BAR ── */
+ .footer-contact-bar {
+ width: 100%; text-align: center;
+ margin-bottom: 0.6rem;
+ }
+ .footer-contact-bar a {
+ display: inline-block;
+ font-size: 1rem; font-weight: 800; color: #16A974;
+ text-decoration: none; letter-spacing: 0.02em;
+ border-bottom: 2px solid rgba(22,169,116,0.3);
+ padding-bottom: 2px;
+ transition: color 0.2s, border-color 0.2s;
+ }
+ .footer-contact-bar a:hover { color: #0E7A52; border-color: #0E7A52; }
+
+ @media (max-width: 768px) {
+ .tab-btn { font-size: 0.9rem; height: 52px; }
+ .parts-grid { grid-template-columns: 1fr; }
+ .session-header { flex-wrap: wrap; }
+ .s-duration { margin-left: 0; }
+ }
+ @media (prefers-reduced-motion: reduce) {
+ *, *::before, *::after { animation: none !important; transition: none !important; }
+ }
+</style>
+</head>
+<body>
+
+<input type="radio" name="c9-session" id="stab-c9-s1" checked style="display:none">
+<input type="radio" name="c9-session" id="stab-c9-s2" style="display:none">
+<input type="radio" name="c9-session" id="stab-c9-s3" style="display:none">
+<input type="radio" name="c9-session" id="stab-c9-s4" style="display:none">
+<input type="radio" name="c9-session" id="stab-c9-s5" style="display:none">
+<input type="radio" name="c9-session" id="stab-c9-s6" style="display:none">
+
+<header>
+ <div class="header-inner">
+ <a class="logo" href="index.html">Gpt<span>Class</span><span style="font-size: 0.72rem; font-weight: 700; color: #444655; letter-spacing: 0.05em; margin-left: 8px; vertical-align: middle; text-transform: uppercase; border-left: 1px solid #bccac1; padding-left: 8px; display: inline-block;">by LimeFriends</span></a>
+ <a class="header-contact" href="mailto:ax@limefriends.com" style="text-decoration: none; color: #3d4a43; cursor: pointer;">교육 문의 | 담당자 연결</a>
+ </div>
+</header>
+
+<div class="tab-nav-wrapper">
+ <div class="tab-nav">
+ <a class="tab-btn" href="index.html">정부지정 AI 교육기관</a>
+ <a class="tab-btn" href="intro.html">AI 교육 소개</a>
+	<a class="tab-btn" href="teacher.html">
+	<span class="tab-icon"></span>
+	AI 강사 소개
+	</a>
+ <a class="tab-btn active" href="curriculum.html">AI 교육 커리큘럼</a>
+ <a class="tab-btn" href="cases.html">AI 교육 사례</a>
+ </div>
+</div>
+
+<div class="course-detail-screen">
+ <div class="detail-back-bar">
+ <a class="back-btn" href="curriculum.html">← 전체 과정 목록으로</a>
+ </div>
+
+ <section class="detail-hero" style="background:linear-gradient(160deg,#E0F2FE 0%,#FFFFFF 60%,#F0F9FF 100%);">
+ <div class="detail-hero-inner">
+ <div class="eyebrow" style="color:#0369A1;background:#E0F2FE;border:1px solid #BAE6FD;">COURSE 09</div>
+ <h1>DX/AX<br><span class="dh-accent">마스터 커리큘럼</span></h1>
+ <p class="detail-hero-desc">생성형 AI · 바이브코딩 · DX/AX 세 분야를 <strong>한번에</strong> 통합적으로 경험하는 국내 유일 실습형 강의 — 비전공자도 실전 자동화 프로젝트와 웹 앱 MVP까지 완성합니다.</p>
+ <div class="detail-badges">
+ <span class="detail-badge"> 7시간 과정</span>
+ <span class="detail-badge"> 10 PART · 31강</span>
+ <span class="detail-badge"> 비전공자 대상</span>
+ <span class="detail-badge"> 실습 중심</span>
+ </div>
+ </div>
+ </section>
+
+ <div class="session-tabs-bar">
+ <div class="session-tabs">
+ <label class="stab" for="stab-c9-s1">PART 1–2 · AI 입문</label>
+ <label class="stab" for="stab-c9-s2">PART 3–4 · 실습 & 자동화</label>
+ <label class="stab" for="stab-c9-s3">PART 5–6 · AI 자동화 & 노코드</label>
+ <label class="stab" for="stab-c9-s4">PART 7–8 · 바이브코딩</label>
+ <label class="stab" for="stab-c9-s5">PART 9–10 · 파이널 프로젝트</label>
+ <label class="stab" for="stab-c9-s6">대상 · 목표</label>
+ </div>
+ </div>
+
+ <div class="detail-content">
+ <div class="detail-inner">
+
+ <!-- PART 1~2 -->
+ <div class="spanel" id="c9-s1">
+ <div class="session-header">
+ <div class="s-num-badge"><span class="snb-label">PART</span><span class="snb-num">1·2</span></div>
+ <div class="s-header-text">
+ <div class="s-topic">AI 개발 입문 & 생성형 AI의 이해</div>
+ <div class="s-goal"><strong>목표</strong> — AI 개발의 현재를 이해하고 생성형 AI 원리·프롬프트 엔지니어링·비전공자 개발 도구를 체계적으로 익힌다.</div>
+ </div>
+ <div class="s-duration">38분 + 41분</div>
+ </div>
+ <div class="parts-grid">
+ <div class="part-block">
+ <div class="part-label">PART 1 · 3강 (38분)</div>
+ <div class="part-title">Intro: AI 개발 — 왜 지금인가?</div>
+ <ul class="part-items">
+ <li>검색 환경의 변화: 상위노출에서 콘텐츠의 시대로</li>
+ <li>머신러닝의 진화와 생성형 AI</li>
+ <li>코드를 모르는 비전공자, 어디까지 가능할까?</li>
+ </ul>
+ </div>
+ <div class="part-block">
+ <div class="part-label">PART 2 · 3강 (41분)</div>
+ <div class="part-title">생성형 AI의 이해</div>
+ <ul class="part-items">
+ <li>생성형 AI의 원리와 종류</li>
+ <li>프롬프트 엔지니어링 기초</li>
+ <li>비전공자를 위한 개발 도구</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+
+ <!-- PART 3~4 -->
+ <div class="spanel" id="c9-s2">
+ <div class="session-header">
+ <div class="s-num-badge"><span class="snb-label">PART</span><span class="snb-num">3·4</span></div>
+ <div class="s-header-text">
+ <div class="s-topic">생성형 AI 기초 실습 & DX/AX 자동화 기초</div>
+ <div class="s-goal"><strong>목표</strong> — 뉴스·YouTube·PDF를 AI로 가공하는 실습을 완성하고, API·자동화 도구 원리를 이해해 두 시스템을 연동한다.</div>
+ </div>
+ <div class="s-duration">실습 중심 + 58분</div>
+ </div>
+ <div class="parts-grid">
+ <div class="part-block">
+ <div class="part-label">PART 3 · 실습</div>
+ <div class="part-title">생성형 AI 기초 실습</div>
+ <ul class="part-items">
+ <li>뉴스기사 요약하여 카드뉴스 만들기 (실습과제)</li>
+ <li>YouTube 요약하여 PPT 만들기 (실습과제)</li>
+ <li>PDF 요약하여 쇼츠영상 만들기 (자유주제)</li>
+ </ul>
+ </div>
+ <div class="part-block">
+ <div class="part-label">PART 4 · 3강 (58분)</div>
+ <div class="part-title">DX/AX를 위한 자동화 기초</div>
+ <ul class="part-items">
+ <li>프로토콜과 API 이해하기</li>
+ <li>자동화를 위한 도구 알아보기</li>
+ <li>두 개발 도구를 연결하는 API 연동 실습</li>
+ </ul>
+ </div>
+ </div>
+ <div class="deliverable-banner">
+ <div class="db-icon"></div>
+ <div><div class="db-label"> PART 3 결과물</div>
+ <div class="db-items">AI 카드뉴스 + AI PPT + AI 쇼츠영상 포트폴리오</div></div>
+ </div>
+ </div>
+
+ <!-- PART 5~6 -->
+ <div class="spanel" id="c9-s3">
+ <div class="session-header">
+ <div class="s-num-badge"><span class="snb-label">PART</span><span class="snb-num">5·6</span></div>
+ <div class="s-header-text">
+ <div class="s-topic">생성형 AI 활용 자동화 실습 & 노코드 개발</div>
+ <div class="s-goal"><strong>목표</strong> — SNS 데이터 수집·감정 분석·페르소나 도출까지 자동화 파이프라인을 구축하고, 노코드로 SNS 앱을 직접 완성한다.</div>
+ </div>
+ <div class="s-duration">53분 + 실습</div>
+ </div>
+ <div class="parts-grid">
+ <div class="part-block">
+ <div class="part-label">PART 5 · 4강 (53분)</div>
+ <div class="part-title">DX/AX를 위한 생성형 AI 활용 자동화 실습</div>
+ <ul class="part-items">
+ <li>콘텐츠 생성 자동화 — 아이디어만 적어도 글이 기록된다면?</li>
+ <li>SNS 데이터 수집과 브랜드 감정 분석</li>
+ <li>페르소나 도출과 오디언스 세분화</li>
+ <li>페르소나 도출과 오디언스 세분화 실습</li>
+ </ul>
+ </div>
+ <div class="part-block">
+ <div class="part-label">PART 6 · 3강</div>
+ <div class="part-title">노코드 개발과 바이브코딩</div>
+ <ul class="part-items">
+ <li>비전공자를 위한 두 개발 방법론 비교하기</li>
+ <li>노코드 개발로 SNS 만들기</li>
+ <li>노코드 개발로 SNS 만들기 (직접 실습)</li>
+ </ul>
+ </div>
+ </div>
+ <div class="deliverable-banner">
+ <div class="db-icon"></div>
+ <div><div class="db-label"> PART 5–6 결과물</div>
+ <div class="db-items">콘텐츠 자동화 파이프라인 + 노코드 SNS 앱</div></div>
+ </div>
+ </div>
+
+ <!-- PART 7~8 -->
+ <div class="spanel" id="c9-s4">
+ <div class="session-header">
+ <div class="s-num-badge"><span class="snb-label">PART</span><span class="snb-num">7·8</span></div>
+ <div class="s-header-text">
+ <div class="s-topic">바이브코딩의 이해와 실습 & 머신러닝·딥러닝 개념</div>
+ <div class="s-goal"><strong>목표</strong> — RDD 기반 바이브코딩으로 앱과 챗봇을 직접 만들고, 인공지능·머신러닝·딥러닝·인공신경망의 핵심 개념을 이해한다.</div>
+ </div>
+ <div class="s-duration">46분 + 22분</div>
+ </div>
+ <div class="parts-grid">
+ <div class="part-block">
+ <div class="part-label">PART 7 · 5강 (46분)</div>
+ <div class="part-title">바이브코딩의 이해와 실습</div>
+ <ul class="part-items">
+ <li>바이브코딩 잘 하는 방법 — RDD 이해하기</li>
+ <li>명령어 한 번만에 앱 만들기 (11분 36초)</li>
+ <li>명령어 한 번만에 앱 만들기 (자유주제 실습)</li>
+ <li>바이브코딩으로 나만의 챗봇 만들기</li>
+ <li>바이브코딩으로 나만의 챗봇 만들기 (자유주제)</li>
+ </ul>
+ </div>
+ <div class="part-block">
+ <div class="part-label">PART 8 · 2강 (22분)</div>
+ <div class="part-title">머신러닝, 딥러닝, 인공신경망의 이해</div>
+ <ul class="part-items">
+ <li>인공지능과 머신러닝의 이해</li>
+ <li>딥러닝과 인공신경망의 이해</li>
+ </ul>
+ </div>
+ </div>
+ <div class="deliverable-banner">
+ <div class="db-icon"></div>
+ <div><div class="db-label"> PART 7 결과물</div>
+ <div class="db-items">바이브코딩 앱 + 나만의 AI 챗봇</div></div>
+ </div>
+ </div>
+
+ <!-- PART 9~10 -->
+ <div class="spanel" id="c9-s5">
+ <div class="session-header">
+ <div class="s-num-badge"><span class="snb-label">PART</span><span class="snb-num">9·10</span></div>
+ <div class="s-header-text">
+ <div class="s-topic">파이널 프로젝트 — 웹 앱 MVP 완성 & AI 개발의 가능성과 한계</div>
+ <div class="s-goal"><strong>목표</strong> — Streamlit으로 AI 웹 앱 MVP를 구현·배포하고, 생성형 AI와 비전공자 개발의 가능성과 한계를 비판적으로 이해한다.</div>
+ </div>
+ <div class="s-duration">1시간 38분 + 24분</div>
+ </div>
+ <div class="parts-grid">
+ <div class="part-block">
+ <div class="part-label">PART 9 · 7강 (1시간 38분)</div>
+ <div class="part-title">파이널 프로젝트 — 바이브코딩을 이용한 웹 앱 MVP 만들기</div>
+ <ul class="part-items">
+ <li>프로젝트 개요 — 바이브코딩을 이용한 웹 앱 MVP 만들기</li>
+ <li>개발환경 설정 — VS Code/Python, Streamlit 설치</li>
+ <li>Streamlit 기본 컴포넌트 실습</li>
+ <li>AI를 활용한 웹 앱 MVP 구현 기초</li>
+ <li>AI를 활용한 웹 앱 MVP 완성</li>
+ <li>GitHub를 활용하여 완성된 웹 앱 MVP 배포하기</li>
+ <li>파이널 프로젝트 완성하기</li>
+ </ul>
+ </div>
+ <div class="part-block">
+ <div class="part-label">PART 10 · 3강 (24분)</div>
+ <div class="part-title">AI 개발의 가능성과 한계</div>
+ <ul class="part-items">
+ <li>우리가 믿는 인공지능이 정말 인공지능일까?</li>
+ <li>생성형 AI의 가능성과 한계</li>
+ <li>비전공자 개발의 가능성과 한계</li>
+ </ul>
+ </div>
+ </div>
+ <div class="deliverable-banner">
+ <div class="db-icon"></div>
+ <div><div class="db-label"> PART 9 결과물</div>
+ <div class="db-items">AI 웹 앱 MVP (Streamlit) · GitHub 배포 완료</div></div>
+ </div>
+ </div>
+
+ <!-- 대상·목표 -->
+ <div class="spanel" id="c9-s6">
+ <div class="session-header">
+ <div class="s-num-badge"><span class="snb-label">INFO</span><span class="snb-num">·</span></div>
+ <div class="s-header-text">
+ <div class="s-topic">훈련대상 · 훈련목표</div>
+ <div class="s-goal">7시간 안에 생성형 AI, 바이브코딩, DX/AX 세 분야를 통합적으로 경험하는 국내 유일 실전 과정입니다.</div>
+ </div>
+ </div>
+ <div class="parts-grid">
+ <div class="part-block">
+ <div class="part-label"> 훈련대상</div>
+ <div class="part-title">이런 분께 추천합니다</div>
+ <ul class="part-items">
+ <li>AI 기술을 실무·일상에 적용하고 싶은 비전공자</li>
+ <li>코딩 없이 앱·챗봇·자동화를 직접 만들고 싶은 재직자</li>
+ <li>DX/AX 전환을 준비하는 중소기업 임직원 및 담당자</li>
+ <li>AI 개발로 커리어 방향 전환을 고민하는 직장인</li>
+ </ul>
+ </div>
+ <div class="part-block">
+ <div class="part-label"> 훈련목표</div>
+ <div class="part-title">이 과정을 마치면</div>
+ <ul class="part-items">
+ <li>생성형 AI 원리 이해 및 프롬프트 엔지니어링 실전 활용</li>
+ <li>SNS 자동화·콘텐츠 생성 파이프라인 직접 구축</li>
+ <li>바이브코딩(RDD)으로 앱·챗봇 완성 및 배포 경험</li>
+ <li>AI 웹 앱 MVP를 Streamlit으로 구현하고 GitHub에 배포</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+
+ </div>
+ </div>
+
+ <section class="cta-section" style="padding-top:3rem;">
+ <div class="cta-inner">
+ <h2>7시간으로 완성하는<br><span>AI 개발 마스터 과정</span></h2>
+ <a href="apply.html" class="btn-apply">교육 신청 바로가기 <span class="arrow">→</span></a>
+ </div>
+ </section>
+</div>
+
+<footer>
+ <a class="logo" href="index.html" style="font-size: 1rem; text-decoration: none;">Gpt<span>Class</span></a>
+ <div class="footer-contact-bar"><a href="mailto:ax@limefriends.com"> Contact&nbsp;&nbsp;ax@limefriends.com</a></div>
+ <div>© 2026 Lime Friends. All rights reserved.</div>
+ <div class="footer-links">
+ <a href="#">이용약관</a>
+ <a href="#">개인정보처리방침</a>
+ <a href="#">고객센터</a>
+ </div>
+</footer>
+
+<script>
+ const observer = new IntersectionObserver(entries => {
+ entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+ }, { threshold: 0.08 });
+ document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+<script src="/chatbot.js"></script>
+</body>
+</html>
+
+

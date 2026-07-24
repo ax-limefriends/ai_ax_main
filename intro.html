@@ -1,0 +1,858 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+
+<meta charset="UTF-8">
+<meta name="cache-control" content="no-cache">
+<!-- bust:2 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 실무 교육 | GptClass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+ :root {
+ --blue: #16A974;
+ --blue-dark: #0E7A52;
+ --blue-mid: #5FD9A8;
+ --blue-light: #E2F6EC;
+ --blue-pale: #EAFBF2;
+ --white: #FFFFFF;
+ --bg: #FFFFFF;
+ --bg2: #F7F8FA;
+ --bg3: #EFF2F7;
+ --ink: #1c1b1b;
+ --ink-mid: #555770;
+ --ink-light: #9094A8;
+ --text: #1c1b1b;
+ --text-mid: #555770;
+ --text-dim: #9094A8;
+ --border: #e5e2e1;
+ --border-mid: #BFE6D2;
+ --card: #FFFFFF;
+ --shadow-sm: 0 2px 12px rgba(0,0,0,0.06);
+ --shadow-md: 0 8px 32px rgba(0,0,0,0.10);
+ --shadow-lg: 0 16px 48px rgba(0,0,0,0.13);
+ }
+
+ html { scroll-behavior: smooth; }
+
+ body {
+ font-family: 'Inter', 'Noto Sans KR', sans-serif;
+ background: #fcf9f8;
+ color: #1c1b1b;
+ line-height: 1.6;
+ overflow-x: hidden;
+ }
+
+ /* ── HEADER ── */
+ header {
+ position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+ background: rgba(252,249,248,0.88);
+ backdrop-filter: blur(20px);
+ -webkit-backdrop-filter: blur(20px);
+ border-bottom: 1px solid #bccac1;
+ padding: 0 5%;
+ }
+ .header-inner {
+ display: flex; align-items: center; justify-content: space-between;
+ height: 64px;
+ }
+ .logo {
+ font-size: 1.3rem; font-weight: 900;
+ color: #1c1b1b; letter-spacing: -0.5px; text-decoration: none;
+ }
+ .logo span { color: #006c4c; }
+ .header-contact {
+ font-size: 0.82rem; color: #3d4a43;
+ display: flex; align-items: center; gap: 0.4rem;
+ }
+ .header-contact::before {
+ content: ''; display: inline-block;
+ width: 6px; height: 6px; border-radius: 50%; background: #22C55E;
+ }
+
+ /* ── TAB NAV ── */
+ .tab-nav-wrapper {
+ position: sticky; top: 64px; z-index: 100;
+ background: #FFFFFF; border-bottom: 1px solid #E4E8F0; padding: 0 5%;
+ }
+ .tab-nav { display: flex; max-width: 1100px; margin: 0 auto; }
+ .tab-btn {
+ flex: 1; padding: 0 1rem; height: 56px;
+ font-family: 'Inter', 'Noto Sans KR', sans-serif; font-size: 0.97rem; font-weight: 700;
+ color: #9094A8; background: transparent; border: none;
+ border-bottom: 3px solid transparent; cursor: pointer; text-decoration: none;
+ transition: all 0.18s; display: flex; align-items: center;
+ justify-content: center; white-space: nowrap; letter-spacing: -0.01em;
+ }
+ .tab-btn:hover { color: #0E7A52; background: #D6F5E8; border-bottom-color: rgba(14,122,82,0.25); }
+ .tab-btn.active { color: #0E7A52; border-bottom-color: #16A974; font-weight: 800; }
+
+ /* ── TAB PANELS ── */
+ .tab-panel { display: none; }
+ .tab-panel.active { display: block; }
+
+ /* ── INTRO HERO ── */
+ .intro-hero {
+ background: linear-gradient(160deg, #E5F7ED 0%, #FFFFFF 55%, #EDFBF4 100%);
+ padding: 3.5rem 5% 3rem; position: relative; overflow: hidden; margin-top: 120px;
+ }
+ .intro-hero::before {
+ content: ''; position: absolute; top: -80px; right: -80px;
+ width: 420px; height: 420px; border-radius: 50%;
+ background: radial-gradient(circle, rgba(22,169,116,0.1) 0%, transparent 70%);
+ pointer-events: none;
+ }
+ .intro-hero::after {
+ content: ''; position: absolute; bottom: -60px; left: 10%;
+ width: 280px; height: 280px; border-radius: 50%;
+ background: radial-gradient(circle, rgba(52,211,153,0.08) 0%, transparent 70%);
+ pointer-events: none;
+ }
+ .hero-inner { max-width: 860px; margin: 0 auto; position: relative; z-index: 1; }
+
+ .eyebrow {
+ display: inline-flex; align-items: center; gap: 0.5rem;
+ font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+ font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+ color: #16A974; background: #E2F6EC; border: 1px solid #BFE6D2;
+ padding: 0.35rem 0.9rem; border-radius: 100px; margin-bottom: 1.8rem;
+ }
+ .intro-hero h1 {
+ font-size: clamp(2rem, 4.5vw, 3.4rem); font-weight: 900;
+ line-height: 1.18; letter-spacing: -0.025em; color: #1A1A2E; margin-bottom: 1.4rem;
+ }
+ .intro-hero h1 .accent { color: #16A974; position: relative; }
+ .intro-hero h1 .accent::after {
+ content: ''; position: absolute; bottom: 2px; left: 0; right: 0;
+ height: 3px; background: linear-gradient(90deg, #16A974, #34D399);
+ border-radius: 2px; opacity: 0.4;
+ }
+ .intro-hero-desc {
+ font-size: 1.05rem; color: #555770; line-height: 1.9;
+ max-width: 640px; margin-bottom: 2.5rem; padding: 1.6rem 2rem;
+ background: rgba(22,169,116,0.05); border: 1px solid #BFE6D2;
+ border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+ }
+ .intro-hero-desc strong { color: #1A1A2E; font-weight: 700; }
+
+ /* ── STAT BAND ── */
+ .stat-band {
+ display: flex; flex-wrap: wrap; margin-top: 2.5rem;
+ border: 1px solid #E4E8F0; border-radius: 16px; overflow: hidden;
+ background: #FFFFFF; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+ }
+ .stat-cell {
+ flex: 1; min-width: 160px; text-align: center; padding: 1.8rem 1rem;
+ border-right: 1px solid #E4E8F0;
+ }
+ .stat-cell:last-child { border-right: none; }
+ .stat-num { font-size: 1.9rem; font-weight: 900; color: #16A974; line-height: 1; margin-bottom: 0.4rem; }
+ .stat-label { font-size: 0.8rem; color: #9094A8; font-weight: 500; }
+
+ /* ── SECTION COMMON ── */
+ .content-section { padding: 5rem 5%; }
+ .section-label {
+ display: inline-flex;
+ align-items: center;
+ gap: 0.5rem;
+ font-family: 'Inter', 'Noto Sans KR', sans-serif;
+ font-size: 0.82rem;
+ font-weight: 700;
+ letter-spacing: 0.04em;
+ color: #16A974;
+ background: #E2F6EC;
+ border: 1px solid #BFE6D2;
+ padding: 0.35rem 0.9rem;
+ border-radius: 100px;
+ margin-bottom: 1rem;
+ }
+ .section-title {
+ font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800;
+ letter-spacing: -0.02em; color: #1A1A2E; margin-bottom: 0.8rem;
+ }
+ .section-sub { font-size: 0.95rem; color: #9094A8; line-height: 1.8; max-width: 520px; }
+ .section-head { margin-bottom: 3rem; }
+
+ /* ── FEATURES ── */
+ .features-section { background: #f6f3f2; padding: 5rem 5%; }
+ .features-grid {
+ display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+ gap: 1.25rem; max-width: 1100px; margin: 0 auto;
+ }
+ .feature-card {
+ background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 16px;
+ padding: 2rem; transition: all 0.25s; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+ }
+ .feature-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(22,169,116,0.15); border-color: #BFE6D2; }
+ .feature-num { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 600; color: #16A974; letter-spacing: 0.1em; margin-bottom: 0.8rem; }
+ .feature-icon { font-size: 2rem; margin-bottom: 0.9rem; display: block; }
+ .feature-title { font-size: 1.05rem; font-weight: 700; color: #1A1A2E; margin-bottom: 0.5rem; }
+ .feature-desc { font-size: 0.88rem; color: #9094A8; line-height: 1.75; }
+
+ /* ── TARGET ── */
+ .target-section { padding: 5rem 5%; background: #FFFFFF; }
+ .target-inner { max-width: 900px; margin: 0 auto; }
+ .target-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+ .target-card {
+ display: flex; gap: 1rem; align-items: flex-start;
+ background: #EAFBF2; border: 1px solid #E4E8F0;
+ border-radius: 14px; padding: 1.5rem; transition: all 0.2s;
+ }
+ .target-card:hover { background: #E2F6EC; border-color: #BFE6D2; box-shadow: 0 4px 16px rgba(22,169,116,0.12); }
+ .target-icon { font-size: 1.6rem; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+ .target-text h4 { font-size: 0.95rem; font-weight: 700; color: #1A1A2E; margin-bottom: 0.3rem; }
+ .target-text p { font-size: 0.83rem; color: #9094A8; line-height: 1.65; }
+ .target-courses { display: flex; flex-direction: column; gap: 0.4rem; margin-top: 0.9rem; }
+ .target-course-link {
+ display: flex; align-items: baseline; gap: 0.5rem;
+ font-size: 0.78rem; font-weight: 600; color: #1A1A2E; text-decoration: none;
+ background: #FFFFFF; border: 1px solid #BFE6D2; border-radius: 8px;
+ padding: 0.45rem 0.7rem; transition: all 0.15s;
+ }
+ .target-course-link:hover { background: #16A974; color: #FFFFFF; border-color: #16A974; }
+ .target-course-link:hover .tcl-num { color: #FFFFFF; }
+ .target-course-link .tcl-num { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #0E7A52; flex-shrink: 0; }
+
+ /* ── PROCESS ── */
+ .process-section { background: linear-gradient(135deg, #E5F7ED 0%, #EAFBF2 50%, #E9F8F0 100%); padding: 3.5rem 5%; }
+ .process-section .section-label { color: #16A974; }
+ .process-section .section-title { color: #1A1A2E; }
+ .process-steps {
+ display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+ margin-top: 2rem; max-width: 1000px; margin-left: auto; margin-right: auto;
+ }
+ .process-step { padding: 1.2rem 1.2rem; border-right: 1px solid rgba(22,169,116,0.2); }
+ .process-step:last-child { border-right: none; }
+ .step-num { font-family: 'JetBrains Mono', monospace; font-size: 2.2rem; font-weight: 700; color: #16A974; line-height: 1; margin-bottom: 0.6rem; }
+ .step-title { font-size: 0.95rem; font-weight: 700; color: #1A1A2E; margin-bottom: 0.4rem; }
+ .step-desc { font-size: 0.8rem; color: #555770; line-height: 1.6; }
+
+ /* ── CTA ── */
+ .cta-section { padding: 5rem 5%; text-align: center; background: linear-gradient(160deg, #E5F7ED 0%, #FFFFFF 50%, #EDFBF4 100%); }
+ .cta-inner { max-width: 640px; margin: 0 auto; }
+ .cta-section h2 { font-size: clamp(1.7rem, 3.5vw, 2.6rem); font-weight: 900; letter-spacing: -0.02em; color: #1A1A2E; margin-bottom: 1rem; line-height: 1.25; }
+ .cta-section h2 span { color: #16A974; }
+ .cta-section p { font-size: 1rem; color: #9094A8; line-height: 1.8; margin-bottom: 2.5rem; }
+ .btn-apply {
+ display: inline-flex; align-items: center; gap: 0.6rem;
+ background: #16A974; color: #FFFFFF;
+ font-family: 'Inter', 'Noto Sans KR', sans-serif; font-size: 1.05rem; font-weight: 700;
+ padding: 1rem 2.8rem; border-radius: 10px; text-decoration: none;
+ transition: all 0.2s; box-shadow: 0 6px 24px rgba(22,169,116,0.3);
+ border: none; cursor: pointer;
+ }
+ .btn-apply:hover { background: #0E7A52; transform: translateY(-2px); box-shadow: 0 10px 32px rgba(22,169,116,0.35); }
+ .btn-apply .arrow { font-size: 1.1rem; transition: transform 0.2s; }
+ .btn-apply:hover .arrow { transform: translateX(3px); }
+ .cta-note { margin-top: 1.2rem; font-size: 0.82rem; color: rgba(255,255,255,0.65); }
+
+ /* ── CURRICULUM PANEL ── */
+ .curriculum-panel { margin-top: 120px; }
+ .course-list-screen { display: block; }
+
+ .course-detail-screen { display: none; }
+
+ /* 목록 히어로 */
+ .cl-hero { background: linear-gradient(160deg, #E5F7ED 0%, #FFFFFF 60%, #EDFBF4 100%); padding: 3.5rem 5% 3rem; position: relative; overflow: hidden; }
+ .cl-hero-inner { max-width: 960px; margin: 0 auto; position: relative; z-index: 1; }
+ .cl-hero h1 { font-size: clamp(1.7rem, 3.5vw, 2.6rem); font-weight: 900; letter-spacing: -0.025em; color: #1A1A2E; margin-bottom: 0.7rem; line-height: 1.2; }
+ .cl-hero h1 span { color: #16A974; }
+ .cl-hero p { font-size: 0.97rem; color: #9094A8; line-height: 1.8; max-width: 520px; margin-bottom: 2.5rem; }
+
+ /* 과정 카드 그리드 */
+ .course-grid-section { padding: 3rem 5% 5rem; background: #FFFFFF; }
+ .course-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.4rem; max-width: 960px; margin: 0 auto; }
+ .course-card {
+ background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 18px;
+ padding: 1.8rem; cursor: pointer; transition: all 0.25s; text-decoration: none;
+ box-shadow: 0 2px 12px rgba(0,0,0,0.06); display: flex; flex-direction: column;
+ position: relative; overflow: hidden;
+ }
+ .course-card::before {
+ content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+ background: #16A974; transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+ }
+ .course-card:hover { transform: translateY(-5px); box-shadow: 0 8px 32px rgba(22,169,116,0.15); border-color: #BFE6D2; }
+ .course-card:hover::before { transform: scaleX(1); }
+ .course-card.c-amber::before { background: #F59E0B; }
+ .course-card.c-violet::before { background: #7B61FF; }
+ .course-card.c-teal::before { background: #0EA5A0; }
+ .course-card.c-rose::before { background: #F43F5E; }
+ .course-card.c-green::before { background: #22C55E; }
+ .course-card.c-orange::before { background: #FB923C; }
+
+ .cc-num { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; color: #16A974; margin-bottom: 0.9rem; }
+ .course-card.c-amber .cc-num { color: #D97706; }
+ .course-card.c-violet .cc-num { color: #6D4BEE; }
+ .course-card.c-teal .cc-num { color: #0D9488; }
+ .course-card.c-rose .cc-num { color: #E11D48; }
+ .course-card.c-green .cc-num { color: #16A34A; }
+ .course-card.c-orange .cc-num { color: #EA580C; }
+
+ .cc-icon { font-size: 2rem; margin-bottom: 0.8rem; display: block; }
+ .cc-title { font-size: 1.05rem; font-weight: 800; color: #1A1A2E; line-height: 1.35; margin-bottom: 0.6rem; letter-spacing: -0.01em; }
+ .cc-desc { font-size: 0.83rem; color: #9094A8; line-height: 1.7; margin-bottom: 1.2rem; flex: 1; }
+ .cc-meta { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+ .cc-badge { font-size: 0.72rem; font-weight: 600; padding: 0.25rem 0.6rem; border-radius: 100px; background: #E2F6EC; color: #16A974; border: 1px solid #E4E8F0; }
+ .course-card.c-amber .cc-badge { background: #FEF3C7; color: #D97706; border-color: #FDE68A; }
+ .course-card.c-violet .cc-badge { background: #EDE9FE; color: #6D4BEE; border-color: #DDD6FE; }
+ .course-card.c-teal .cc-badge { background: #CCFBF1; color: #0D9488; border-color: #99F6E4; }
+ .course-card.c-rose .cc-badge { background: #FFE4E6; color: #E11D48; border-color: #FECDD3; }
+ .course-card.c-green .cc-badge { background: #DCFCE7; color: #16A34A; border-color: #BBF7D0; }
+ .course-card.c-orange .cc-badge { background: #FFEDD5; color: #EA580C; border-color: #FED7AA; }
+ .cc-arrow { display: flex; align-items: center; justify-content: space-between; font-size: 0.82rem; font-weight: 700; color: #16A974; }
+ .course-card.c-amber .cc-arrow { color: #D97706; }
+ .course-card.c-violet .cc-arrow { color: #6D4BEE; }
+ .course-card.c-teal .cc-arrow { color: #0D9488; }
+ .course-card.c-rose .cc-arrow { color: #E11D48; }
+ .course-card.c-green .cc-arrow { color: #16A34A; }
+ .course-card.c-orange .cc-arrow { color: #EA580C; }
+
+ /* ── 상세 화면 ── */
+ .detail-back-bar { background: #FFFFFF; border-bottom: 1px solid #E4E8F0; padding: 0.8rem 5%; position: sticky; top: 120px; z-index: 88; }
+ .back-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 600; color: #16A974; background: none; border: none; cursor: pointer; padding: 0.3rem 0; transition: opacity 0.15s; text-decoration: none; }
+ .back-btn:hover { opacity: 0.7; }
+
+ .detail-hero { padding: 3rem 5% 2.5rem; position: relative; overflow: hidden; }
+ .detail-hero-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+ .detail-hero h1 { font-size: clamp(1.5rem, 3.2vw, 2.4rem); font-weight: 900; letter-spacing: -0.025em; color: #1A1A2E; line-height: 1.2; margin-bottom: 0.8rem; }
+ .detail-hero h1 .dh-accent { color: #16A974; }
+ .detail-hero-desc { font-size: 0.97rem; color: #555770; line-height: 1.85; max-width: 580px; margin-bottom: 2rem; }
+ .detail-badges { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+ .detail-badge { display: flex; align-items: center; gap: 0.4rem; background: #E2F6EC; border: 1px solid #BFE6D2; border-radius: 100px; padding: 0.4rem 0.9rem; font-size: 0.8rem; font-weight: 600; color: #16A974; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+
+ .detail-content { padding: 0 5% 5rem; background: #FFFFFF; }
+ .detail-inner { max-width: 900px; margin: 0 auto; }
+
+ /* 세션 탭 */
+ .session-tabs-bar { background: rgba(255,255,255,0.97); border-bottom: 1px solid #E4E8F0; padding: 0; position: sticky; top: 162px; z-index: 85; overflow-x: auto; scrollbar-width: none; }
+ .session-tabs-bar::-webkit-scrollbar { display: none; }
+ .session-tabs { display: flex; max-width: 900px; margin: 0 auto; padding: 0 5%; overflow-x: visible; }
+ .session-tabs::-webkit-scrollbar { display: none; }
+ .stab { flex-shrink: 0; padding: 0 1rem; height: 46px; font-family: 'Inter', 'Noto Sans KR', sans-serif; font-size: 0.84rem; font-weight: 600; color: #9094A8; background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: all 0.18s; white-space: nowrap; }
+ .stab:hover { color: #16A974; }
+ .stab.sactive { color: #16A974; border-bottom-color: #16A974; }
+
+ .spanel { display: none; padding-top: 2.5rem; }
+ .spanel.svisible { display: block; }
+
+ /* 세션 헤더 */
+ .session-header { display: flex; align-items: flex-start; gap: 1.2rem; padding: 1.8rem; margin-bottom: 2rem; background: #EAFBF2; border: 1px solid #E4E8F0; border-radius: 16px; border-left: 4px solid #16A974; }
+ .s-num-badge { flex-shrink: 0; min-width: 52px; height: 52px; border-radius: 12px; background: #16A974; color: #FFFFFF; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; }
+ .s-num-badge .snb-label { font-size: 0.5rem; letter-spacing: 0.08em; opacity: 0.8; text-transform: uppercase; }
+ .s-num-badge .snb-num { font-size: 1.25rem; font-weight: 700; line-height: 1; }
+ .s-header-text { flex: 1; }
+ .s-topic { font-size: 1.1rem; font-weight: 800; color: #1A1A2E; margin-bottom: 0.35rem; letter-spacing: -0.01em; }
+ .s-goal { font-size: 0.85rem; color: #9094A8; line-height: 1.7; }
+ .s-goal strong { color: #16A974; font-weight: 600; }
+ .s-duration { flex-shrink: 0; margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 600; color: #16A974; background: #E2F6EC; border: 1px solid #BFE6D2; padding: 0.28rem 0.65rem; border-radius: 6px; white-space: nowrap; align-self: flex-start; }
+
+ /* 파트 블록 */
+ .parts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.4rem; }
+ .part-block { background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 14px; padding: 1.5rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+ .part-label { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #16A974; margin-bottom: 0.55rem; }
+ .part-title { font-size: 0.95rem; font-weight: 700; color: #1A1A2E; margin-bottom: 0.9rem; line-height: 1.4; }
+ .part-items { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+ .part-items li { font-size: 0.83rem; color: #555770; line-height: 1.6; display: flex; align-items: flex-start; gap: 0.5rem; }
+ .part-items li::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #16A974; flex-shrink: 0; margin-top: 0.5rem; }
+
+ /* 결과물 배너 */
+ .deliverable-banner { display: flex; align-items: center; gap: 0.9rem; padding: 1.1rem 1.5rem; background: linear-gradient(135deg, #E5F7ED, #EAFBF2); border: 1px solid #BFE6D2; border-radius: 12px; margin-top: 0.3rem; margin-bottom: 2.5rem; }
+ .deliverable-banner .db-icon { font-size: 1.4rem; flex-shrink: 0; }
+ .deliverable-banner .db-label { font-family: 'JetBrains Mono', monospace; font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: #16A974; margin-bottom: 0.15rem; }
+ .deliverable-banner .db-items { font-size: 0.86rem; font-weight: 700; color: #1A1A2E; line-height: 1.5; }
+
+ /* 단일 파트 */
+ .single-part { background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 14px; padding: 1.6rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-bottom: 1.2rem; }
+ .single-part-title { font-size: 1rem; font-weight: 800; color: #1A1A2E; margin-bottom: 1rem; padding-bottom: 0.7rem; border-bottom: 1px solid #E4E8F0; }
+ .single-part-title .spt-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: #16A974; display: block; margin-bottom: 0.3rem; }
+
+ /* 요약 테이블 */
+ .summary-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; margin-bottom: 1.5rem; }
+ .summary-table th { background: #E2F6EC; color: #16A974; font-weight: 700; font-size: 0.78rem; letter-spacing: 0.05em; padding: 0.7rem 1rem; text-align: left; border: 1px solid #E4E8F0; }
+ .summary-table td { padding: 0.65rem 1rem; border: 1px solid #E4E8F0; color: #555770; vertical-align: top; line-height: 1.6; }
+ .summary-table tr:nth-child(even) td { background: #F8FDFA; }
+ .summary-table td:first-child { font-weight: 700; color: #1A1A2E; white-space: nowrap; }
+
+ /* 커리큘럼 히어로 */
+ .curr-hero { background: linear-gradient(160deg, #E5F7ED 0%, #FFFFFF 60%, #EDFBF4 100%); padding: 3.5rem 5% 3rem; position: relative; overflow: hidden; }
+ .curr-hero-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+ .curr-hero h1 { font-size: clamp(1.7rem, 3.8vw, 2.9rem); font-weight: 900; letter-spacing: -0.025em; color: #1A1A2E; margin-bottom: 1rem; line-height: 1.2; }
+ .curr-hero h1 span { color: #16A974; }
+ .curr-hero-desc { font-size: 1rem; color: #555770; line-height: 1.85; max-width: 580px; margin-bottom: 2rem; }
+ .curr-overview { display: flex; gap: 1rem; flex-wrap: wrap; }
+ .overview-badge { display: flex; align-items: center; gap: 0.5rem; background: #FFFFFF; border: 1px solid #BFE6D2; border-radius: 100px; padding: 0.5rem 1.1rem; font-size: 0.85rem; font-weight: 600; color: #555770; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+ .overview-badge strong { color: #16A974; }
+
+ /* 교육 정보 */
+ .curr-info-section { background: #f6f3f2; padding: 4rem 5%; }
+ .curr-info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; max-width: 900px; margin: 0 auto; }
+ .curr-info-card { background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 14px; padding: 1.6rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+ .curr-info-card .ci-label { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: #16A974; margin-bottom: 0.6rem; }
+ .curr-info-card .ci-title { font-size: 0.95rem; font-weight: 700; color: #1A1A2E; margin-bottom: 0.5rem; }
+ .curr-info-card .ci-body { font-size: 0.83rem; color: #9094A8; line-height: 1.7; }
+
+ /* 기대효과 */
+ .curr-effect-section { background: #EFF2F7; padding: 4rem 5%; }
+ .curr-effect-section .section-label { color: #16A974; }
+ .curr-effect-section .section-title { color: #1A1A2E; }
+ .detail-effect { background: #EFF2F7; padding: 3.5rem 5%; border-top: 1px solid #E4E8F0; }
+ .detail-effect .section-label { color: #16A974; }
+ .detail-effect .section-title { color: #1A1A2E; margin-bottom: 2rem; }
+ .effect-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; max-width: 900px; margin: 0 auto; }
+ .effect-card { padding: 1.5rem 1.2rem; background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 14px; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+ .effect-card:hover { background: #EAFBF2; border-color: #BFE6D2; box-shadow: 0 4px 16px rgba(22,169,116,0.12); }
+ .effect-icon { font-size: 1.6rem; margin-bottom: 0.7rem; }
+ .effect-title { font-size: 0.92rem; font-weight: 700; color: #1A1A2E; margin-bottom: 0.35rem; }
+ .effect-desc { font-size: 0.8rem; color: #9094A8; line-height: 1.65; }
+
+ /* ── FOOTER ── */
+ footer { background: #f6f3f2; border-top: 1px solid #E4E8F0; padding: 2rem 5%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; font-size: 0.8rem; color: #9094A8; }
+ .footer-links { display: flex; gap: 1.5rem; }
+ .footer-links a { color: #9094A8; text-decoration: none; transition: color 0.2s; }
+ .footer-links a:hover { color: #16A974; }
+
+ /* ── 주차/회차 탭 (기존 week-tab 호환) ── */
+ .week-tabs-wrapper { background: #FFFFFF; border-bottom: 1px solid #E4E8F0; padding: 0 5%; position: sticky; top: 120px; z-index: 90; }
+ .week-tabs { display: flex; max-width: 900px; margin: 0 auto; overflow-x: auto; scrollbar-width: none; }
+ .week-tabs::-webkit-scrollbar { display: none; }
+ .week-tab { flex-shrink: 0; padding: 0 1.2rem; height: 48px; font-family: 'Inter', 'Noto Sans KR', sans-serif; font-size: 0.88rem; font-weight: 600; color: #9094A8; background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: all 0.18s; white-space: nowrap; }
+ .week-tab:hover { color: #16A974; }
+ .week-tab.wactive { color: #16A974; border-bottom-color: #16A974; }
+ .week-panels { padding: 0 5% 5rem; background: #FFFFFF; }
+ .week-panel { display: none; max-width: 900px; margin: 0 auto; padding-top: 3rem; }
+ .week-panel.wvisible { display: block; }
+ .week-header { display: flex; align-items: flex-start; gap: 1.5rem; margin-bottom: 2.5rem; padding: 2rem; background: #EAFBF2; border: 1px solid #E4E8F0; border-radius: 16px; border-left: 4px solid #16A974; }
+ .week-num-badge { flex-shrink: 0; width: 56px; height: 56px; border-radius: 14px; background: #16A974; color: #FFFFFF; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; }
+ .week-num-badge .wn-label { font-size: 0.55rem; letter-spacing: 0.08em; opacity: 0.8; text-transform: uppercase; }
+ .week-num-badge .wn-num { font-size: 1.4rem; font-weight: 700; line-height: 1; }
+ .week-topic { font-size: 1.2rem; font-weight: 800; color: #1A1A2E; margin-bottom: 0.4rem; letter-spacing: -0.01em; }
+ .week-goal { font-size: 0.88rem; color: #9094A8; line-height: 1.7; }
+ .week-goal strong { color: #16A974; font-weight: 600; }
+ .week-duration { margin-left: auto; flex-shrink: 0; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 600; color: #16A974; background: #E2F6EC; border: 1px solid #BFE6D2; padding: 0.3rem 0.7rem; border-radius: 6px; white-space: nowrap; }
+
+ /* ── ANIMATIONS ── */
+ .fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
+ .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+ /* ── RESPONSIVE ── */
+ @media (max-width: 768px) {
+ .tab-btn { font-size: 0.9rem; height: 52px; }
+ .target-grid { grid-template-columns: 1fr; }
+ .parts-grid { grid-template-columns: 1fr; }
+ .stat-band { flex-direction: column; }
+ .stat-cell { border-right: none; border-bottom: 1px solid #E4E8F0; }
+ .stat-cell:last-child { border-bottom: none; }
+ .process-steps { grid-template-columns: 1fr; }
+ .process-step { border-right: none; border-bottom: 1px solid rgba(22,169,116,0.2); }
+ .process-step:last-child { border-bottom: none; }
+ .week-header { flex-wrap: wrap; }
+ .week-duration { margin-left: 0; }
+ .curr-overview { flex-direction: column; }
+ .session-header { flex-wrap: wrap; }
+ .s-duration { margin-left: 0; }
+ }
+
+ @media (prefers-reduced-motion: reduce) {
+ *, *::before, *::after { animation: none !important; transition: none !important; }
+ }
+
+ /* ── GGGS DESIGN THEME ── */
+
+ /* Dark green full-height hero */
+ .intro-hero {
+ background: linear-gradient(165deg, #042E1C 0%, #0A4D2C 35%, #0E6640 65%, #0E7A52 100%);
+ padding: 3.5rem 5% 3rem;
+ }
+ .intro-hero::before {
+ background:
+ radial-gradient(ellipse at 72% 28%, rgba(95,217,168,0.14) 0%, transparent 55%),
+ radial-gradient(ellipse at 18% 75%, rgba(22,169,116,0.09) 0%, transparent 45%);
+ top: 0; left: 0; right: 0; bottom: 0;
+ width: auto; height: auto; border-radius: 0;
+ }
+ .intro-hero::after { display: none; }
+ .hero-inner { text-align: left; }
+ .intro-hero .eyebrow { color: #5FD9A8; background: rgba(95,217,168,0.12); border-color: rgba(95,217,168,0.25); }
+ .intro-hero h1 { color: #FFFFFF; font-size: clamp(1.7rem, 3.5vw, 2.6rem); }
+ .intro-hero h1 .accent { color: #5FD9A8; }
+ .intro-hero h1 .accent::after { background: linear-gradient(90deg, #5FD9A8, #16A974); opacity: 0.5; }
+ .intro-hero-desc {
+ color: rgba(255,255,255,0.82);
+ background: rgba(255,255,255,0.07);
+ border-left-color: #5FD9A8;
+ margin-left: auto; margin-right: auto;
+ }
+ .intro-hero-desc strong { color: #FFFFFF; }
+ .intro-hero .stat-band {
+ background: rgba(255,255,255,0.08);
+ border-color: rgba(255,255,255,0.12);
+ backdrop-filter: blur(8px);
+ }
+ .intro-hero .stat-cell { border-right-color: rgba(255,255,255,0.12); }
+ .intro-hero .stat-num { color: #5FD9A8; }
+ .intro-hero .stat-label { color: rgba(255,255,255,0.65); }
+
+ /* Quick links strip */
+ .quick-links-strip {
+ display: flex; background: #FFFFFF;
+ border-bottom: 1px solid #E4E8F0;
+ box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+ }
+ .ql-item {
+ flex: 1; display: flex; align-items: center; justify-content: center;
+ gap: 0.55rem; padding: 1.35rem 1rem;
+ text-decoration: none; color: #1A1A2E;
+ font-size: 0.9rem; font-weight: 700;
+ border-right: 1px solid #E4E8F0;
+ transition: all 0.2s;
+ }
+ .ql-item:last-child { border-right: none; }
+ .ql-item:hover { background: #EAFBF2; color: #16A974; }
+ .ql-icon { font-size: 1.2rem; }
+ .ql-arr { font-size: 0.75rem; color: #9094A8; transition: all 0.2s; margin-left: 0.2rem; }
+ .ql-item:hover .ql-arr { color: #16A974; transform: translate(2px,-2px); }
+
+ /* Bigger bolder section titles */
+ .section-title { font-size: clamp(2.2rem, 5vw, 4rem); letter-spacing: -0.04em; font-weight: 900; }
+ .features-section { background: #FFFFFF; }
+ .features-section .section-head { border-bottom: 1px solid #E4E8F0; padding-bottom: 2.5rem; margin-bottom: 3rem; }
+
+ /* Process section — FACULTY teal style */
+ .process-section { background: #16A974; }
+ .process-section .section-label { color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.2); }
+ .process-section .section-title { color: #FFFFFF !important; }
+ .process-step { border-right-color: rgba(255,255,255,0.2) !important; }
+ .step-num { color: rgba(255,255,255,0.35) !important; }
+ .step-title { color: #FFFFFF !important; }
+ .step-desc { color: rgba(255,255,255,0.78) !important; }
+
+ /* Target section */
+ .target-section { background: #f6f3f2; }
+ .target-card { background: #FFFFFF; }
+ .target-card:hover { background: #EAFBF2; }
+
+ /* CTA — dark "Get in Touch" style */
+ .cta-section {
+ background: linear-gradient(160deg, #042E1C 0%, #063D24 50%, #0A4D30 100%);
+ position: relative; overflow: hidden;
+ padding: 7rem 5%;
+ }
+ .cta-section::before {
+ content: 'Get in';
+ position: absolute; left: 4%; bottom: 2rem;
+ font-size: clamp(3rem, 8vw, 7rem); font-weight: 900; font-style: italic;
+ color: rgba(255,255,255,0.05); letter-spacing: -0.03em; line-height: 1;
+ pointer-events: none; white-space: nowrap;
+ }
+ .cta-section::after {
+ content: 'Touch';
+ position: absolute; right: 4%; bottom: 2rem;
+ font-size: clamp(3rem, 8vw, 7rem); font-weight: 900; font-style: italic;
+ color: rgba(255,255,255,0.05); letter-spacing: -0.03em; line-height: 1;
+ pointer-events: none; white-space: nowrap;
+ }
+ .cta-inner { position: relative; z-index: 1; }
+ .cta-section .section-label { color: #5FD9A8; background: rgba(95,217,168,0.12); border-color: rgba(95,217,168,0.25); }
+ .cta-section h2 { color: #FFFFFF; }
+ .cta-section h2 span { color: #5FD9A8; }
+ .cta-section p { color: rgba(255,255,255,0.72); }
+ .cta-section .btn-apply { background: #FFFFFF; color: #0E7A52; box-shadow: 0 6px 24px rgba(0,0,0,0.25); }
+ .cta-section .btn-apply:hover { background: #E2F6EC; color: #0E7A52; box-shadow: 0 10px 32px rgba(0,0,0,0.3); }
+ .cta-note { color: rgba(255,255,255,0.45) !important; }
+
+ /* Dark footer */
+ footer { background: #0A1F14 !important; border-top-color: rgba(255,255,255,0.08) !important; color: rgba(255,255,255,0.45); }
+ footer .logo { color: #5FD9A8 !important; }
+ footer .logo span { color: rgba(255,255,255,0.7) !important; }
+ .footer-links a { color: rgba(255,255,255,0.45) !important; }
+ .footer-links a:hover { color: #5FD9A8 !important; }
+ footer > div { color: rgba(255,255,255,0.35); }
+ footer .footer-contact-bar { border-top-color: rgba(255,255,255,0.1); }
+ footer .footer-contact-bar a { color: #5FD9A8 !important; }
+ footer .footer-contact-bar a:hover { color: #fff !important; }
+
+ @media (max-width: 768px) {
+ .quick-links-strip { flex-wrap: wrap; }
+ .ql-item { flex: 1 1 50%; border-bottom: 1px solid #E4E8F0; }
+ .ql-item:nth-child(even) { border-right: none; }
+ }
+
+
+ /* ── FOOTER CONTACT BAR ── */
+ .footer-contact-bar {
+ width: 100%; text-align: center;
+ margin-bottom: 0.6rem;
+ }
+ .footer-contact-bar a {
+ display: inline-block;
+ font-size: 1rem; font-weight: 800; color: #16A974;
+ text-decoration: none; letter-spacing: 0.02em;
+ border-bottom: 2px solid rgba(22,169,116,0.3);
+ padding-bottom: 2px;
+ transition: color 0.2s, border-color 0.2s;
+ }
+ .footer-contact-bar a:hover { color: #0E7A52; border-color: #0E7A52; }
+</style>
+</head>
+<body>
+
+<header>
+ <div class="header-inner">
+ <a class="logo" href="index.html">Gpt<span>Class</span><span style="font-size: 0.72rem; font-weight: 700; color: #444655; letter-spacing: 0.05em; margin-left: 8px; vertical-align: middle; text-transform: uppercase; border-left: 1px solid #bccac1; padding-left: 8px; display: inline-block;">by LimeFriends</span></a>
+ <a class="header-contact" href="mailto:ax@limefriends.com" style="text-decoration: none; color: #3d4a43; cursor: pointer;">교육 문의 | 담당자 연결</a>
+ </div>
+</header>
+
+<div class="tab-nav-wrapper">
+ <div class="tab-nav">
+ <a class="tab-btn" href="index.html">
+ 정부지정 AI 교육기관
+ </a>
+ <a class="tab-btn active" href="intro.html">
+ AI 교육 소개
+ </a>
+	<a class="tab-btn" href="teacher.html">
+	<span class="tab-icon"></span>
+	AI 강사 소개
+	</a>
+ <a class="tab-btn" href="curriculum.html">
+ AI 교육 커리큘럼
+ </a>
+ <a class="tab-btn" href="cases.html">
+ AI 교육 사례
+ </a>
+ </div>
+</div>
+
+<div class="tab-panel active" id="panel-intro">
+<!-- HERO -->
+  <section class="intro-hero">
+  <div class="hero-inner">
+  <div class="eyebrow">실무 연계형 AI 교육</div>
+  <h1>단순한 툴 교육을 넘어 <span class="accent">조직의 미래 경쟁력</span>을<br>함께 설계합니다</h1>
+  <div class="intro-hero-desc">
+  <strong>실무 연계형 AI 교육으로</strong><br>
+  단순한 툴 교육을 넘어, 귀 기관의 실제 업무 프로세스에 맞춰
+  개인의 역량을 강화하고 조직 전체의 생산성과 효율성을 향상하고
+  미래 경쟁력 확보에 도움을 드립니다.
+  </div>
+  </div>
+  </section>
+
+  <div style="max-width: 860px; margin: -2.5rem auto 3rem; padding: 0 5%; position: relative; z-index: 10;">
+    <div class="stat-band fade-up" style="margin-top: 0;">
+    <div class="stat-cell">
+    <div class="stat-num">95%</div>
+    <div class="stat-label">실무 적용 만족도</div>
+    </div>
+    <div class="stat-cell">
+    <div class="stat-num">1일~</div>
+    <div class="stat-label">교육 일정 맞춤 구성</div>
+    </div>
+    <div class="stat-cell">
+    <div class="stat-num">노코딩</div>
+    <div class="stat-label">개발 지식 불필요</div>
+    </div>
+    <div class="stat-cell">
+    <div class="stat-num">즉시</div>
+    <div class="stat-label">현업 적용 가능</div>
+    </div>
+    </div>
+  </div>
+
+ <!-- FEATURES -->
+ <section class="features-section fade-up">
+ <div class="section-head" style="max-width: 1100px; margin: 0 auto 3rem;">
+ <div class="section-label">교육 특징</div>
+ <h2 class="section-title">이 교육이 다른 이유</h2>
+ <p class="section-sub">이론 중심의 강의를 넘어, 현장에서 바로 꺼내 쓸 수 있는 실전 역량을 키웁니다.</p>
+ </div>
+ <div class="features-grid">
+ <div class="feature-card">
+ <span class="feature-icon"></span>
+ <div class="feature-num">FEATURE 01</div>
+ <div class="feature-title">기관 업무 프로세스 맞춤 설계</div>
+ <p class="feature-desc">사전 현황 파악을 통해 귀 기관의 실제 업무 흐름에 맞춰 교육 내용을 커스터마이징합니다. 범용 교재가 아닌, 우리 팀의 이야기입니다.</p>
+ </div>
+ <div class="feature-card">
+ <span class="feature-icon"></span>
+ <div class="feature-num">FEATURE 02</div>
+ <div class="feature-title">프로젝트 기반 학습 (PBL)</div>
+ <p class="feature-desc">수업 중에 실제 업무 산출물을 만듭니다. 교육이 끝나면 바로 현업에 투입할 수 있는 결과물이 손에 남습니다.</p>
+ </div>
+ <div class="feature-card">
+ <span class="feature-icon"></span>
+ <div class="feature-num">FEATURE 03</div>
+ <div class="feature-title">코딩 지식 불필요</div>
+ <p class="feature-desc">개발자가 아니어도 괜찮습니다. AI 도구를 업무 파트너로 활용하는 방법에 집중하며, 기술적 장벽 없이 누구나 시작할 수 있습니다.</p>
+ </div>
+ <div class="feature-card">
+ <span class="feature-icon"></span>
+ <div class="feature-num">FEATURE 04</div>
+ <div class="feature-title">개인 역량 + 조직 생산성 동시 향상</div>
+ <p class="feature-desc">개인의 업무 효율을 높이는 동시에, 팀 전체에 AI 활용 문화가 자연스럽게 퍼질 수 있도록 조직 단위 확산 전략도 함께 안내합니다.</p>
+ </div>
+ <div class="feature-card">
+ <span class="feature-icon"></span>
+ <div class="feature-num">FEATURE 05</div>
+ <div class="feature-title">교육 후 사후 지원</div>
+ <p class="feature-desc">교육 종료 후에도 현장 적용 과정에서 생기는 질문에 응답합니다. 일회성 강의가 아닌, 지속적인 파트너십을 지향합니다.</p>
+ </div>
+ <div class="feature-card">
+ <span class="feature-icon"></span>
+ <div class="feature-num">FEATURE 06</div>
+ <div class="feature-title">유연한 일정 구성</div>
+ <p class="feature-desc">집합 교육, 부서별 소그룹, 온·오프라인 혼합 등 귀 기관의 상황에 맞게 일정과 방식을 조율합니다.</p>
+ </div>
+ </div>
+ </section>
+
+ <!-- TARGET AUDIENCE -->
+ <section class="target-section fade-up">
+ <div class="target-inner">
+ <div class="section-head">
+ <div class="section-label">교육 대상</div>
+ <h2 class="section-title">이런 분들께 권장합니다</h2>
+ <p class="section-sub">AI를 처음 접하는 분부터 실무에 본격 도입하려는 조직까지, 모두를 위한 교육입니다.</p>
+ </div>
+ <div class="target-grid">
+ <div class="target-card">
+ <div class="target-icon"></div>
+ <div class="target-text">
+ <h4>중소기업·소상공인 대표</h4>
+ <p>반복 업무를 줄이고 한 명이 더 많은 일을 해낼 수 있도록 AI를 경영 도구로 도입하고자 하는 분</p>
+ <div class="target-courses">
+ <a class="target-course-link" href="course-c1.html"><span class="tcl-num">COURSE 01</span>챗지피티 3일만에 끝내기</a>
+ <a class="target-course-link" href="course-c3.html"><span class="tcl-num">COURSE 03</span>PBL 기반 AX·AI 전환 중소기업 대표 과정</a>
+ <a class="target-course-link" href="course-c5.html"><span class="tcl-num">COURSE 05</span>노션 & 슬랙 업무생산성 200% UP</a>
+ <a class="target-course-link" href="course-c7.html"><span class="tcl-num">COURSE 07</span>Claude로 실무 문서 끝내기</a>
+ <a class="target-course-link" href="course-c9.html"><span class="tcl-num">COURSE 09</span>DX/AX 마스터 커리큘럼</a>
+ </div>
+ </div>
+ </div>
+ <div class="target-card">
+ <div class="target-icon"></div>
+ <div class="target-text">
+ <h4>팀장·부서장</h4>
+ <p>팀 전체의 생산성을 끌어올리고 싶지만 어디서부터 시작해야 할지 모르는 관리자</p>
+ <div class="target-courses">
+ <a class="target-course-link" href="course-c1.html"><span class="tcl-num">COURSE 01</span>챗지피티 3일만에 끝내기</a>
+ <a class="target-course-link" href="course-c2.html"><span class="tcl-num">COURSE 02</span>AI 스마트워크 실전 10주 과정</a>
+ <a class="target-course-link" href="course-c5.html"><span class="tcl-num">COURSE 05</span>노션 & 슬랙 업무생산성 200% UP</a>
+ <a class="target-course-link" href="course-c7.html"><span class="tcl-num">COURSE 07</span>Claude로 실무 문서 끝내기</a>
+ <a class="target-course-link" href="course-c9.html"><span class="tcl-num">COURSE 09</span>DX/AX 마스터 커리큘럼</a>
+ </div>
+ </div>
+ </div>
+ <div class="target-card">
+ <div class="target-icon"></div>
+ <div class="target-text">
+ <h4>공공기관·지자체 담당자</h4>
+ <p>행정 효율화와 디지털 전환 과제를 안고 있는 기관의 AI 교육 담당자</p>
+ <div class="target-courses">
+ <a class="target-course-link" href="course-c1.html"><span class="tcl-num">COURSE 01</span>챗지피티 3일만에 끝내기</a>
+ <a class="target-course-link" href="course-c2.html"><span class="tcl-num">COURSE 02</span>AI 스마트워크 실전 10주 과정</a>
+ <a class="target-course-link" href="course-c5.html"><span class="tcl-num">COURSE 05</span>노션 & 슬랙 업무생산성 200% UP</a>
+ <a class="target-course-link" href="course-c7.html"><span class="tcl-num">COURSE 07</span>Claude로 실무 문서 끝내기</a>
+ <a class="target-course-link" href="course-c9.html"><span class="tcl-num">COURSE 09</span>DX/AX 마스터 커리큘럼</a>
+ </div>
+ </div>
+ </div>
+ <div class="target-card">
+ <div class="target-icon"></div>
+ <div class="target-text">
+ <h4>실무 담당자</h4>
+ <p>보고서 작성, 데이터 정리, 콘텐츠 제작 등 반복 업무에 AI를 적용해 시간을 되찾고 싶은 실무자</p>
+ <div class="target-courses">
+ <a class="target-course-link" href="course-c1.html"><span class="tcl-num">COURSE 01</span>챗지피티 3일만에 끝내기</a>
+ <a class="target-course-link" href="course-c4.html"><span class="tcl-num">COURSE 04</span>AI 이미지 & 영상 제작 전문 과정</a>
+ <a class="target-course-link" href="course-c6.html"><span class="tcl-num">COURSE 06</span>바이브코딩 AI로 웹서비스 만들기</a>
+ <a class="target-course-link" href="course-c7.html"><span class="tcl-num">COURSE 07</span>Claude로 실무 문서 끝내기</a>
+ <a class="target-course-link" href="course-c8.html"><span class="tcl-num">COURSE 08</span>AI 마케팅 콘텐츠 제작 실무</a>
+ <a class="target-course-link" href="course-c9.html"><span class="tcl-num">COURSE 09</span>DX/AX 마스터 커리큘럼</a>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <!-- PROCESS -->
+ <section class="process-section fade-up">
+ <div style="max-width: 1000px; margin: 0 auto;">
+ <div class="section-label">교육 진행 과정</div>
+ <h2 class="section-title" style="color: var(--ink);">신청부터 종료까지</h2>
+ <div class="process-steps">
+ <div class="process-step">
+ <div class="step-num">01</div>
+ <div class="step-title">교육 신청 접수</div>
+ <p class="step-desc">온라인 신청 폼을 통해 기관 정보와 교육 수요를 전달해 주세요.</p>
+ </div>
+ <div class="process-step">
+ <div class="step-num">02</div>
+ <div class="step-title">현황 파악 및 설계</div>
+ <p class="step-desc">담당자가 연락하여 업무 환경과 필요 역량을 확인하고 맞춤 커리큘럼을 설계합니다.</p>
+ </div>
+ <div class="process-step">
+ <div class="step-num">03</div>
+ <div class="step-title">교육 진행</div>
+ <p class="step-desc">현장 실습 중심의 교육을 진행하며, 수료 후 즉시 적용 가능한 산출물을 완성합니다.</p>
+ </div>
+ <div class="process-step">
+ <div class="step-num">04</div>
+ <div class="step-title">사후 지원</div>
+ <p class="step-desc">교육 후 현장 적용 과정을 점검하고, 추가 질문에 지속 대응합니다.</p>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <!-- CTA -->
+ <section class="cta-section fade-up">
+ <div class="cta-inner">
+ <div class="section-label" style="text-align:center;">교육 신청</div>
+ <h2>
+ 귀 기관의 AI 전환,<br>
+ <span>지금 시작하세요</span>
+ </h2>
+ <p>
+ 신청 폼을 작성하시면 담당자가 확인 후 바로 연락 드립니다.<br>
+ 교육 일정과 방식은 기관 상황에 맞춰 협의합니다.
+ </p>
+ <!-- 아래 href="#"를 실제 구글 폼 링크로 교체하세요 -->
+ <a href="apply.html" class="btn-apply">
+ 교육 신청 바로가기
+ <span class="arrow">→</span>
+ </a>
+ </div>
+ </section>
+</div>
+
+<footer>
+ <a class="logo" href="index.html" style="font-size: 1rem; text-decoration: none;">Gpt<span>Class</span></a>
+ <div class="footer-contact-bar"><a href="mailto:ax@limefriends.com"> Contact&nbsp;&nbsp;ax@limefriends.com</a></div>
+ <div>© 2026 Lime Friends. All rights reserved.</div>
+ <div class="footer-links">
+ <a href="#">이용약관</a>
+ <a href="#">개인정보처리방침</a>
+ <a href="#">고객센터</a>
+ </div>
+</footer>
+
+<script>
+ // 스크롤 fade-up (애니메이션 보조)
+ const observer = new IntersectionObserver(entries => {
+ entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+ }, { threshold: 0.08 });
+ document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+<script src="/chatbot.js"></script>
+</body>
+</html>
+
+

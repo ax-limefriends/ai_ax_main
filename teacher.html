@@ -1,0 +1,514 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 강사 소개 | GptClass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+ :root {
+ --blue: #16A974;
+ --blue-dark: #0E7A52;
+ --blue-mid: #5FD9A8;
+ --blue-light: #E2F6EC;
+ --blue-pale: #EAFBF2;
+ --white: #FFFFFF;
+ --bg: #FFFFFF;
+ --bg2: #F7F8FA;
+ --bg3: #EFF2F7;
+ --ink: #1c1b1b;
+ --ink-mid: #555770;
+ --ink-light: #9094A8;
+ --text: #1c1b1b;
+ --text-mid: #555770;
+ --text-dim: #9094A8;
+ --border: #e5e2e1;
+ --border-mid: #BFE6D2;
+ --card: #FFFFFF;
+ --shadow-sm: 0 2px 12px rgba(0,0,0,0.06);
+ --shadow-md: 0 8px 32px rgba(0,0,0,0.10);
+ --shadow-lg: 0 16px 48px rgba(0,0,0,0.13);
+ }
+
+ html { scroll-behavior: smooth; }
+
+ body {
+ font-family: 'Inter', 'Noto Sans KR', sans-serif;
+ background: #fcf9f8;
+ color: #1c1b1b;
+ line-height: 1.6;
+ overflow-x: hidden;
+ }
+
+ /* ── HEADER ── */
+ header {
+ position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+ background: rgba(252,249,248,0.88);
+ backdrop-filter: blur(20px);
+ -webkit-backdrop-filter: blur(20px);
+ border-bottom: 1px solid #bccac1;
+ padding: 0 5%;
+ }
+ .header-inner {
+ display: flex; align-items: center; justify-content: space-between;
+ height: 64px;
+ }
+ .logo {
+ font-size: 1.3rem; font-weight: 900;
+ color: #1c1b1b; letter-spacing: -0.5px; text-decoration: none;
+ }
+ .logo span { color: #006c4c; }
+ .header-contact {
+ font-size: 0.82rem; color: #3d4a43;
+ display: flex; align-items: center; gap: 0.4rem;
+ }
+ .header-contact::before {
+ content: ''; display: inline-block;
+ width: 6px; height: 6px; border-radius: 50%; background: #22C55E;
+ }
+
+ /* ── TAB NAV ── */
+ .tab-nav-wrapper {
+ position: sticky; top: 64px; z-index: 100;
+ background: #FFFFFF; border-bottom: 1px solid #E4E8F0; padding: 0 5%;
+ }
+ .tab-nav { display: flex; max-width: 1100px; margin: 0 auto; }
+ .tab-btn {
+ flex: 1; padding: 0 1rem; height: 56px;
+ font-family: 'Inter', 'Noto Sans KR', sans-serif; font-size: 0.97rem; font-weight: 700;
+ color: #9094A8; background: transparent; border: none;
+ border-bottom: 3px solid transparent; cursor: pointer; text-decoration: none;
+ transition: all 0.18s; display: flex; align-items: center;
+ justify-content: center; white-space: nowrap; letter-spacing: -0.01em;
+ }
+ .tab-btn:hover { color: #0E7A52; background: #D6F5E8; border-bottom-color: rgba(14,122,82,0.25); }
+ .tab-btn.active { color: #0E7A52; border-bottom-color: #16A974; font-weight: 800; }
+
+  .eyebrow {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+  font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+  color: #16A974; background: #E2F6EC; border: 1px solid #BFE6D2;
+  padding: 0.35rem 0.9rem; border-radius: 100px; margin-bottom: 1.8rem;
+  }
+
+ /* ── INTRO HERO ── */
+ .cl-hero {
+ background: linear-gradient(160deg, #E5F7ED 0%, #FFFFFF 60%, #EDFBF4 100%);
+ padding: 3.5rem 5% 3rem; position: relative; overflow: hidden;
+ }
+ .cl-hero-inner { max-width: 960px; margin: 0 auto; position: relative; z-index: 1; }
+ .cl-hero h1 {
+ font-size: clamp(1.7rem, 3.5vw, 2.6rem); font-weight: 900;
+ letter-spacing: -0.025em; color: #1A1A2E; margin-bottom: 0.7rem; line-height: 1.2;
+ }
+ .cl-hero h1 span { color: #16A974; }
+ .cl-hero p { font-size: 0.97rem; color: #9094A8; line-height: 1.8; max-width: 560px; margin-bottom: 2.5rem; }
+
+ /* ── TEACHERS SECTION ── */
+ .teachers-section {
+ padding: 3rem 5% 5rem;
+ background: #FFFFFF;
+ }
+ .teachers-inner {
+ max-width: 960px;
+ margin: 0 auto;
+ }
+ .teachers-grid {
+ display: flex;
+ flex-direction: column;
+ gap: 4rem;
+ }
+ .teacher-card {
+ display: flex;
+ gap: 2.5rem;
+ background: #FFFFFF;
+ border: 1px solid #E4E8F0;
+ border-radius: 20px;
+ padding: 2.5rem;
+ box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+ transition: all 0.25s;
+ }
+ .teacher-card:hover {
+ transform: translateY(-4px);
+ box-shadow: 0 12px 36px rgba(22, 169, 116, 0.12);
+ border-color: #BFE6D2;
+ }
+ .teacher-image-wrap {
+ flex-shrink: 0;
+ width: 260px;
+ height: 325px;
+ border-radius: 14px;
+ overflow: hidden;
+ border: 1px solid #E4E8F0;
+ box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+ }
+ .teacher-image-wrap img {
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ display: block;
+ }
+ .teacher-content {
+ flex: 1;
+ display: flex;
+ flex-direction: column;
+ gap: 1rem;
+ }
+ .teacher-header {
+ display: flex;
+ flex-direction: column;
+ gap: 0.25rem;
+ }
+ .teacher-name {
+ font-size: 1.45rem;
+ font-weight: 900;
+ color: #1A1A2E;
+ }
+ .teacher-role {
+ font-size: 0.92rem;
+ font-weight: 700;
+ color: #16A974;
+ }
+ .teacher-intro {
+ font-size: 0.9rem;
+ color: #555770;
+ line-height: 1.75;
+ background: #EAFBF2;
+ padding: 1.2rem 1.4rem;
+ border-radius: 12px;
+ }
+ .teacher-info-group {
+ display: flex;
+ flex-direction: column;
+ gap: 0.5rem;
+ }
+ .teacher-group-title {
+ font-size: 0.92rem;
+ font-weight: 800;
+ color: #1A1A2E;
+ border-bottom: 1px solid #E4E8F0;
+ padding-bottom: 0.4rem;
+ margin-bottom: 0.3rem;
+ }
+ .teacher-list {
+ list-style: none;
+ display: flex;
+ flex-direction: column;
+ gap: 0.4rem;
+ }
+ .teacher-list li {
+ font-size: 0.85rem;
+ color: #555770;
+ line-height: 1.6;
+ display: flex;
+ align-items: flex-start;
+ gap: 0.5rem;
+ }
+ .teacher-list li::before {
+ content: '•';
+ color: #16A974;
+ font-weight: bold;
+ flex-shrink: 0;
+ }
+
+ /* Dark hero for sub-pages */
+ .cl-hero { background: linear-gradient(165deg, #042E1C 0%, #0A4D2C 40%, #0E7A52 100%) !important; }
+ .cl-hero h1 { color: #FFFFFF !important; }
+ .cl-hero h1 span { color: #5FD9A8 !important; }
+ .cl-hero p { color: rgba(255,255,255,0.75) !important; }
+ .cl-hero .eyebrow { color: #5FD9A8 !important; background: rgba(95,217,168,0.12) !important; border-color: rgba(95,217,168,0.25) !important; }
+
+ /* Dark footer */
+ footer { background: #0A1F14 !important; border-top-color: rgba(255,255,255,0.08) !important; color: rgba(255,255,255,0.45); }
+ footer .logo { color: #5FD9A8 !important; }
+ footer .logo span { color: rgba(255,255,255,0.7) !important; }
+ .footer-links a { color: rgba(255,255,255,0.45) !important; }
+ .footer-links a:hover { color: #5FD9A8 !important; }
+ footer > div { color: rgba(255,255,255,0.35); }
+
+ .footer-contact-bar {
+ width: 100%; text-align: center;
+ margin-bottom: 0.6rem;
+ }
+ .footer-contact-bar a {
+ display: inline-block;
+ font-size: 1rem; font-weight: 800; color: #16A974;
+ text-decoration: none; letter-spacing: 0.02em;
+ border-bottom: 2px solid rgba(22,169,116,0.3);
+ padding-bottom: 2px;
+ transition: color 0.2s, border-color 0.2s;
+ }
+ .footer-contact-bar a:hover { color: #0E7A52; border-color: #0E7A52; }
+
+ .btn-apply {
+ display: inline-flex; align-items: center; gap: 0.6rem;
+ background: #16A974; color: #FFFFFF;
+ font-family: 'Inter', 'Noto Sans KR', sans-serif; font-size: 1.05rem; font-weight: 700;
+ padding: 1rem 2.8rem; border-radius: 10px; text-decoration: none;
+ transition: all 0.2s; box-shadow: 0 6px 24px rgba(22,169,116,0.3);
+ border: none; cursor: pointer;
+ }
+ .btn-apply:hover { background: #0E7A52; transform: translateY(-2px); box-shadow: 0 10px 32px rgba(22,169,116,0.35); }
+ .btn-apply .arrow { font-size: 1.1rem; transition: transform 0.2s; }
+ .btn-apply:hover .arrow { transform: translateX(3px); }
+
+  /* ── CTA ── */
+  .cta-section {
+  background: linear-gradient(160deg, #042E1C 0%, #063D24 50%, #0A4D30 100%) !important;
+  position: relative; overflow: hidden;
+  padding: 5rem 5% !important;
+  text-align: center;
+  }
+  .cta-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; text-align: center; }
+  .cta-section .section-label { color: #5FD9A8; background: rgba(95,217,168,0.12); border-color: rgba(95,217,168,0.25); display: inline-block; margin-bottom: 1rem; border-radius: 100px; padding: 0.35rem 0.9rem; font-size: 0.82rem; font-weight: 700; }
+  .cta-section h2 { color: #FFFFFF !important; font-size: clamp(1.7rem, 3.5vw, 2.6rem); font-weight: 900; letter-spacing: -0.02em; margin-bottom: 1rem; line-height: 1.25; }
+  .cta-section h2 span { color: #5FD9A8 !important; }
+  .cta-section p { color: rgba(255,255,255,0.72) !important; font-size: 1rem; line-height: 1.8; margin-bottom: 2.5rem; }
+  .cta-section .btn-apply { background: #FFFFFF !important; color: #0E7A52 !important; box-shadow: 0 6px 24px rgba(0,0,0,0.25) !important; }
+  .cta-section .btn-apply:hover { background: #E2F6EC !important; color: #0E7A52 !important; box-shadow: 0 10px 32px rgba(0,0,0,0.3) !important; }
+
+  /* ── ANIMATIONS ── */
+ .fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
+ .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+ /* ── RESPONSIVE ── */
+ @media (max-width: 768px) {
+ .tab-btn { font-size: 0.9rem; height: 52px; }
+ .teacher-card {
+ flex-direction: column;
+ gap: 1.5rem;
+ padding: 1.8rem;
+ }
+ .teacher-image-wrap {
+ width: 100%;
+ height: 280px;
+ }
+ }
+</style>
+</head>
+<body>
+
+<header>
+ <div class="header-inner">
+ <a class="logo" href="index.html">Gpt<span>Class</span><span style="font-size: 0.72rem; font-weight: 700; color: #444655; letter-spacing: 0.05em; margin-left: 8px; vertical-align: middle; text-transform: uppercase; border-left: 1px solid #bccac1; padding-left: 8px; display: inline-block;">by LimeFriends</span></a>
+ <a class="header-contact" href="mailto:ax@limefriends.com" style="text-decoration: none; color: #3d4a43; cursor: pointer;">교육 문의 | 담당자 연결</a>
+ </div>
+</header>
+
+<div class="tab-nav-wrapper">
+ <div class="tab-nav">
+  <a class="tab-btn" href="index.html">
+  정부지정 AI 교육기관
+  </a>
+  <a class="tab-btn" href="intro.html">
+  AI 교육 소개
+  </a>
+  <a class="tab-btn active" href="teacher.html">
+  AI 강사 소개
+  </a>
+  <a class="tab-btn" href="curriculum.html">
+  AI 교육 커리큘럼
+  </a>
+  <a class="tab-btn" href="cases.html">
+  AI 교육 사례
+  </a>
+ </div>
+</div>
+
+<div class="curriculum-panel" style="margin-top: 120px;">
+ <!-- 강사 히어로 -->
+ <section class="cl-hero">
+ <div class="cl-hero-inner">
+ <div class="eyebrow">AI 전문 교수진</div>
+ <h1>실무 현장에서 검증된 <span>AI 강사</span></h1>
+ <p>이론 중심의 강의를 넘어 비즈니스 현장에서 직접 AX/DX를 주도하는<br>최고의 전문가 그룹이 실제 업무에 즉시 적용 가능한 지식을 전수합니다.</p>
+ </div>
+ </section>
+
+ <section class="teachers-section">
+ <div class="teachers-inner">
+ <div class="teachers-grid">
+ 
+ <!-- 강사 1: 이창민 -->
+ <div class="teacher-card fade-up">
+ <div class="teacher-image-wrap">
+ <img src="images/teacher/Lee.jpg" alt="이창민 강사">
+ </div>
+ <div class="teacher-content">
+ <div class="teacher-header">
+ <span class="teacher-name">이창민</span>
+ <span class="teacher-role">㈜라임프렌즈 AX전략본부 수석 / KPC 공인 AI 훈련코치</span>
+ </div>
+ <div class="teacher-intro">
+ "저는 다양한 조직에서 경험했던 IT부문 및 비즈모델 기획/운영 경험을 통해 스마트워크를 지향하고 있으며, 정부바우처 전문 공급기관인 IT사회적기업 ㈜라임프렌즈 AX전략본부에서 AI이해와 데이터 분석 기반의 업무활용을 위한 교육 및 AX구축에 대한 컨설팅을 수행하고 있습니다."
+ </div>
+ <div class="teacher-info-group">
+ <div class="teacher-group-title">경력 사항</div>
+ <ul class="teacher-list">
+ <li>기업 DX·AX 전환 성공 파트너 IT사회적기업 AX전략본부 수석</li>
+ <li>정부바우처 수행 및 도입기업 발굴 및 중소기업 대상 AX 추진 컨설팅</li>
+ <li>중소기업 AI 훈련지원사업 수행 (KPC 충청권 훈련센터 AI훈련코치)</li>
+ <li>인증사회적기업 ㈜지혜의밭 경영기획실장</li>
+ <li>B2G, B2B, B2C 사업기획/비즈모델 실행방안 수립 및 추진</li>
+ <li>사회적기업 인증 취득 및 프로젝트별 사업진행관리 업무 수행</li>
+ </ul>
+ </div>
+ <div class="teacher-info-group">
+ <div class="teacher-group-title">강의 경력</div>
+ <ul class="teacher-list">
+ <li>시립대가족기업 대상 AI활용을 통한 정부과제 사업계획서 작성 교육</li>
+ <li>안산 ㈜로얄이지 기업의 업무협업을 위한 노션/슬랙 활용방안 교육</li>
+ <li>파주 상공회의소 회원社 스마트워크 AI교육</li>
+ <li>여주 어린이집 교사 대상 AI교육</li>
+ <li>강릉 영동대 컴퓨터 활용 향상교육, AI 및 데이터 활용 향상교육</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+
+ <!-- 강사 2: 현진엽 -->
+ <div class="teacher-card fade-up">
+ <div class="teacher-image-wrap">
+ <img src="images/teacher/Hyun.jpg" alt="현진엽 강사">
+ </div>
+ <div class="teacher-content">
+ <div class="teacher-header">
+ <span class="teacher-name">현진엽</span>
+ <span class="teacher-role">㈜라임프렌즈 AX전략본부 수석 컨설턴트</span>
+ </div>
+ <div class="teacher-intro">
+ "전통적 비즈니스의 탄탄한 프로세스(6시그마) 위에 최신 AI(LLM) 인프라를 얹어, 구성원 모두가 주도하는 실질적인 리더십 혁신을 약속드립니다."
+ </div>
+ <div class="teacher-info-group">
+ <div class="teacher-group-title">경력 사항</div>
+ <ul class="teacher-list">
+ <li>라임프렌즈 | AX전략본부 수석 컨설턴트 (2026.01 ~ 현재) - 기업 AX/DX 컨설팅 및 생성형 AI 기반 조직 혁신 전략 수립</li>
+ <li>디지:온(Digi:ON) 커뮤니티 | 설립자 겸 대표 컨설턴트 (2025.09 ~ 현재) - 기업 AX/DX 컨설팅 및 생성형 AI 활용 실무 스터디 리드</li>
+ <li>디지털 동행플라자 | 전임강사 (2025.10 ~ 현재) - 시니어 계층 대상 디지털 리터러시 및 일상 속 AI 활용 교육 담당</li>
+ </ul>
+ </div>
+ <div class="teacher-info-group">
+ <div class="teacher-group-title">강의 경력</div>
+ <ul class="teacher-list">
+ <li>파주시 중소기업 대표단 스마트 업무환경 기초 및 기업 맞춤형 AI 적용 프로세스 구축</li>
+ <li>디지온 AI 스터디 생성형 AI를 활용한 도서 제작 및 AI 기반 강의 교안 자동화 워크숍</li>
+ <li>㈜라임프렌즈 임직원/고객사 중소기업 및 조직의 체질 개선을 위한 AX/DX 컨설팅</li>
+ <li>삼성물산㈜ 임직원 6시그마 MBB 기반 데이터 통계분석 및 혁신 방법론 전파</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+
+ <!-- 강사 3: 전명철 -->
+ <div class="teacher-card fade-up">
+ <div class="teacher-image-wrap">
+ <img src="images/teacher/Jeon.jpg" alt="전명철 강사">
+ </div>
+ <div class="teacher-content">
+ <div class="teacher-header">
+ <span class="teacher-name">전명철</span>
+ <span class="teacher-role">에듀N퓨처 대표 / AI Smart Work Hub 교육분과 위원장</span>
+ </div>
+ <div class="teacher-intro">
+ "금융업계 15년 경력의 전문가에서 AI 교육 강사로. 저서 「돈의 흐름을 바꿔라」의 저자이자, SBA 스마트워크톤 우승 및 다큐멘터리 AI 복원 프로젝트 참여 경력을 보유한 실전형 강사입니다. G밸리 CEO 교육, 파주상공회의소 AI전환 교육 등 기업·기관 대상 강의를 통해 '누구나 실무에 바로 적용하는 AI'를 전합니다."
+ </div>
+ <div class="teacher-info-group">
+ <div class="teacher-group-title">경력 사항</div>
+ <ul class="teacher-list">
+ <li>한국금융투자협회 펀드·주식 투자권유대행인, 퇴직연금모집인</li>
+ <li>올댓인슈보숨센터 보험약관마스터</li>
+ <li>(전) 괜찮아요협동조합 금융상담 및 강의 활동</li>
+ <li>(전) ㈜밸류마크 지점장</li>
+ </ul>
+ </div>
+ <div class="teacher-info-group">
+ <div class="teacher-group-title">강의 경력</div>
+ <ul class="teacher-list">
+ <li>고용노동부 청년도전지원 사업 금융 교육</li>
+ <li>AI Smart work Hub 정회원 CEO 대상 교육</li>
+ <li>산업인력공단 인재키움 사업 공식 위촉 강사 (AI 활용 홍보 컨텐츠 제작)</li>
+ <li>정부 지원 바우처 기업 컨설팅</li>
+ <li>파주 상공회의소 회원사 대상 AI전환 교육 기획 및 강의</li>
+ <li>미혼모자시설 로뎀의집 : 자립 금융상담</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+
+ <!-- 강사 4: 신정욱 -->
+ <div class="teacher-card fade-up">
+ <div class="teacher-image-wrap">
+ <img src="images/teacher/Shin.jpg" alt="신정욱 강사">
+ </div>
+ <div class="teacher-content">
+ <div class="teacher-header">
+ <span class="teacher-name">신정욱</span>
+ <span class="teacher-role">㈜라임프렌즈 AX본부 수석</span>
+ </div>
+ <div class="teacher-intro">
+ "현재는 기업 AX 수석으로 활동하며 AI 전환 현장을 직접 이끌고 있습니다. Gemini, ChatGPT, Veo, Suno 등 최신 생성형 AI 도구를 활용해 이미지·영상·음악까지 만드는 4주 완성형 실전 커리큘럼을 직접 개발·운영합니다. 강릉영동대, 파주상공회의소, KT&G 상상마당 춘천 등 다양한 현장에서 검증된 실전 노하우를 전합니다."
+ </div>
+ <div class="teacher-info-group">
+ <div class="teacher-group-title">경력 사항</div>
+ <ul class="teacher-list">
+ <li>라임프렌즈 AX 본부 수석</li>
+ <li>라온제나 마케팅 팀원 - 클라이언트 관리, 브랜드 블로그 관리 및 마케팅 (2011.05~2013.04)</li>
+ <li>훈앤현 마케팅 팀장 - 클라이언트 관리 및 마케팅 팀 관리 및 마케팅 전략 기획 (2013.10~2014.11)</li>
+ </ul>
+ </div>
+ <div class="teacher-info-group">
+ <div class="teacher-group-title">강의 경력</div>
+ <ul class="teacher-list">
+ <li>강릉영동대 컴퓨터 활용 & AI 교육 (기간 : 2025.11.14~2025.12.6)</li>
+ <li>용인 ICT밸리컨벤션 제미나이 활용법 강의 (기간 : 2026-05-04)</li>
+ <li>KT&G 상상마당 춘천 스테이 - 1.5층 나비홀 제미나이 활용법 강의 (기간 : 2026.05-18)</li>
+ <li>파주 상공회의소 회원社 스마트워크 AI교육</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+
+ </div>
+ </div>
+ </section>
+
+ <!-- 사례 CTA -->
+ <section class="cta-section fade-up" style="padding-top:1rem;">
+ <div class="cta-inner">
+ <div class="section-label" style="text-align:center;">교육 신청</div>
+ <h2>우리 조직에 맞는<br><span>AI 교육을 시작하세요</span></h2>
+ <p>신청 폼에 관심 과정을 기재해 주시면<br>담당자가 확인 후 바로 연락 드립니다.</p>
+ <a href="apply.html" class="btn-apply">
+ 교육 신청 바로가기 <span class="arrow">→</span>
+ </a>
+ </div>
+ </section>
+
+ </div>
+
+ <footer>
+ <a class="logo" href="index.html" style="font-size: 1rem; text-decoration: none;">Gpt<span>Class</span></a>
+ <div class="footer-contact-bar"><a href="mailto:ax@limefriends.com"> Contact&nbsp;&nbsp;ax@limefriends.com</a></div>
+ <div>© 2026 Lime Friends. All rights reserved.</div>
+ <div class="footer-links">
+ <a href="#">이용약관</a>
+ <a href="#">개인정보처리방침</a>
+ <a href="#">고객센터</a>
+ </div>
+ </footer>
+
+ <script>
+ const observer = new IntersectionObserver(entries => {
+ entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+ }, { threshold: 0.08 });
+ document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+ </script>
+ <script src="/chatbot.js"></script>
+</body>
+ </html>
+
+

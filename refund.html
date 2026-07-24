@@ -1,0 +1,379 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 인재키움 사업 환급과정 | GptClass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+ :root {
+ --green: #16A974;
+ --green-dark: #0E7A52;
+ --green-mid: #5FD9A8;
+ --green-light:#E2F6EC;
+ --ink: #1c1b1b;
+ --ink-mid: #555770;
+ --ink-light: #9094A8;
+ --border: #e5e2e1;
+ --bg2: #F7F8FA;
+ }
+
+ body {
+ font-family: 'Inter', 'Noto Sans KR', sans-serif;
+ color: var(--ink);
+ background: #fcf9f8;
+ }
+
+ /* ── HEADER ── */
+ header {
+ position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+ height: 64px;
+ background: rgba(252,249,248,0.88);
+ backdrop-filter: blur(20px);
+ -webkit-backdrop-filter: blur(20px);
+ display: flex; align-items: center; justify-content: space-between;
+ padding: 0 2rem;
+ border-bottom: 1px solid #bccac1;
+ }
+ .logo {
+ font-size: 1.3rem; font-weight: 900; color: #1c1b1b;
+ text-decoration: none; letter-spacing: -0.5px;
+ }
+ .logo span { color: #006c4c; }
+ .header-back {
+ display: inline-flex; align-items: center; gap: 0.4rem;
+ color: #3d4a43; font-size: 0.88rem; text-decoration: none;
+ transition: color 0.2s;
+ }
+ .header-back:hover { color: #006c4c; }
+ .header-back svg { width: 16px; height: 16px; }
+
+ /* ── HERO ── */
+ .hero {
+ background: linear-gradient(165deg, #042E1C 0%, #0A4D2C 40%, #0E7A52 80%, #16A974 100%);
+ padding: 9rem 1.5rem 5rem;
+ text-align: center;
+ position: relative; overflow: hidden;
+ }
+ .hero::before {
+ content: '';
+ position: absolute; inset: 0;
+ background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(95,217,168,0.18) 0%, transparent 70%);
+ pointer-events: none;
+ }
+ .hero-eyebrow {
+ display: inline-flex; align-items: center; gap: 0.5rem;
+ background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+ border-radius: 100px; padding: 0.45rem 1.1rem;
+ font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.9);
+ letter-spacing: 0.05em; text-transform: uppercase;
+ margin-bottom: 1.6rem;
+ }
+ .hero-eyebrow-dot {
+ width: 6px; height: 6px; border-radius: 50%;
+ background: var(--green-mid); animation: pulse 2s infinite;
+ }
+ @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+ .hero h1 {
+ font-size: clamp(2rem, 5vw, 3.4rem);
+ font-weight: 900; color: #fff;
+ line-height: 1.2; letter-spacing: -0.03em;
+ margin-bottom: 1.2rem;
+ }
+ .hero h1 em { font-style: normal; color: var(--green-mid); }
+ .hero-desc {
+ font-size: clamp(1rem, 2vw, 1.15rem);
+ color: rgba(255,255,255,0.75);
+ line-height: 1.8; max-width: 640px; margin: 0 auto 2.5rem;
+ }
+ .hero-highlight {
+ display: inline-flex; align-items: center; gap: 0.6rem;
+ background: rgba(250,204,21,0.12); border: 1.5px solid rgba(250,204,21,0.5);
+ border-radius: 12px; padding: 0.9rem 1.6rem;
+ font-size: 1.1rem; font-weight: 800; color: #FACC15;
+ }
+
+ /* ── SECTION WRAPPER ── */
+ .section { padding: 5rem 1.5rem; }
+ .section-inner { max-width: 900px; margin: 0 auto; }
+ .section-label {
+ display: inline-block;
+ background: var(--green-light); color: var(--green-dark);
+ font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em;
+ text-transform: uppercase; border-radius: 6px;
+ padding: 0.3rem 0.8rem; margin-bottom: 1rem;
+ }
+ .section-title {
+ font-size: clamp(1.7rem, 4vw, 2.6rem);
+ font-weight: 900; line-height: 1.25; letter-spacing: -0.03em;
+ margin-bottom: 0.8rem;
+ }
+ .section-lead {
+ font-size: 1.05rem; color: var(--ink-mid); line-height: 1.8;
+ max-width: 660px; margin-bottom: 3rem;
+ }
+
+ /* ── WHAT IS ── */
+ .what-section { background: var(--bg2); }
+ .what-box {
+ background: #fcf9f8;
+ border: 1px solid var(--border); border-radius: 20px;
+ padding: 2.5rem; display: flex; flex-direction: column; gap: 1.2rem;
+ box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+ }
+ .what-box p {
+ font-size: 1.05rem; line-height: 1.9; color: var(--ink-mid);
+ }
+ .what-box strong { color: var(--green-dark); font-weight: 800; }
+ .what-rate-badge {
+ align-self: flex-start;
+ background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+ color: #fff; border-radius: 14px; padding: 1.2rem 2rem;
+ display: flex; align-items: center; gap: 1.2rem;
+ }
+ .what-rate-num {
+ font-size: 2.4rem; font-weight: 900; line-height: 1;
+ }
+ .what-rate-label { font-size: 0.9rem; line-height: 1.5; opacity: 0.9; }
+
+ /* ── STEPS ── */
+ .steps-section { background: #fcf9f8; }
+ .steps-grid {
+ display: grid; gap: 1rem;
+ grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+ }
+ .step-card {
+ background: var(--bg2); border: 1px solid var(--border); border-radius: 16px;
+ padding: 1.8rem 1.4rem; text-align: center;
+ position: relative; overflow: visible;
+ transition: transform 0.2s, box-shadow 0.2s;
+ }
+ .step-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(22,169,116,0.12); }
+ .step-num {
+ display: inline-block;
+ background: var(--green); color: #fff;
+ font-size: 0.7rem; font-weight: 900; letter-spacing: 0.06em;
+ border-radius: 8px; padding: 0.25rem 0.7rem;
+ margin-bottom: 1rem;
+ }
+ .step-title { font-size: 1.05rem; font-weight: 800; color: var(--ink); line-height: 1.4; }
+ .step-desc { font-size: 0.85rem; color: var(--ink-mid); line-height: 1.6; margin-top: 0.5rem; }
+ .step-arrow {
+ display: none;
+ }
+ @media (min-width: 768px) {
+ .steps-grid { grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
+ .step-card { position: relative; }
+ .step-card:not(:last-child)::after {
+ content: '→';
+ position: absolute; right: -14px; top: 50%;
+ transform: translateY(-50%);
+ font-size: 1.2rem; color: var(--green); z-index: 1;
+ }
+ }
+
+ /* ── CARE ── */
+ .care-section { background: linear-gradient(165deg, #042E1C 0%, #0A4D2C 50%, #0E7A52 100%); }
+ .care-section .section-label { background: rgba(95,217,168,0.15); color: var(--green-mid); }
+ .care-section .section-title { color: #fff; }
+ .care-section .section-lead { color: rgba(255,255,255,0.7); }
+ .care-cards {
+ display: grid; gap: 1rem;
+ grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+ }
+ .care-card {
+ background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14);
+ border-radius: 16px; padding: 1.8rem;
+ transition: background 0.2s;
+ }
+ .care-card:hover { background: rgba(255,255,255,0.12); }
+ .care-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+ .care-title { font-size: 1rem; font-weight: 800; color: #fff; margin-bottom: 0.4rem; }
+ .care-desc { font-size: 0.88rem; color: rgba(255,255,255,0.65); line-height: 1.7; }
+
+ /* ── CTA ── */
+ .cta-section {
+ background: #fcf9f8;
+ text-align: center; padding: 5rem 1.5rem;
+ }
+ .cta-section .section-title { margin-bottom: 0.6rem; }
+ .cta-section .section-lead { margin: 0 auto 2.5rem; }
+ .cta-btn {
+ display: inline-flex; align-items: center; gap: 0.7rem;
+ background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+ color: #fff; border-radius: 14px;
+ padding: 1.1rem 2.4rem; font-size: 1.05rem; font-weight: 800;
+ text-decoration: none; transition: all 0.2s;
+ box-shadow: 0 8px 28px rgba(22,169,116,0.35);
+ }
+ .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 36px rgba(22,169,116,0.45); }
+
+ /* ── FOOTER ── */
+ footer {
+ background: #0A1F14; color: rgba(255,255,255,0.5);
+ padding: 2rem 1.5rem; text-align: center;
+ font-size: 0.82rem; line-height: 1.8;
+ }
+ footer a { color: var(--green-mid); text-decoration: none; }
+
+
+ /* ── FOOTER CONTACT BAR ── */
+ .footer-contact-bar {
+ width: 100%; text-align: center;
+ margin-bottom: 0.6rem;
+ }
+ .footer-contact-bar a {
+ display: inline-block;
+ font-size: 1rem; font-weight: 800; color: #5FD9A8;
+ text-decoration: none; letter-spacing: 0.02em;
+ border-bottom: 2px solid rgba(95,217,168,0.35);
+ padding-bottom: 2px;
+ transition: color 0.2s, border-color 0.2s;
+ }
+ .footer-contact-bar a:hover { color: #fff; border-color: #fff; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+ <a class="logo" href="index.html">Gpt<span>Class</span><span style="font-size: 0.72rem; font-weight: 700; color: #444655; letter-spacing: 0.05em; margin-left: 8px; vertical-align: middle; text-transform: uppercase; border-left: 1px solid #bccac1; padding-left: 8px; display: inline-block;">by LimeFriends</span></a>
+ <a class="header-back" href="index.html">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+ <path d="M19 12H5M5 12l7-7M5 12l7 7"/>
+ </svg>
+ 공인인증 페이지로 돌아가기
+ </a>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+ <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span>Government Certified</div>
+ <h1>AI 인재키움 사업<br><em>환급과정 지정</em></h1>
+ <p class="hero-desc">
+ 사업주가 교육비를 먼저 부담하고, 수료 후 고용노동부와 한국산업인력공단을 통해
+ 최대 <strong style="color:#FACC15;">95%까지 환급</strong>받는 정부지원 AI 교육 사업입니다.
+ </p>
+ <div class="hero-highlight">
+ 최대 90~95% 환급 가능
+ </div>
+</section>
+
+<!-- WHAT IS -->
+<section class="section what-section">
+ <div class="section-inner">
+ <span class="section-label">인재키움 사업이란?</span>
+ <h2 class="section-title">교육비의 최대 95%를<br>돌려받는 제도</h2>
+ <p class="section-lead">정부가 기업의 AI 역량 강화를 직접 지원합니다.</p>
+ <div class="what-box">
+ <p>
+ <strong>인재키움 사업 환급과정</strong>은 사업주가 훈련비(선납)를 먼저 부담하고,
+ 교육 수료 후 <strong>한국산업인력공단</strong>과 <strong>고용노동부</strong>를 통해
+ 교육비의 <strong>최대 95%까지 환급</strong>받는 사업입니다.
+ </p>
+ <p>
+ GptClass는 기업의 맞춤형 교육 설계와 <strong>PBL(프로젝트 기반 학습)</strong>로
+ 실질적인 AI 역량을 키우며, 환급 혜택을 최대한 활용할 수 있도록 처음부터 끝까지 함께합니다.
+ </p>
+ <div class="what-rate-badge">
+ <div class="what-rate-num">95%</div>
+ <div class="what-rate-label">최대 환급률<br>GptClass 지정 과정 기준</div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- STEPS -->
+<section class="section steps-section">
+ <div class="section-inner">
+ <span class="section-label">GptClass 올인원 밀착 케어</span>
+ <h2 class="section-title">상담부터 환급까지<br>모든 과정을 함께합니다</h2>
+ <p class="section-lead">복잡한 정부지원 절차, GptClass가 전부 안내합니다.</p>
+ <div class="steps-grid">
+ <div class="step-card">
+ <div class="step-num">STEP 01</div>
+ <div class="step-title">상담 신청</div>
+ <div class="step-desc">기업 규모·업종에 맞는 환급 가능 여부 무료 상담</div>
+ </div>
+ <div class="step-card">
+ <div class="step-num">STEP 02</div>
+ <div class="step-title">교육 설계</div>
+ <div class="step-desc">회사 맞춤형 AI 커리큘럼 및 PBL 과제 설계</div>
+ </div>
+ <div class="step-card">
+ <div class="step-num">STEP 03</div>
+ <div class="step-title">고용24 신청 후 선납</div>
+ <div class="step-desc">고용24를 통한 훈련 신청 및 교육비 선납 처리</div>
+ </div>
+ <div class="step-card">
+ <div class="step-num">STEP 04</div>
+ <div class="step-title">교육 진행 &amp; 환급</div>
+ <div class="step-desc">기초 AI + PBL 교육 수료 후 최대 90~95% 환급</div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- CARE -->
+<section class="section care-section">
+ <div class="section-inner">
+ <span class="section-label">GptClass만의 차별점</span>
+ <h2 class="section-title">왜 GptClass인가요?</h2>
+ <p class="section-lead">단순 교육이 아닌, 환급 극대화를 위한 전략적 설계를 제공합니다.</p>
+ <div class="care-cards">
+ <div class="care-card">
+ <div class="care-icon"></div>
+ <div class="care-title">맞춤형 교육 설계</div>
+ <div class="care-desc">기업의 업종·직무에 최적화된 AI 커리큘럼을 직접 설계합니다. 일반 표준 과정이 아닙니다.</div>
+ </div>
+ <div class="care-card">
+ <div class="care-icon"></div>
+ <div class="care-title">PBL 프로젝트 기반 학습</div>
+ <div class="care-desc">실제 업무에 AI를 적용하는 프로젝트 중심 교육으로 학습 효과와 환급률을 동시에 높입니다.</div>
+ </div>
+ <div class="care-card">
+ <div class="care-icon"></div>
+ <div class="care-title">서류·신청 전 과정 지원</div>
+ <div class="care-desc">고용24 신청부터 서류 준비, 정산까지 담당자가 직접 밀착 안내합니다.</div>
+ </div>
+ <div class="care-card">
+ <div class="care-icon"></div>
+ <div class="care-title">최대 환급률 달성</div>
+ <div class="care-desc">GptClass 지정 과정은 최대 90~95% 환급이 가능하도록 설계되어 있습니다.</div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+ <div class="section-inner">
+ <span class="section-label">지금 바로 신청하세요</span>
+ <h2 class="section-title">수요기업 신청서<br>바로 작성하기</h2>
+ <p class="section-lead">
+ AI 인재키움 사업 환급과정에 관심 있으신 기업 담당자분께서는
+ 아래 신청서를 통해 무료 상담을 신청하실 수 있습니다.
+ </p>
+ <a class="cta-btn" href="refund-apply.html">
+ 인재키움 사업 수요기업 신청서 바로가기
+ </a>
+ </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+ <div class="footer-contact-bar"><a href="mailto:ax@limefriends.com"> Contact&nbsp;&nbsp;ax@limefriends.com</a></div>
+ <p>© 2026 Lime Friends. AI 인재키움 사업 환급과정 지정 운영기관.</p>
+ <p style="margin-top:0.4rem;"><a href="index.html">메인으로 돌아가기</a> · <a href="index.html">정부지정 AI 교육기관</a></p>
+</footer>
+
+<script src="/chatbot.js"></script>
+</body>
+</html>
+
+
