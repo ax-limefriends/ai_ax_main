@@ -1,0 +1,472 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>산업인력공단 공인 AI 훈련코치 | GptClass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+ :root {
+ --green: #16A974;
+ --green-dark: #0E7A52;
+ --green-mid: #5FD9A8;
+ --green-light:#E2F6EC;
+ --ink: #1c1b1b;
+ --ink-mid: #555770;
+ --ink-light: #9094A8;
+ --border: #e5e2e1;
+ --bg2: #F7F8FA;
+ }
+
+ body { font-family: 'Inter', 'Noto Sans KR', sans-serif; color: var(--ink); background: #fcf9f8; }
+
+ /* ── HEADER ── */
+ header {
+ position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+ height: 64px;
+ background: rgba(4,46,28,0.97); backdrop-filter: blur(12px);
+ display: flex; align-items: center; justify-content: space-between;
+ padding: 0 2rem;
+ border-bottom: 1px solid rgba(255,255,255,0.08);
+ }
+ .logo { font-size: 1.3rem; font-weight: 900; color: #fff; text-decoration: none; letter-spacing: -0.5px; }
+ .logo span { color: var(--green-mid); }
+ .header-back {
+ display: inline-flex; align-items: center; gap: 0.4rem;
+ color: #3d4a43; font-size: 0.88rem; text-decoration: none;
+ transition: color 0.2s;
+ }
+ .header-back:hover { color: #006c4c; }
+ .header-back svg { width: 16px; height: 16px; }
+
+ /* ── HERO ── */
+ .hero {
+ background: linear-gradient(165deg, #042E1C 0%, #0A4D2C 40%, #0E7A52 80%, #16A974 100%);
+ padding: 9rem 1.5rem 5rem; text-align: center;
+ position: relative; overflow: hidden;
+ }
+ .hero::before {
+ content: '';
+ position: absolute; inset: 0;
+ background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(95,217,168,0.18) 0%, transparent 70%);
+ pointer-events: none;
+ }
+ .hero-eyebrow {
+ display: inline-flex; align-items: center; gap: 0.5rem;
+ background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+ border-radius: 100px; padding: 0.45rem 1.1rem;
+ font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.9);
+ letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1.6rem;
+ }
+ .hero-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green-mid); animation: pulse 2s infinite; }
+ @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+ .hero h1 { font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 900; color: #fff; line-height: 1.2; letter-spacing: -0.03em; margin-bottom: 1.2rem; }
+ .hero h1 em { font-style: normal; color: var(--green-mid); }
+ .hero-desc { font-size: clamp(1rem, 2vw, 1.15rem); color: rgba(255,255,255,0.75); line-height: 1.8; max-width: 640px; margin: 0 auto; }
+
+ /* ── SECTION ── */
+ .section { padding: 5rem 1.5rem; }
+ .section-inner { max-width: 920px; margin: 0 auto; }
+ .section-label {
+ display: inline-block;
+ background: var(--green-light); color: var(--green-dark);
+ font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+ border-radius: 6px; padding: 0.3rem 0.8rem; margin-bottom: 1rem;
+ }
+ .section-title { font-size: clamp(1.7rem, 4vw, 2.6rem); font-weight: 900; line-height: 1.25; letter-spacing: -0.03em; margin-bottom: 0.6rem; }
+ .section-lead { font-size: 1.05rem; color: var(--ink-mid); line-height: 1.8; margin-bottom: 3rem; }
+
+ /* ── WHAT IS (Page 2) ── */
+ .what-section { background: var(--bg2); }
+ .what-summary {
+ background: #fcf9f8; border: 1px solid var(--border); border-radius: 14px;
+ padding: 1.2rem 1.8rem; margin-bottom: 2rem;
+ font-size: 1.05rem; font-weight: 700; color: var(--ink); text-align: center;
+ box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+ }
+ .points-grid {
+ display: grid; gap: 1.2rem;
+ grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+ }
+ @media (max-width: 600px) { .points-grid { grid-template-columns: 1fr; } }
+ .point-card {
+ background: #fcf9f8; border: 1px solid var(--border); border-radius: 16px;
+ padding: 1.8rem; box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+ transition: transform 0.2s, box-shadow 0.2s;
+ }
+ .point-card:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(22,169,116,0.12); }
+ .point-num { font-size: 0.75rem; font-weight: 800; color: var(--green); letter-spacing: 0.08em; margin-bottom: 0.7rem; }
+ .point-title { font-size: 1.1rem; font-weight: 900; color: var(--ink); line-height: 1.4; margin-bottom: 0.5rem; }
+ .point-sub { font-size: 0.85rem; color: var(--ink-mid); }
+ .point-desc { font-size: 0.9rem; color: var(--ink-mid); line-height: 1.8; margin-top: 0.6rem; }
+
+ /* ── PROCESS (Page 4) ── */
+ .process-section { background: #fcf9f8; }
+ .process-summary {
+ background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+ padding: 1.2rem 1.8rem; margin-bottom: 2rem; text-align: center;
+ }
+ .process-summary strong { font-size: 1rem; font-weight: 800; display: block; margin-bottom: 0.3rem; }
+ .process-summary span { font-size: 0.88rem; color: var(--ink-mid); }
+ .process-table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+ .process-table th, .process-table td {
+ border: 1px solid var(--border); padding: 0.9rem 1rem; text-align: left; vertical-align: top;
+ }
+ .process-table th { background: var(--bg2); font-weight: 700; text-align: center; white-space: nowrap; }
+ .process-table .stage-cell {
+ background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+ color: #fff; font-weight: 900; text-align: center; white-space: nowrap;
+ font-size: 0.95rem; vertical-align: middle;
+ }
+ .process-table .sub-cell { background: rgba(22,169,116,0.07); font-weight: 700; text-align: center; white-space: nowrap; vertical-align: middle; }
+ .process-table td p { margin-bottom: 0.4rem; line-height: 1.7; }
+ .process-table td p:last-child { margin-bottom: 0; }
+ .process-note { font-size: 0.82rem; color: var(--ink-light); }
+ .process-output {
+ margin-top: 1.5rem; background: var(--green-light); border-radius: 10px;
+ padding: 1rem 1.4rem; font-size: 0.9rem; line-height: 1.7;
+ }
+ .process-output strong { color: var(--green-dark); }
+
+ /* ── PROCEDURE (Pages 6 & 8) ── */
+ .proc-section { background: var(--bg2); }
+ .proc-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: 2rem; }
+ .proc-table th, .proc-table td {
+ border: 1px solid var(--border); padding: 1rem 1.2rem; vertical-align: top; line-height: 1.8;
+ }
+ .proc-table th { background: var(--bg2); font-weight: 700; text-align: center; white-space: nowrap; width: 120px; }
+ .proc-highlight {
+ background: rgba(250,204,21,0.15); border-left: 3px solid #FACC15;
+ border-radius: 4px; padding: 0.3rem 0.6rem; margin-bottom: 0.6rem;
+ font-weight: 700; font-size: 0.88rem; display: block;
+ }
+ .proc-highlight.red { background: rgba(239,68,68,0.08); border-color: #EF4444; color: #B91C1C; }
+ .proc-sub-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.85rem; }
+ .proc-sub-table th, .proc-sub-table td { border: 1px solid var(--border); padding: 0.5rem 0.8rem; }
+ .proc-sub-table th { background: var(--bg2); font-weight: 700; text-align: center; }
+ .proc-note-inline { font-size: 0.82rem; color: var(--ink-light); display: block; margin-top: 0.3rem; }
+
+ /* ── PAY SECTION (from page 8) ── */
+ .pay-cards { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-top: 2rem; }
+ .pay-card {
+ background: #fcf9f8; border: 1px solid var(--border); border-radius: 14px;
+ padding: 1.4rem; box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+ }
+ .pay-label { font-size: 0.75rem; font-weight: 800; color: var(--green); letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+ .pay-value { font-size: 1rem; font-weight: 700; color: var(--ink); line-height: 1.6; }
+ .pay-amount { font-size: 1.6rem; font-weight: 900; color: var(--green-dark); }
+ .docs-list { margin-top: 1.5rem; background: #fcf9f8; border: 1px solid var(--border); border-radius: 14px; padding: 1.4rem; }
+ .docs-list-title { font-size: 0.88rem; font-weight: 800; color: var(--ink); margin-bottom: 0.8rem; }
+ .docs-list li { font-size: 0.9rem; color: var(--ink-mid); line-height: 1.9; list-style: none; padding-left: 1.2rem; position: relative; }
+ .docs-list li::before { content: '✓'; position: absolute; left: 0; color: var(--green); font-weight: 700; }
+
+ /* ── CTA ── */
+ .cta-section { background: linear-gradient(160deg, #042E1C 0%, #063D24 50%, #0A4D30 100%); padding: 5rem 1.5rem; text-align: center; }
+ .cta-section .section-label { background: rgba(95,217,168,0.15); color: var(--green-mid); }
+ .cta-section .section-title { color: #fff; }
+ .cta-section .section-lead { color: rgba(255,255,255,0.7); }
+ .cta-btn {
+ display: inline-flex; align-items: center; gap: 0.7rem;
+ background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+ color: #fff; border-radius: 14px; padding: 1.1rem 2.4rem;
+ font-size: 1.05rem; font-weight: 800; text-decoration: none;
+ transition: all 0.2s; box-shadow: 0 8px 28px rgba(22,169,116,0.35);
+ }
+ .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 36px rgba(22,169,116,0.45); }
+
+ /* ── FOOTER ── */
+ footer { background: #0A1F14; color: rgba(255,255,255,0.5); padding: 2rem 1.5rem; text-align: center; font-size: 0.82rem; line-height: 1.8; }
+ footer a { color: var(--green-mid); text-decoration: none; }
+
+ /* ── FADE IN ── */
+ .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+ .fade-up.visible { opacity: 1; transform: none; }
+
+
+ /* ── FOOTER CONTACT BAR ── */
+ .footer-contact-bar {
+ width: 100%; text-align: center;
+ margin-bottom: 0.6rem;
+ }
+ .footer-contact-bar a {
+ display: inline-block;
+ font-size: 1rem; font-weight: 800; color: #5FD9A8;
+ text-decoration: none; letter-spacing: 0.02em;
+ border-bottom: 2px solid rgba(95,217,168,0.35);
+ padding-bottom: 2px;
+ transition: color 0.2s, border-color 0.2s;
+ }
+ .footer-contact-bar a:hover { color: #fff; border-color: #fff; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+ <a class="logo" href="index.html">Gpt<span>Class</span><span style="font-size: 0.72rem; font-weight: 700; color: #444655; letter-spacing: 0.05em; margin-left: 8px; vertical-align: middle; text-transform: uppercase; border-left: 1px solid #bccac1; padding-left: 8px; display: inline-block;">by LimeFriends</span></a>
+ <a class="header-back" href="index.html">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+ <path d="M19 12H5M5 12l7-7M5 12l7 7"/>
+ </svg>
+ 공인인증 페이지로 돌아가기
+ </a>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+ <div class="hero-eyebrow"><span class="hero-dot"></span>KPC · 한국산업인력공단 공인</div>
+ <h1>산업인력공단<br><em>공인 AI 훈련코치</em></h1>
+ <p class="hero-desc">
+ 중소기업의 업무공정·직무 중심 AI 훈련로드맵과 PBL 과정을 개발하는<br>
+ 정부 공인 전문가 제도입니다.
+ </p>
+</section>
+
+<!-- PAGE 2: AI 훈련코치란? -->
+<section class="section what-section fade-up">
+ <div class="section-inner">
+ <span class="section-label">AI 훈련코치란?</span>
+ <h2 class="section-title">중소기업 맞춤형<br>AI 훈련 전문가</h2>
+ <div class="what-summary">중소기업의 업무공정 직무 중심의 AI 훈련로드맵과 PBL 과정을 개발합니다</div>
+ <div class="points-grid">
+ <div class="point-card">
+ <div class="point-num">POINT 01</div>
+ <div class="point-title">맞춤형 AI 훈련 로드맵 수립</div>
+ <div class="point-sub">센터별 총 200개 기업</div>
+ <p class="point-desc">분석 결과를 토대로 기업 수준에 최적화된 단계별 AI 훈련 로드맵을 수립하고 로드맵 보고서를 제출합니다.</p>
+ </div>
+ <div class="point-card">
+ <div class="point-num">POINT 02</div>
+ <div class="point-title">PBL 훈련과정 설계 &amp; 교육지원</div>
+ <div class="point-sub">센터별 총 60개 기업</div>
+ <p class="point-desc">기업의 문제 또는 프로젝트 기반의 PBL 훈련과정을 개발합니다. 기업이 개발된 PBL 훈련을 실시하는 경우 훈련코치가 강사로 활동이 가능합니다.</p>
+ </div>
+ <div class="point-card">
+ <div class="point-num">POINT 03</div>
+ <div class="point-title">공단 유관 프로그램 연계</div>
+ <div class="point-sub">센터별 총 80개 기업</div>
+ <p class="point-desc">최근 3년간 자체훈련에 참여하지 않은 중소기업을 발굴하여 훈련로드맵과 PBL 과정이 실제 훈련으로 연결될 수 있도록 공단의 타 프로그램을 연계합니다.</p>
+ </div>
+ <div class="point-card">
+ <div class="point-num">POINT 04</div>
+ <div class="point-title">우수사례 창출</div>
+ <div class="point-sub">센터별 총 50개 기업</div>
+ <p class="point-desc">AI훈련로드맵과 문제해결형(PBL) AI+ 직무 훈련과정을 실제 실시한 기업 중 우수성과를 낸 기업을 50개 창출합니다. 우수사례는 AI확산센터 성과평가와 경진대회 참여시 활용됩니다.</p>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- PAGE 4: AI 훈련코치 업무 프로세스 -->
+<section class="section process-section fade-up">
+ <div class="section-inner">
+ <span class="section-label">AI 훈련코치 업무 프로세스</span>
+ <h2 class="section-title">2차 방문 컨설팅<br>프로세스</h2>
+ <div class="process-summary">
+ <strong>2차 방문 | 대면 필수 · 2시간 이상 | 결과 보고회, 과정개발 완료</strong>
+ <span>참석자 : PM(필수), 참여기업 내부 전문가(필수), 기업 경영진</span>
+ </div>
+ <table class="process-table">
+ <thead>
+ <tr>
+ <th>순서</th>
+ <th>세부내용</th>
+ <th>내용</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td class="stage-cell">방문 전</td>
+ <td class="sub-cell">진행사항점검<br>추가요구분석</td>
+ <td>(코치) 필요시 비대면으로 회의 추가 진행(선택)</td>
+ </tr>
+ <tr>
+ <td class="stage-cell" rowspan="2">방문 중</td>
+ <td class="sub-cell" rowspan="2">결과보고회</td>
+ <td>
+ <p>(코치) 최종 개발된 훈련로드맵, PBL 과정 제시 및 피드백 확인</p>
+ <p class="proc-note-inline">※ 필요시 최종 로드맵 도출 전, 표준 모델 시연을 통해 결과의 타당성과 적용 가능성 사전 검증</p>
+ </td>
+ </tr>
+ <tr></tr>
+ <tr>
+ <td class="stage-cell" rowspan="4">방문 후</td>
+ <td class="sub-cell">보고서제출</td>
+ <td>
+ <p>(코치) 검토 의견 반영 후 최종 로드맵 센터 제출</p>
+ <p class="proc-note-inline">(※ 센터 검토 후 필요시 훈련코치에게 보고서 보완 요청가능)</p>
+ </td>
+ </tr>
+ <tr>
+ <td class="sub-cell">기업승인</td>
+ <td>(참여기업) 센터의 검증이 완료된 보고서를 최종 승인처리</td>
+ </tr>
+ <tr>
+ <td class="sub-cell">서류제출</td>
+ <td>(코치) 수당지급 명세서, 개인정보수집 동의서, 보고서 제출</td>
+ </tr>
+ <tr>
+ <td class="sub-cell">비용지급</td>
+ <td>(센터) 컨설팅 보고서 최종 확정 후 10일(토요일, 공휴일 제외) 지급</td>
+ </tr>
+ <tr>
+ <td colspan="2" style="text-align:center; font-weight:700; background:var(--bg2);">산출물</td>
+ <td>결과보고서(훈련로드맵) 완성본, 2차 수행일지(온라인), 수당지급 명세서(수기)</td>
+  </tr>
+  </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- PAGE 5~8: 사업 내용 및 훈련 지원 상세 -->
+<section class="section info-section fade-up" style="background: var(--bg2);">
+  <div class="section-inner">
+    <span class="section-label">AI 훈련 지원 상세</span>
+    <h2 class="section-title">우리 기업에 맞는<br>AI 훈련 & 교육 지원 안내</h2>
+        <p class="section-lead">AI 훈련 코치와 함께하는 과정 개발 단계부터 실제 교육비 지원 및 신청 요건까지 상세히 안내해 드립니다.</p>
+
+    <!-- PDF Download Button -->
+    <div style="margin: -1.5rem 0 3rem; text-align: left;">
+      <a href="AI훈련코치_기업용_사업안내자료_8페이지_신규.pdf" download style="display: inline-flex; align-items: center; gap: 0.5rem; background: #FFFFFF; color: var(--green-dark); border: 1px solid #bccac1; border-radius: 8px; padding: 0.7rem 1.3rem; font-size: 0.88rem; font-weight: 700; text-decoration: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); transition: all 0.2s;" onmouseover="this.style.background='#E2F6EC'; this.style.borderColor='#0E7A52';" onmouseout="this.style.background='#FFFFFF'; this.style.borderColor='#bccac1';">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 18px; height: 18px; color: var(--green);">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+        </svg>
+        사업 안내 자료 PDF 다운로드
+      </a>
+    </div>
+
+    <!-- 1. AI 훈련 로드맵 vs AI 직무 PBL 비교 -->
+    <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 1.2rem; color: var(--ink); border-left: 4px solid var(--green); padding-left: 0.8rem;">1. AI 훈련과정 개발 방식 비교</h3>
+    <div style="display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); margin-bottom: 4rem;">
+      <!-- 로드맵 -->
+      <div style="background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 1.8rem; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+        <div style="display: inline-block; background: var(--green-light); color: var(--green-dark); font-size: 0.7rem; font-weight: 800; padding: 0.25rem 0.6rem; border-radius: 4px; margin-bottom: 0.8rem;">총 200개사 지원</div>
+        <h4 style="font-size: 1.15rem; font-weight: 900; color: var(--ink); margin-bottom: 1rem;">AI 훈련 로드맵</h4>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.88rem; color: var(--ink-mid); padding-left: 0;">
+          <li><strong>목적:</strong> 전사적 AI 전환 전략 및 방향성 수립이 필요한 경우</li>
+          <li><strong>주요 타겟:</strong> AI를 처음 도입하는 기업, 디지털 역량 진단이 필요한 기업</li>
+          <li><strong>핵심 산출물:</strong> 기업 맞춤형 AI 훈련 계획, 문제 해결 시나리오, 실습 교안, 세부 직무별 훈련 방안</li>
+          <li><strong>코칭 방식:</strong> 공정/워크플로우 분석 기반 효율 향상 모델링</li>
+        </ul>
+      </div>
+      <!-- PBL -->
+      <div style="background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 1.8rem; box-shadow: 0 4px 16px rgba(0,0,0,0.04); border-top: 4px solid var(--green);">
+        <div style="display: inline-block; background: #FFF3CD; color: #856404; font-size: 0.7rem; font-weight: 800; padding: 0.25rem 0.6rem; border-radius: 4px; margin-bottom: 0.8rem;">총 60개사 지원</div>
+        <h4 style="font-size: 1.15rem; font-weight: 900; color: var(--ink); margin-bottom: 1rem;">AI 직무 PBL (Project-Based Learning)</h4>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.88rem; color: var(--ink-mid); padding-left: 0;">
+          <li><strong>목적:</strong> 현장의 실제 문제를 AI로 직접 해결하고 성과를 내고 싶은 경우</li>
+          <li><strong>주요 타겟:</strong> 프로젝트 단위의 실무 해결이 시급한 기업</li>
+          <li><strong>핵심 산출물:</strong> 문제 해결 시나리오, 실습 교안, 훈련성과 지표</li>
+          <li><strong>코칭 방식:</strong> 과업 분석 및 역량 모델링을 통한 현장 실습 환경 설계</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 2. AI 교육 지원 방법 -->
+    <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 1.2rem; color: var(--ink); border-left: 4px solid var(--green); padding-left: 0.8rem;">2. AI 교육 지원 및 혜택</h3>
+    <div style="background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 16px rgba(0,0,0,0.04); margin-bottom: 4rem;">
+      <p style="font-size: 0.95rem; color: var(--ink-mid); line-height: 1.7; margin-bottom: 1.5rem;">
+        개발된 훈련과정에 따라 기업이 실제적인 교육을 실시할 수 있도록 우수 교육을 연계하거나, <strong>자체 훈련 시 최대 783만 원의 교육비</strong>를 지원합니다.
+      </p>
+      <div style="display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+        <div style="background: var(--bg2); border-radius: 12px; padding: 1.5rem;">
+          <h4 style="font-size: 1rem; font-weight: 800; color: var(--green-dark); margin-bottom: 0.6rem;">➀ 무료 공개교육 연계</h4>
+          <p style="font-size: 0.85rem; color: var(--ink-mid); line-height: 1.6;">
+            훈련 로드맵에서 도출된 커리큘럼에 대한 교육 훈련을 희망하는 경우, KPC 또는 한국기술교육대, 백석대, 세한대 등 충청권역 우수 대학/기관의 AI 공개교육을 <strong>전액 무료(기업 부담금 0원)</strong>로 연계 제공합니다.
+          </p>
+        </div>
+        <div style="background: var(--bg2); border-radius: 12px; padding: 1.5rem; border: 1px solid var(--green-mid);">
+          <h4 style="font-size: 1rem; font-weight: 800; color: var(--green-dark); margin-bottom: 0.6rem;">➁ 자체훈련 교육비 지원 (최대 783만 원)</h4>
+          <p style="font-size: 0.85rem; color: var(--ink-mid); line-height: 1.6; margin-bottom: 0.8rem;">
+            AI를 활용하여 기업 현장의 실질적 문제를 해결하는 프로젝트성 교육을 진행하는 경우, 기업 내부 전문가의 훈련 운영 지원비 50만 원과 강사료/교육비 등을 포함해 <strong>최대 783만 원을 지원</strong>해 드립니다.
+          </p>
+          <span style="font-size: 0.8rem; font-weight: 700; color: var(--green); display: block;">* 강사료 시간당 최대 10만 원 지원</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. 신청 요건 및 방법 -->
+    <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 1.2rem; color: var(--ink); border-left: 4px solid var(--green); padding-left: 0.8rem;">3. 사업 신청 요건 및 프로세스</h3>
+    <div style="display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+      <!-- 신청 요건 -->
+      <div style="background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 1.8rem; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+        <h4 style="font-size: 1.05rem; font-weight: 800; color: var(--ink); margin-bottom: 1rem;">신청 대상 및 자격</h4>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.85rem; color: var(--ink-mid); padding-left: 0;">
+          <li style="position: relative; padding-left: 1.2rem;"><span style="position: absolute; left: 0; color: var(--green); font-weight: bold;">✔</span> 충청권(대전, 세종, 충남, 충북) 소재 중소기업</li>
+          <li style="position: relative; padding-left: 1.2rem;"><span style="position: absolute; left: 0; color: var(--green); font-weight: bold;">✔</span> 고용보험법상 '우선지원대상기업' 해당 기업</li>
+          <li style="position: relative; padding-left: 1.2rem;"><span style="position: absolute; left: 0; color: var(--green); font-weight: bold;">✔</span> 상시 근로자 수 20인 이상 기업 우대</li>
+          <li style="position: relative; padding-left: 1.2rem;"><span style="position: absolute; left: 0; color: var(--green); font-weight: bold;">✔</span> (PBL 과정의 경우) AI 훈련 로드맵 개발 선행 필요</li>
+        </ul>
+        <p style="font-size: 0.78rem; color: var(--ink-light); margin-top: 1rem; line-height: 1.5; background: var(--bg2); padding: 0.6rem 0.8rem; border-radius: 8px;">
+          * 우선지원대상기업 확인: 고용24 기업로그인 > 마이페이지 > 사업주훈련 > 지원한도조회
+        </p>
+      </div>
+      <!-- 신청 방법 -->
+      <div style="background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 1.8rem; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+        <h4 style="font-size: 1.05rem; font-weight: 800; color: var(--ink); margin-bottom: 1rem;">추진 절차</h4>
+        <div style="display: flex; flex-direction: column; gap: 0.8rem; font-size: 0.85rem;">
+          <div style="display: flex; align-items: center; gap: 0.8rem;">
+            <span style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--green-dark); color: #fff; font-weight: bold; font-size: 0.75rem;">1</span>
+            <span style="color: var(--ink); font-weight: 700;">구글폼 신청</span>
+            <span style="font-size: 0.78rem; color: var(--ink-light);">(참여 신청 및 진단검사)</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.8rem;">
+            <span style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--green-dark); color: #fff; font-weight: bold; font-size: 0.75rem;">2</span>
+            <span style="color: var(--ink); font-weight: 700;">컨설팅 및 코칭 시작</span>
+            <span style="font-size: 0.78rem; color: var(--ink-light);">(코치 배정 및 현장 방문)</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.8rem;">
+            <span style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--green-dark); color: #fff; font-weight: bold; font-size: 0.75rem;">3</span>
+            <span style="color: var(--ink); font-weight: 700;">협약 체결</span>
+            <span style="font-size: 0.78rem; color: var(--ink-light);">(컨설팅 팀 구성 및 협약 완료)</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.8rem;">
+            <span style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--green-dark); color: #fff; font-weight: bold; font-size: 0.75rem;">4</span>
+            <span style="color: var(--ink); font-weight: 700;">HRD4U 접수</span>
+            <span style="font-size: 0.78rem; color: var(--ink-light);">(기업 회원가입 및 훈련 실시)</span>
+          </div>
+        </div>
+        <div style="margin-top: 1.2rem; text-align: center;">
+          <a href="https://forms.gle/otUqw3WEypZ1GVtj8" target="_blank" style="display: inline-block; background: var(--green); color: #fff; padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-decoration: none; box-shadow: 0 4px 12px rgba(22, 169, 116, 0.2);">
+            간편 신청 구글폼 바로가기 →
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section fade-up">
+ <div class="section-inner" style="text-align:center;">
+ <span class="section-label">GptClass와 함께하세요</span>
+ <h2 class="section-title" style="color:#fff; margin-bottom:0.6rem;">AI 훈련코치가 함께하는<br>기업 맞춤 AI 교육</h2>
+ <p class="section-lead" style="margin:0 auto 2.5rem; max-width:520px;">산업인력공단 공인 AI 훈련코치가 직접 설계하고 운영하는 GptClass 교육 과정을 경험해 보세요.</p>
+ <a class="cta-btn" href="index.html">정부지정 AI 교육기관 보러가기</a>
+ </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+ <div class="footer-contact-bar"><a href="mailto:ax@limefriends.com"> Contact&nbsp;&nbsp;ax@limefriends.com</a></div>
+ <p>© 2026 Lime Friends. 산업인력공단 공인 AI 훈련코치 운영기관.</p>
+ <p style="margin-top:0.4rem;"><a href="index.html">메인으로 돌아가기</a> · <a href="index.html">정부지정 AI 교육기관</a></p>
+</footer>
+
+<script>
+ const observer = new IntersectionObserver(entries => {
+ entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+ }, { threshold: 0.08 });
+ document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
+<script src="/chatbot.js"></script>
+</body>
+</html>
+
+

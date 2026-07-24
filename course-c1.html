@@ -1,0 +1,731 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>챗지피티 3일만에 끝내기 | GptClass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+ :root {
+ --blue: #16A974;
+ --blue-dark: #0E7A52;
+ --blue-mid: #5FD9A8;
+ --blue-light: #E2F6EC;
+ --blue-pale: #EAFBF2;
+ --white: #FFFFFF;
+ --bg: #FFFFFF;
+ --bg2: #F7F8FA;
+ --bg3: #EFF2F7;
+ --ink: #1c1b1b;
+ --ink-mid: #555770;
+ --ink-light: #9094A8;
+ --text: #1c1b1b;
+ --text-mid: #555770;
+ --text-dim: #9094A8;
+ --border: #e5e2e1;
+ --border-mid: #BFE6D2;
+ --card: #FFFFFF;
+ --shadow-sm: 0 2px 12px rgba(0,0,0,0.06);
+ --shadow-md: 0 8px 32px rgba(0,0,0,0.10);
+ --shadow-lg: 0 16px 48px rgba(0,0,0,0.13);
+ }
+
+ html { scroll-behavior: smooth; }
+
+ body {
+ font-family: 'Inter', 'Noto Sans KR', sans-serif;
+ background: #fcf9f8;
+ color: #1c1b1b;
+ line-height: 1.6;
+ overflow-x: hidden;
+ }
+
+ /* ── HEADER ── */
+ header {
+ position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+ background: rgba(252,249,248,0.88);
+ backdrop-filter: blur(20px);
+ -webkit-backdrop-filter: blur(20px);
+ border-bottom: 1px solid #bccac1;
+ padding: 0 5%;
+ }
+ .header-inner {
+ display: flex; align-items: center; justify-content: space-between;
+ height: 64px;
+ }
+ .logo {
+ font-size: 1.3rem; font-weight: 900;
+ color: #1c1b1b; letter-spacing: -0.5px; text-decoration: none;
+ }
+ .logo span { color: #006c4c; }
+ .header-contact {
+ font-size: 0.82rem; color: #3d4a43;
+ display: flex; align-items: center; gap: 0.4rem;
+ }
+ .header-contact::before {
+ content: ''; display: inline-block;
+ width: 6px; height: 6px; border-radius: 50%; background: #22C55E;
+ }
+
+ /* ── TAB NAV ── */
+ .tab-nav-wrapper {
+ position: sticky; top: 64px; z-index: 100;
+ background: #FFFFFF; border-bottom: 1px solid #E4E8F0; padding: 0 5%;
+ }
+ .tab-nav { display: flex; max-width: 1100px; margin: 0 auto; }
+ .tab-btn {
+ flex: 1; padding: 0 1rem; height: 56px;
+ font-family: 'Inter', 'Noto Sans KR', sans-serif; font-size: 1rem; font-weight: 600;
+ color: #9094A8; background: transparent; border: none;
+ border-bottom: 3px solid transparent; cursor: pointer; text-decoration: none;
+ transition: all 0.2s; display: flex; align-items: center;
+ justify-content: center; gap: 0.5rem; white-space: nowrap;
+ }
+ .tab-btn .tab-icon { font-size: 1.1rem; }
+ .tab-btn:hover { color: #16A974; background: #EAFBF2; }
+ .tab-btn.active { color: #16A974; border-bottom-color: #16A974; }
+
+ /* ── TAB PANELS ── */
+ .tab-panel { display: none; }
+ .tab-panel.active { display: block; }
+
+ /* ── INTRO HERO ── */
+ .intro-hero {
+ background: linear-gradient(160deg, #E5F7ED 0%, #FFFFFF 55%, #EDFBF4 100%);
+ padding: 5rem 5% 4rem; position: relative; overflow: hidden; margin-top: 120px;
+ }
+ .intro-hero::before {
+ content: ''; position: absolute; top: -80px; right: -80px;
+ width: 420px; height: 420px; border-radius: 50%;
+ background: radial-gradient(circle, rgba(22,169,116,0.1) 0%, transparent 70%);
+ pointer-events: none;
+ }
+ .intro-hero::after {
+ content: ''; position: absolute; bottom: -60px; left: 10%;
+ width: 280px; height: 280px; border-radius: 50%;
+ background: radial-gradient(circle, rgba(52,211,153,0.08) 0%, transparent 70%);
+ pointer-events: none;
+ }
+ .hero-inner { max-width: 860px; margin: 0 auto; position: relative; z-index: 1; }
+
+ .eyebrow {
+ display: inline-flex; align-items: center; gap: 0.5rem;
+ font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+ font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+ color: #16A974; background: #E2F6EC; border: 1px solid #BFE6D2;
+ padding: 0.35rem 0.9rem; border-radius: 100px; margin-bottom: 1.8rem;
+ }
+ .intro-hero h1 {
+ font-size: clamp(2rem, 4.5vw, 3.4rem); font-weight: 900;
+ line-height: 1.18; letter-spacing: -0.025em; color: #1A1A2E; margin-bottom: 1.4rem;
+ }
+ .intro-hero h1 .accent { color: #16A974; position: relative; }
+ .intro-hero h1 .accent::after {
+ content: ''; position: absolute; bottom: 2px; left: 0; right: 0;
+ height: 3px; background: linear-gradient(90deg, #16A974, #34D399);
+ border-radius: 2px; opacity: 0.4;
+ }
+ .intro-hero-desc {
+ font-size: 1.05rem; color: #555770; line-height: 1.9;
+ max-width: 640px; margin-bottom: 2.5rem; padding: 1.6rem 2rem;
+ background: rgba(22,169,116,0.05); border-left: 3px solid #16A974;
+ border-radius: 0 12px 12px 0; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+ }
+ .intro-hero-desc strong { color: #1A1A2E; font-weight: 700; }
+
+ /* ── STAT BAND ── */
+ .stat-band {
+ display: flex; flex-wrap: wrap; margin-top: 2.5rem;
+ border: 1px solid #E4E8F0; border-radius: 16px; overflow: hidden;
+ background: #FFFFFF; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+ }
+ .stat-cell {
+ flex: 1; min-width: 160px; text-align: center; padding: 1.8rem 1rem;
+ border-right: 1px solid #E4E8F0;
+ }
+ .stat-cell:last-child { border-right: none; }
+ .stat-num { font-size: 1.9rem; font-weight: 900; color: #16A974; line-height: 1; margin-bottom: 0.4rem; }
+ .stat-label { font-size: 0.8rem; color: #9094A8; font-weight: 500; }
+
+ /* ── SECTION COMMON ── */
+ .content-section { padding: 5rem 5%; }
+ .section-label {
+ display: inline-flex;
+ align-items: center;
+ gap: 0.5rem;
+ font-family: 'Inter', 'Noto Sans KR', sans-serif;
+ font-size: 0.82rem;
+ font-weight: 700;
+ letter-spacing: 0.04em;
+ color: #16A974;
+ background: #E2F6EC;
+ border: 1px solid #BFE6D2;
+ padding: 0.35rem 0.9rem;
+ border-radius: 100px;
+ margin-bottom: 1rem;
+ }
+ .section-title {
+ font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800;
+ letter-spacing: -0.02em; color: #1A1A2E; margin-bottom: 0.8rem;
+ }
+ .section-sub { font-size: 0.95rem; color: #9094A8; line-height: 1.8; max-width: 520px; }
+ .section-head { margin-bottom: 3rem; }
+
+ /* ── FEATURES ── */
+ .features-section { background: #f6f3f2; padding: 5rem 5%; }
+ .features-grid {
+ display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+ gap: 1.25rem; max-width: 1100px; margin: 0 auto;
+ }
+ .feature-card {
+ background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 16px;
+ padding: 2rem; transition: all 0.25s; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+ }
+ .feature-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(22,169,116,0.15); border-color: #BFE6D2; }
+ .feature-num { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 600; color: #16A974; letter-spacing: 0.1em; margin-bottom: 0.8rem; }
+ .feature-icon { font-size: 2rem; margin-bottom: 0.9rem; display: block; }
+ .feature-title { font-size: 1.05rem; font-weight: 700; color: #1A1A2E; margin-bottom: 0.5rem; }
+ .feature-desc { font-size: 0.88rem; color: #9094A8; line-height: 1.75; }
+
+ /* ── TARGET ── */
+ .target-section { padding: 5rem 5%; background: #FFFFFF; }
+ .target-inner { max-width: 900px; margin: 0 auto; }
+ .target-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+ .target-card {
+ display: flex; gap: 1rem; align-items: flex-start;
+ background: #EAFBF2; border: 1px solid #E4E8F0;
+ border-radius: 14px; padding: 1.5rem; transition: all 0.2s;
+ }
+ .target-card:hover { background: #E2F6EC; border-color: #BFE6D2; box-shadow: 0 4px 16px rgba(22,169,116,0.12); }
+ .target-icon { font-size: 1.6rem; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+ .target-text h4 { font-size: 0.95rem; font-weight: 700; color: #1A1A2E; margin-bottom: 0.3rem; }
+ .target-text p { font-size: 0.83rem; color: #9094A8; line-height: 1.65; }
+
+ /* ── PROCESS ── */
+ .process-section { background: linear-gradient(135deg, #E5F7ED 0%, #EAFBF2 50%, #E9F8F0 100%); padding: 5rem 5%; }
+ .process-section .section-label { color: #16A974; }
+ .process-section .section-title { color: #1A1A2E; }
+ .process-steps {
+ display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+ margin-top: 3rem; max-width: 1000px; margin-left: auto; margin-right: auto;
+ }
+ .process-step { padding: 2rem 1.5rem; border-right: 1px solid rgba(22,169,116,0.2); }
+ .process-step:last-child { border-right: none; }
+ .step-num { font-family: 'JetBrains Mono', monospace; font-size: 2.8rem; font-weight: 700; color: #16A974; line-height: 1; margin-bottom: 0.8rem; }
+ .step-title { font-size: 1rem; font-weight: 700; color: #1A1A2E; margin-bottom: 0.5rem; }
+ .step-desc { font-size: 0.83rem; color: #555770; line-height: 1.7; }
+
+ /* ── CTA ── */
+ .cta-section { padding: 5rem 5%; text-align: center; background: linear-gradient(160deg, #E5F7ED 0%, #FFFFFF 50%, #EDFBF4 100%); }
+ .cta-inner { max-width: 640px; margin: 0 auto; }
+ .cta-section h2 { font-size: clamp(1.7rem, 3.5vw, 2.6rem); font-weight: 900; letter-spacing: -0.02em; color: #1A1A2E; margin-bottom: 1rem; line-height: 1.25; }
+ .cta-section h2 span { color: #16A974; }
+ .cta-section p { font-size: 1rem; color: #9094A8; line-height: 1.8; margin-bottom: 2.5rem; }
+ .btn-apply {
+ display: inline-flex; align-items: center; gap: 0.6rem;
+ background: #16A974; color: #FFFFFF;
+ font-family: 'Inter', 'Noto Sans KR', sans-serif; font-size: 1.05rem; font-weight: 700;
+ padding: 1rem 2.8rem; border-radius: 10px; text-decoration: none;
+ transition: all 0.2s; box-shadow: 0 6px 24px rgba(22,169,116,0.3);
+ border: none; cursor: pointer;
+ }
+ .btn-apply:hover { background: #0E7A52; transform: translateY(-2px); box-shadow: 0 10px 32px rgba(22,169,116,0.35); }
+ .btn-apply .arrow { font-size: 1.1rem; transition: transform 0.2s; }
+ .btn-apply:hover .arrow { transform: translateX(3px); }
+ .cta-note { margin-top: 1.2rem; font-size: 0.82rem; color: rgba(255,255,255,0.65); }
+
+ /* ── CURRICULUM PANEL ── */
+ .curriculum-panel { margin-top: 120px; }
+ .course-list-screen { display: block; }
+
+ .course-detail-screen { display: none; margin-top: 120px; }
+
+ /* 목록 히어로 */
+ .cl-hero { background: linear-gradient(160deg, #E5F7ED 0%, #FFFFFF 60%, #EDFBF4 100%); padding: 3.5rem 5% 3rem; position: relative; overflow: hidden; }
+ .cl-hero-inner { max-width: 960px; margin: 0 auto; position: relative; z-index: 1; }
+ .cl-hero h1 { font-size: clamp(1.7rem, 3.5vw, 2.6rem); font-weight: 900; letter-spacing: -0.025em; color: #1A1A2E; margin-bottom: 0.7rem; line-height: 1.2; }
+ .cl-hero h1 span { color: #16A974; }
+ .cl-hero p { font-size: 0.97rem; color: #9094A8; line-height: 1.8; max-width: 520px; margin-bottom: 2.5rem; }
+
+ /* 과정 카드 그리드 */
+ .course-grid-section { padding: 3rem 5% 5rem; background: #FFFFFF; }
+ .course-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.4rem; max-width: 960px; margin: 0 auto; }
+ .course-card {
+ background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 18px;
+ padding: 1.8rem; cursor: pointer; transition: all 0.25s; text-decoration: none;
+ box-shadow: 0 2px 12px rgba(0,0,0,0.06); display: flex; flex-direction: column;
+ position: relative; overflow: hidden;
+ }
+ .course-card::before {
+ content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+ background: #16A974; transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+ }
+ .course-card:hover { transform: translateY(-5px); box-shadow: 0 8px 32px rgba(22,169,116,0.15); border-color: #BFE6D2; }
+ .course-card:hover::before { transform: scaleX(1); }
+ .course-card.c-amber::before { background: #F59E0B; }
+ .course-card.c-violet::before { background: #7B61FF; }
+ .course-card.c-teal::before { background: #0EA5A0; }
+ .course-card.c-rose::before { background: #F43F5E; }
+ .course-card.c-green::before { background: #22C55E; }
+ .course-card.c-orange::before { background: #FB923C; }
+
+ .cc-num { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; color: #16A974; margin-bottom: 0.9rem; }
+ .course-card.c-amber .cc-num { color: #D97706; }
+ .course-card.c-violet .cc-num { color: #6D4BEE; }
+ .course-card.c-teal .cc-num { color: #0D9488; }
+ .course-card.c-rose .cc-num { color: #E11D48; }
+ .course-card.c-green .cc-num { color: #16A34A; }
+ .course-card.c-orange .cc-num { color: #EA580C; }
+
+ .cc-icon { font-size: 2rem; margin-bottom: 0.8rem; display: block; }
+ .cc-title { font-size: 1.05rem; font-weight: 800; color: #1A1A2E; line-height: 1.35; margin-bottom: 0.6rem; letter-spacing: -0.01em; }
+ .cc-desc { font-size: 0.83rem; color: #9094A8; line-height: 1.7; margin-bottom: 1.2rem; flex: 1; }
+ .cc-meta { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+ .cc-badge { font-size: 0.72rem; font-weight: 600; padding: 0.25rem 0.6rem; border-radius: 100px; background: #E2F6EC; color: #16A974; border: 1px solid #E4E8F0; }
+ .course-card.c-amber .cc-badge { background: #FEF3C7; color: #D97706; border-color: #FDE68A; }
+ .course-card.c-violet .cc-badge { background: #EDE9FE; color: #6D4BEE; border-color: #DDD6FE; }
+ .course-card.c-teal .cc-badge { background: #CCFBF1; color: #0D9488; border-color: #99F6E4; }
+ .course-card.c-rose .cc-badge { background: #FFE4E6; color: #E11D48; border-color: #FECDD3; }
+ .course-card.c-green .cc-badge { background: #DCFCE7; color: #16A34A; border-color: #BBF7D0; }
+ .course-card.c-orange .cc-badge { background: #FFEDD5; color: #EA580C; border-color: #FED7AA; }
+ .cc-arrow { display: flex; align-items: center; justify-content: space-between; font-size: 0.82rem; font-weight: 700; color: #16A974; }
+ .course-card.c-amber .cc-arrow { color: #D97706; }
+ .course-card.c-violet .cc-arrow { color: #6D4BEE; }
+ .course-card.c-teal .cc-arrow { color: #0D9488; }
+ .course-card.c-rose .cc-arrow { color: #E11D48; }
+ .course-card.c-green .cc-arrow { color: #16A34A; }
+ .course-card.c-orange .cc-arrow { color: #EA580C; }
+
+ /* ── 상세 화면 ── */
+ .detail-back-bar { background: #FFFFFF; border-bottom: 1px solid #E4E8F0; padding: 0.8rem 5%; position: sticky; top: 120px; z-index: 88; }
+ .back-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 600; color: #16A974; background: none; border: none; cursor: pointer; padding: 0.3rem 0; transition: opacity 0.15s; text-decoration: none; }
+ .back-btn:hover { opacity: 0.7; }
+
+ .detail-hero { padding: 3rem 5% 2.5rem; position: relative; overflow: hidden; }
+ .detail-hero-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+ .detail-hero h1 { font-size: clamp(1.5rem, 3.2vw, 2.4rem); font-weight: 900; letter-spacing: -0.025em; color: #1A1A2E; line-height: 1.2; margin-bottom: 0.8rem; }
+ .detail-hero h1 .dh-accent { color: #16A974; }
+ .detail-hero-desc { font-size: 0.97rem; color: #555770; line-height: 1.85; max-width: 580px; margin-bottom: 2rem; }
+ .detail-badges { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+ .detail-badge { display: flex; align-items: center; gap: 0.4rem; background: #E2F6EC; border: 1px solid #BFE6D2; border-radius: 100px; padding: 0.4rem 0.9rem; font-size: 0.8rem; font-weight: 600; color: #16A974; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+
+ .detail-content { padding: 0 5% 5rem; background: #FFFFFF; }
+ .detail-inner { max-width: 900px; margin: 0 auto; }
+
+ /* 세션 탭 */
+ .session-tabs-bar { background: rgba(255,255,255,0.97); border-bottom: 1px solid #E4E8F0; padding: 0; position: sticky; top: 162px; z-index: 85; overflow-x: auto; scrollbar-width: none; }
+ .session-tabs-bar::-webkit-scrollbar { display: none; }
+ .session-tabs { display: flex; max-width: 900px; margin: 0 auto; padding: 0 5%; overflow-x: visible; }
+ .session-tabs::-webkit-scrollbar { display: none; }
+ .stab { flex-shrink: 0; padding: 0 1rem; height: 46px; font-family: 'Inter', 'Noto Sans KR', sans-serif; font-size: 0.84rem; font-weight: 600; color: #9094A8; background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: all 0.18s; white-space: nowrap; }
+ .stab:hover { color: #16A974; }
+ .stab.sactive { color: #16A974; border-bottom-color: #16A974; }
+
+ .spanel { display: none; padding-top: 2.5rem; }
+ .spanel.svisible { display: block; }
+
+ /* 세션 헤더 */
+ .session-header { display: flex; align-items: flex-start; gap: 1.2rem; padding: 1.8rem; margin-bottom: 2rem; background: #EAFBF2; border: 1px solid #E4E8F0; border-radius: 16px; border-left: 4px solid #16A974; }
+ .s-num-badge { flex-shrink: 0; min-width: 52px; height: 52px; border-radius: 12px; background: #16A974; color: #FFFFFF; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; }
+ .s-num-badge .snb-label { font-size: 0.5rem; letter-spacing: 0.08em; opacity: 0.8; text-transform: uppercase; }
+ .s-num-badge .snb-num { font-size: 1.25rem; font-weight: 700; line-height: 1; }
+ .s-header-text { flex: 1; }
+ .s-topic { font-size: 1.1rem; font-weight: 800; color: #1A1A2E; margin-bottom: 0.35rem; letter-spacing: -0.01em; }
+ .s-goal { font-size: 0.85rem; color: #9094A8; line-height: 1.7; }
+ .s-goal strong { color: #16A974; font-weight: 600; }
+ .s-duration { flex-shrink: 0; margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 600; color: #16A974; background: #E2F6EC; border: 1px solid #BFE6D2; padding: 0.28rem 0.65rem; border-radius: 6px; white-space: nowrap; align-self: flex-start; }
+
+ /* 파트 블록 */
+ .parts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.4rem; }
+ .part-block { background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 14px; padding: 1.5rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+ .part-label { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #16A974; margin-bottom: 0.55rem; }
+ .part-title { font-size: 0.95rem; font-weight: 700; color: #1A1A2E; margin-bottom: 0.9rem; line-height: 1.4; }
+ .part-items { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+ .part-items li { font-size: 0.83rem; color: #555770; line-height: 1.6; display: flex; align-items: flex-start; gap: 0.5rem; }
+ .part-items li::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #16A974; flex-shrink: 0; margin-top: 0.5rem; }
+
+ /* 결과물 배너 */
+ .deliverable-banner { display: flex; align-items: center; gap: 0.9rem; padding: 1.1rem 1.5rem; background: linear-gradient(135deg, #E5F7ED, #EAFBF2); border: 1px solid #BFE6D2; border-radius: 12px; margin-top: 0.3rem; margin-bottom: 2.5rem; }
+ .deliverable-banner .db-icon { font-size: 1.4rem; flex-shrink: 0; }
+ .deliverable-banner .db-label { font-family: 'JetBrains Mono', monospace; font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: #16A974; margin-bottom: 0.15rem; }
+ .deliverable-banner .db-items { font-size: 0.86rem; font-weight: 700; color: #1A1A2E; line-height: 1.5; }
+
+ /* 단일 파트 */
+ .single-part { background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 14px; padding: 1.6rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-bottom: 1.2rem; }
+ .single-part-title { font-size: 1rem; font-weight: 800; color: #1A1A2E; margin-bottom: 1rem; padding-bottom: 0.7rem; border-bottom: 1px solid #E4E8F0; }
+ .single-part-title .spt-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: #16A974; display: block; margin-bottom: 0.3rem; }
+
+ /* 요약 테이블 */
+ .summary-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; margin-bottom: 1.5rem; }
+ .summary-table th { background: #E2F6EC; color: #16A974; font-weight: 700; font-size: 0.78rem; letter-spacing: 0.05em; padding: 0.7rem 1rem; text-align: left; border: 1px solid #E4E8F0; }
+ .summary-table td { padding: 0.65rem 1rem; border: 1px solid #E4E8F0; color: #555770; vertical-align: top; line-height: 1.6; }
+ .summary-table tr:nth-child(even) td { background: #F8FDFA; }
+ .summary-table td:first-child { font-weight: 700; color: #1A1A2E; white-space: nowrap; }
+
+ /* 커리큘럼 히어로 */
+ .curr-hero { background: linear-gradient(160deg, #E5F7ED 0%, #FFFFFF 60%, #EDFBF4 100%); padding: 3.5rem 5% 3rem; position: relative; overflow: hidden; }
+ .curr-hero-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+ .curr-hero h1 { font-size: clamp(1.7rem, 3.8vw, 2.9rem); font-weight: 900; letter-spacing: -0.025em; color: #1A1A2E; margin-bottom: 1rem; line-height: 1.2; }
+ .curr-hero h1 span { color: #16A974; }
+ .curr-hero-desc { font-size: 1rem; color: #555770; line-height: 1.85; max-width: 580px; margin-bottom: 2rem; }
+ .curr-overview { display: flex; gap: 1rem; flex-wrap: wrap; }
+ .overview-badge { display: flex; align-items: center; gap: 0.5rem; background: #FFFFFF; border: 1px solid #BFE6D2; border-radius: 100px; padding: 0.5rem 1.1rem; font-size: 0.85rem; font-weight: 600; color: #555770; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+ .overview-badge strong { color: #16A974; }
+
+ /* 교육 정보 */
+ .curr-info-section { background: #f6f3f2; padding: 4rem 5%; }
+ .curr-info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; max-width: 900px; margin: 0 auto; }
+ .curr-info-card { background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 14px; padding: 1.6rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+ .curr-info-card .ci-label { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: #16A974; margin-bottom: 0.6rem; }
+ .curr-info-card .ci-title { font-size: 0.95rem; font-weight: 700; color: #1A1A2E; margin-bottom: 0.5rem; }
+ .curr-info-card .ci-body { font-size: 0.83rem; color: #9094A8; line-height: 1.7; }
+
+ /* 기대효과 */
+ .curr-effect-section { background: #EFF2F7; padding: 4rem 5%; }
+ .curr-effect-section .section-label { color: #16A974; }
+ .curr-effect-section .section-title { color: #1A1A2E; }
+ .detail-effect { background: #EFF2F7; padding: 3.5rem 5%; border-top: 1px solid #E4E8F0; }
+ .detail-effect .section-label { color: #16A974; }
+ .detail-effect .section-title { color: #1A1A2E; margin-bottom: 2rem; }
+ .effect-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; max-width: 900px; margin: 0 auto; }
+ .effect-card { padding: 1.5rem 1.2rem; background: #FFFFFF; border: 1px solid #E4E8F0; border-radius: 14px; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+ .effect-card:hover { background: #EAFBF2; border-color: #BFE6D2; box-shadow: 0 4px 16px rgba(22,169,116,0.12); }
+ .effect-icon { font-size: 1.6rem; margin-bottom: 0.7rem; }
+ .effect-title { font-size: 0.92rem; font-weight: 700; color: #1A1A2E; margin-bottom: 0.35rem; }
+ .effect-desc { font-size: 0.8rem; color: #9094A8; line-height: 1.65; }
+
+ /* ── FOOTER ── */
+ footer { background: #f6f3f2; border-top: 1px solid #E4E8F0; padding: 2rem 5%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; font-size: 0.8rem; color: #9094A8; }
+ .footer-links { display: flex; gap: 1.5rem; }
+ .footer-links a { color: #9094A8; text-decoration: none; transition: color 0.2s; }
+ .footer-links a:hover { color: #16A974; }
+
+ /* ── 주차/회차 탭 (기존 week-tab 호환) ── */
+ .week-tabs-wrapper { background: #FFFFFF; border-bottom: 1px solid #E4E8F0; padding: 0 5%; position: sticky; top: 120px; z-index: 90; }
+ .week-tabs { display: flex; max-width: 900px; margin: 0 auto; overflow-x: auto; scrollbar-width: none; }
+ .week-tabs::-webkit-scrollbar { display: none; }
+ .week-tab { flex-shrink: 0; padding: 0 1.2rem; height: 48px; font-family: 'Inter', 'Noto Sans KR', sans-serif; font-size: 0.88rem; font-weight: 600; color: #9094A8; background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: all 0.18s; white-space: nowrap; }
+ .week-tab:hover { color: #16A974; }
+ .week-tab.wactive { color: #16A974; border-bottom-color: #16A974; }
+ .week-panels { padding: 0 5% 5rem; background: #FFFFFF; }
+ .week-panel { display: none; max-width: 900px; margin: 0 auto; padding-top: 3rem; }
+ .week-panel.wvisible { display: block; }
+ .week-header { display: flex; align-items: flex-start; gap: 1.5rem; margin-bottom: 2.5rem; padding: 2rem; background: #EAFBF2; border: 1px solid #E4E8F0; border-radius: 16px; border-left: 4px solid #16A974; }
+ .week-num-badge { flex-shrink: 0; width: 56px; height: 56px; border-radius: 14px; background: #16A974; color: #FFFFFF; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; }
+ .week-num-badge .wn-label { font-size: 0.55rem; letter-spacing: 0.08em; opacity: 0.8; text-transform: uppercase; }
+ .week-num-badge .wn-num { font-size: 1.4rem; font-weight: 700; line-height: 1; }
+ .week-topic { font-size: 1.2rem; font-weight: 800; color: #1A1A2E; margin-bottom: 0.4rem; letter-spacing: -0.01em; }
+ .week-goal { font-size: 0.88rem; color: #9094A8; line-height: 1.7; }
+ .week-goal strong { color: #16A974; font-weight: 600; }
+ .week-duration { margin-left: auto; flex-shrink: 0; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 600; color: #16A974; background: #E2F6EC; border: 1px solid #BFE6D2; padding: 0.3rem 0.7rem; border-radius: 6px; white-space: nowrap; }
+
+ /* ── ANIMATIONS ── */
+ .fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
+ .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+ /* ── RESPONSIVE ── */
+ @media (max-width: 768px) {
+ .tab-btn { font-size: 0.9rem; height: 52px; }
+ .target-grid { grid-template-columns: 1fr; }
+ .parts-grid { grid-template-columns: 1fr; }
+ .stat-band { flex-direction: column; }
+ .stat-cell { border-right: none; border-bottom: 1px solid #E4E8F0; }
+ .stat-cell:last-child { border-bottom: none; }
+ .process-steps { grid-template-columns: 1fr; }
+ .process-step { border-right: none; border-bottom: 1px solid rgba(22,169,116,0.2); }
+ .process-step:last-child { border-bottom: none; }
+ .week-header { flex-wrap: wrap; }
+ .week-duration { margin-left: 0; }
+ .curr-overview { flex-direction: column; }
+ .session-header { flex-wrap: wrap; }
+ .s-duration { margin-left: 0; }
+ }
+
+ @media (prefers-reduced-motion: reduce) {
+ *, *::before, *::after { animation: none !important; transition: none !important; }
+ }
+
+
+ 
+ /* ══ CSS-only 세션 탭 제어 ══ */
+ /* 세션 패널 */
+ .spanel { display: none !important; }
+ #stab-c1-s1:checked ~ * #c1-s1,
+ #stab-c1-s2:checked ~ * #c1-s2,
+ #stab-c1-s3:checked ~ * #c1-s3,
+ #stab-c1-s4:checked ~ * #c1-s4 { display: block !important; }
+
+ /* 세션 탭 label active */
+ label.stab { color: #9094A8; border-bottom: 3px solid transparent; cursor: pointer;
+ padding: 0 1rem; height: 44px; display: inline-flex; align-items: center;
+ font-size: 0.88rem; font-weight: 600; white-space: nowrap; background: transparent; }
+ #stab-c1-s1:checked ~ * label[for="stab-c1-s1"],
+ #stab-c1-s2:checked ~ * label[for="stab-c1-s2"],
+ #stab-c1-s3:checked ~ * label[for="stab-c1-s3"],
+ #stab-c1-s4:checked ~ * label[for="stab-c1-s4"] {
+ color: #16A974; border-bottom-color: #16A974;
+ }
+
+ /* label 공통 커서 */
+ label.back-btn { cursor: pointer; }
+
+
+ /* Dark footer */
+ footer { background: #0A1F14 !important; border-top-color: rgba(255,255,255,0.08) !important; color: rgba(255,255,255,0.45); }
+ footer .logo { color: #5FD9A8 !important; }
+ footer .logo span { color: rgba(255,255,255,0.7) !important; }
+ .footer-links a { color: rgba(255,255,255,0.45) !important; }
+ .footer-links a:hover { color: #5FD9A8 !important; }
+ footer > div { color: rgba(255,255,255,0.35); }
+
+
+ /* ── FOOTER CONTACT BAR ── */
+ .footer-contact-bar {
+ width: 100%; text-align: center;
+ margin-bottom: 0.6rem;
+ }
+ .footer-contact-bar a {
+ display: inline-block;
+ font-size: 1rem; font-weight: 800; color: #16A974;
+ text-decoration: none; letter-spacing: 0.02em;
+ border-bottom: 2px solid rgba(22,169,116,0.3);
+ padding-bottom: 2px;
+ transition: color 0.2s, border-color 0.2s;
+ }
+ .footer-contact-bar a:hover { color: #0E7A52; border-color: #0E7A52; }
+</style>
+</head>
+<body>
+
+<!-- CSS-only 세션 탭 제어 inputs (this course only) -->
+<input type="radio" name="c1-session" id="stab-c1-s1" checked style="display:none">
+<input type="radio" name="c1-session" id="stab-c1-s2" style="display:none">
+<input type="radio" name="c1-session" id="stab-c1-s3" style="display:none">
+<input type="radio" name="c1-session" id="stab-c1-s4" style="display:none">
+<header>
+ <div class="header-inner">
+ <a class="logo" href="index.html">Gpt<span>Class</span><span style="font-size: 0.72rem; font-weight: 700; color: #444655; letter-spacing: 0.05em; margin-left: 8px; vertical-align: middle; text-transform: uppercase; border-left: 1px solid #bccac1; padding-left: 8px; display: inline-block;">by LimeFriends</span></a>
+ <a class="header-contact" href="mailto:ax@limefriends.com" style="text-decoration: none; color: #3d4a43; cursor: pointer;">교육 문의 | 담당자 연결</a>
+ </div>
+</header>
+
+<div class="tab-nav-wrapper">
+ <div class="tab-nav">
+ <a class="tab-btn" href="index.html">
+ <span class="tab-icon"></span>
+ 정부지정 AI 교육기관
+ </a>
+ <a class="tab-btn" href="intro.html">
+ <span class="tab-icon"></span>
+ AI 교육 소개
+ </a>
+	<a class="tab-btn" href="teacher.html">
+	<span class="tab-icon"></span>
+	AI 강사 소개
+	</a>
+ <a class="tab-btn active" href="curriculum.html">
+ <span class="tab-icon"></span>
+ AI 교육 커리큘럼
+ </a>
+ <a class="tab-btn" href="cases.html">
+ <span class="tab-icon"></span>
+ AI 교육 사례
+ </a>
+ </div>
+</div>
+
+<div id="detail-c1" class="course-detail-screen" style="display:block;">
+<div class="detail-back-bar">
+ <a class="back-btn" href="curriculum.html">← 전체 과정 목록으로</a>
+ </div>
+ <section class="detail-hero" style="background:linear-gradient(160deg,#EEF2FF 0%,#FFFFFF 60%,#F5F3FF 100%);">
+ <div class="detail-hero-inner">
+ <div class="eyebrow" style="color:#4F46E5;background:#E0E7FF;border-color:#C7D2FE;">COURSE 01</div>
+ <h1>챗지피티<br><span class="dh-accent" style="color:#6366F1;">3일만에 끝내기</span></h1>
+ <p class="detail-hero-desc">생성형 AI의 핵심 원리부터 실전 프롬프트 작성까지 — 코딩 없이 누구나 하루 만에 완성하는 AI 업무 기초.</p>
+ <div class="detail-badges">
+ <span class="detail-badge"> 1일 과정 · 6시간</span>
+ <span class="detail-badge"> 3 STEP × 2시간</span>
+ <span class="detail-badge"> 입문 → 중급</span>
+ </div>
+ </div>
+ </section>
+
+ <div class="session-tabs-bar">
+ <div class="session-tabs" id="tabs-c1">
+ <label class="stab" for="stab-c1-s1">STEP 01 · 기초 개념</label>
+ <label class="stab" for="stab-c1-s2">STEP 02 · 활용 전략</label>
+ <label class="stab" for="stab-c1-s3">STEP 03 · 실습</label>
+ <label class="stab" for="stab-c1-s4">대상 · 목표</label>
+ </div>
+ </div>
+ <div class="detail-content">
+ <div class="detail-inner">
+
+ <div class="spanel svisible" id="c1-s1">
+ <div class="session-header" style="border-left-color:#6366F1;">
+ <div class="s-num-badge" style="background:#6366F1;"><span class="snb-label">STEP</span><span class="snb-num">1</span></div>
+ <div class="s-header-text">
+ <div class="s-topic">AI, 생성형 AI, LLM의 기본 개념 및 ChatGPT 원리 이해</div>
+ <div class="s-goal"><strong>목표</strong> — AI·머신러닝·딥러닝·생성형 AI·LLM의 개념 체계를 명확히 정리하고, ChatGPT를 포함한 주요 LLM 서비스의 원리와 핵심 용어를 이해한다.</div>
+ </div>
+ <div class="s-duration">2시간</div>
+ </div>
+ <div class="parts-grid">
+ <div class="part-block">
+ <div class="part-label">핵심 개념</div>
+ <div class="part-title">AI·LLM 용어 체계 정리</div>
+ <ul class="part-items">
+ <li>AI, 머신러닝, 딥러닝, 생성형 AI, LLM 개념 정리</li>
+ <li>LLM 서비스(예: ChatGPT) 관련 주요 용어 이해</li>
+ <li>ChatGPT를 비롯한 주요 LLM 서비스의 작동 원리</li>
+ </ul>
+ </div>
+ <div class="part-block">
+ <div class="part-label">실습 내용</div>
+ <div class="part-title">생성형 AI 도구 비교 체험</div>
+ <ul class="part-items">
+ <li>주요 생성형 AI 종류·장단점 및 차이점 비교</li>
+ <li>ChatGPT 인터페이스 및 기본 설정 둘러보기</li>
+ <li>업무에 맞는 AI 도구 선택 기준 익히기</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+
+ <div class="spanel" id="c1-s2">
+ <div class="session-header" style="border-left-color:#6366F1;">
+ <div class="s-num-badge" style="background:#6366F1;"><span class="snb-label">STEP</span><span class="snb-num">2</span></div>
+ <div class="s-header-text">
+ <div class="s-topic">ChatGPT의 가능성과 한계, 올바른 활용 전략</div>
+ <div class="s-goal"><strong>목표</strong> — 생성형 AI의 기업·실무 활용 레퍼런스를 분석해 실질적인 업무 가치를 파악하고, 안전하고 올바른 활용을 위한 필수 지식을 습득한다.</div>
+ </div>
+ <div class="s-duration">2시간</div>
+ </div>
+ <div class="parts-grid">
+ <div class="part-block">
+ <div class="part-label">핵심 개념</div>
+ <div class="part-title">기업 활용 레퍼런스 & 3요소</div>
+ <ul class="part-items">
+ <li>생성형 AI의 기업·실무 활용 레퍼런스 분석</li>
+ <li>AI 활용의 3요소(능력, 지식, 처리) 이해</li>
+ </ul>
+ </div>
+ <div class="part-block">
+ <div class="part-label">활용 전략</div>
+ <div class="part-title">효과적 사용 습관 & 한계 인지</div>
+ <ul class="part-items">
+ <li>ChatGPT의 효과적인 사용 습관 습득</li>
+ <li>ChatGPT의 명확한 한계 인지 및 정보 검증 방법</li>
+ </ul>
+ </div>
+ </div>
+ <div class="deliverable-banner">
+ <div class="db-icon"></div>
+ <div><div class="db-label"> STEP 02 결과물</div>
+ <div class="db-items">생성형 AI 활용 가치 판단 기준 + ChatGPT 안전 사용 체크리스트</div></div>
+ </div>
+ </div>
+
+ <div class="spanel" id="c1-s3">
+ <div class="session-header" style="border-left-color:#6366F1;">
+ <div class="s-num-badge" style="background:#6366F1;"><span class="snb-label">STEP</span><span class="snb-num">3</span></div>
+ <div class="s-header-text">
+ <div class="s-topic">효과적인 프롬프트 작성 기초 및 다양한 활용 사례 연습</div>
+ <div class="s-goal"><strong>목표</strong> — 좋은 프롬프트의 조건을 이해하고, 정보 검색·요약·번역·아이디어 요청·이미지 생성·리서치 등 실전 기본 프롬프트를 직접 실습한다.</div>
+ </div>
+ <div class="s-duration">2시간</div>
+ </div>
+ <div class="parts-grid">
+ <div class="part-block">
+ <div class="part-label">핵심 개념</div>
+ <div class="part-title">좋은 프롬프트의 조건</div>
+ <ul class="part-items">
+ <li>좋은 프롬프트가 갖춰야 할 조건 이해</li>
+ <li>정보 검색·텍스트 요약·번역·아이디어 요청·이미지 생성·리서치 등 기본 프롬프트 실습</li>
+ </ul>
+ </div>
+ <div class="part-block">
+ <div class="part-label">실습 내용</div>
+ <div class="part-title">피드백 & 개선 요청 실습</div>
+ <ul class="part-items">
+ <li>질문 유형에 따른 ChatGPT 반응 관찰·분석</li>
+ <li>잘못된 정보·부적절한 답변에 대한 피드백 및 개선 요청 방법 습득</li>
+ </ul>
+ </div>
+ </div>
+ <div class="deliverable-banner">
+ <div class="db-icon"></div>
+ <div><div class="db-label"> STEP 03 결과물</div>
+ <div class="db-items">실전 기본 프롬프트 모음 + 나만의 프롬프트 개선 노하우</div></div>
+ </div>
+ </div>
+
+ <div class="spanel" id="c1-s4">
+ <div class="session-header" style="border-left-color:#6366F1;">
+ <div class="s-num-badge" style="background:#6366F1;"><span class="snb-label">INFO</span><span class="snb-num">·</span></div>
+ <div class="s-header-text">
+ <div class="s-topic">훈련대상 · 훈련목표</div>
+ <div class="s-goal">하루 6시간으로 누구나 AI 업무 기초를 완성할 수 있도록 설계된 입문 과정입니다.</div>
+ </div>
+ </div>
+ <div class="parts-grid">
+ <div class="part-block">
+ <div class="part-label"> 훈련대상</div>
+ <div class="part-title">이런 분께 추천합니다</div>
+ <ul class="part-items">
+ <li>생성형 AI·ChatGPT를 처음 접하는 실무자</li>
+ <li>AI 개념을 체계적으로 정리하고 싶은 재직자</li>
+ <li>업무에 AI를 도입하려는 중소기업 임직원</li>
+ </ul>
+ </div>
+ <div class="part-block">
+ <div class="part-label"> 훈련목표</div>
+ <div class="part-title">이 과정을 마치면</div>
+ <ul class="part-items">
+ <li>생성형 AI·ChatGPT의 핵심 원리 및 주요 용어 이해</li>
+ <li>다양한 AI 도구 비교 및 실무 활용 가치 파악</li>
+ <li>효과적이고 안전한 프롬프트 작성 기초 습득</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+
+ </div>
+ </div>
+ <section class="cta-section" style="padding-top:3rem;">
+ <div class="cta-inner">
+ <h2>하루 6시간으로<br><span>AI 업무 기초를 완성하세요</span></h2>
+ <a href="apply.html" class="btn-apply">교육 신청 바로가기 <span class="arrow">→</span></a>
+ </div>
+ </section>
+ </div><!-- /detail-c1 -->
+
+<footer>
+ <a class="logo" href="index.html" style="font-size: 1rem; text-decoration: none;">Gpt<span>Class</span></a>
+ <div class="footer-contact-bar"><a href="mailto:ax@limefriends.com"> Contact&nbsp;&nbsp;ax@limefriends.com</a></div>
+ <div>© 2026 Lime Friends. All rights reserved.</div>
+ <div class="footer-links">
+ <a href="#">이용약관</a>
+ <a href="#">개인정보처리방침</a>
+ <a href="#">고객센터</a>
+ </div>
+</footer>
+
+<script>
+ // 스크롤 fade-up (애니메이션 보조)
+ const observer = new IntersectionObserver(entries => {
+ entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+ }, { threshold: 0.08 });
+ document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+<script src="/chatbot.js"></script>
+</body>
+</html>
+
+

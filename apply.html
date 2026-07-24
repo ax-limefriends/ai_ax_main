@@ -1,0 +1,818 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 회사 실무 교육 신청 | GptClass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+ :root {
+ --green: #16A974;
+ --green-dark: #0E7A52;
+ --green-mid: #5FD9A8;
+ --green-light:#E2F6EC;
+ --ink: #1c1b1b;
+ --ink-mid: #555770;
+ --ink-light: #9094A8;
+ --border: #e5e2e1;
+ --bg2: #F7F8FA;
+ --red: #EF4444;
+ }
+
+ html { scroll-behavior: smooth; }
+ body { font-family: 'Inter', 'Noto Sans KR', sans-serif; color: var(--ink); background: #fcf9f8; overflow-x: hidden; }
+
+ /* ── HEADER ── */
+ header {
+ position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+ height: 64px;
+ background: rgba(252,249,248,0.88);
+ backdrop-filter: blur(20px);
+ -webkit-backdrop-filter: blur(20px);
+ display: flex; align-items: center; justify-content: space-between;
+ padding: 0 5%;
+ border-bottom: 1px solid #bccac1;
+ }
+ .logo { font-size: 1.3rem; font-weight: 900; color: #1c1b1b; text-decoration: none; letter-spacing: -0.5px; }
+ .logo span { color: #006c4c; }
+ .header-back {
+ display: inline-flex; align-items: center; gap: 0.4rem;
+ color: #3d4a43; font-size: 0.88rem; text-decoration: none;
+ transition: color 0.2s;
+ }
+ .header-back:hover { color: #006c4c; }
+ .header-back svg { width: 16px; height: 16px; }
+
+ /* ── HERO ── */
+ .hero {
+ background: linear-gradient(165deg, #042E1C 0%, #0A4D2C 50%, #0E7A52 100%);
+ padding: 7rem 5% 4rem; text-align: center;
+ position: relative; overflow: hidden;
+ }
+ .hero::before {
+ content: ''; position: absolute; inset: 0;
+ background: radial-gradient(ellipse 60% 60% at 50% 100%, rgba(95,217,168,0.15) 0%, transparent 70%);
+ pointer-events: none;
+ }
+ .hero-eyebrow {
+ display: inline-flex; align-items: center; gap: 0.5rem;
+ background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+ border-radius: 100px; padding: 0.4rem 1rem;
+ font-size: 0.78rem; font-weight: 700; color: rgba(255,255,255,0.9);
+ letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 1.4rem;
+ }
+ .hero-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green-mid); animation: pulse 2s infinite; }
+ @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+ .hero h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; color: #fff; line-height: 1.2; letter-spacing: -0.03em; margin-bottom: 0.9rem; }
+ .hero h1 em { font-style: normal; color: var(--green-mid); }
+ .hero-desc { font-size: 0.97rem; color: rgba(255,255,255,0.72); line-height: 1.8; }
+ .hero-notice {
+ display: inline-flex; align-items: center; gap: 0.5rem;
+ margin-top: 1.4rem; background: rgba(95,217,168,0.12); border: 1px solid rgba(95,217,168,0.25);
+ border-radius: 8px; padding: 0.6rem 1.2rem;
+ font-size: 0.82rem; color: var(--green-mid);
+ }
+
+ /* ── FORM WRAP ── */
+ .form-wrap {
+ max-width: 720px; margin: 0 auto;
+ padding: 3rem 5% 5rem;
+ }
+
+ /* ── STEP INDICATOR ── */
+ .step-bar {
+ display: flex; gap: 0; margin-bottom: 2.5rem;
+ border-radius: 10px; overflow: hidden; border: 1px solid var(--border);
+ }
+ .step-item {
+ flex: 1; padding: 0.65rem 0.5rem; text-align: center;
+ font-size: 0.78rem; font-weight: 600; color: var(--ink-light);
+ background: var(--bg2); border-right: 1px solid var(--border);
+ transition: all 0.2s;
+ }
+ .step-item:last-child { border-right: none; }
+ .step-item.active { background: var(--green); color: #fff; }
+ .step-item.done { background: var(--green-light); color: var(--green-dark); }
+
+ /* ── SECTION CARD ── */
+ .form-section {
+ background: #fcf9f8; border: 1px solid var(--border);
+ border-radius: 16px; padding: 2rem;
+ margin-bottom: 1.5rem;
+ box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+ }
+ .form-section-title {
+ font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+ color: var(--green-dark); background: var(--green-light);
+ display: inline-block; padding: 0.25rem 0.75rem; border-radius: 6px;
+ margin-bottom: 1.5rem;
+ }
+
+ /* ── FIELD ── */
+ .field { margin-bottom: 1.6rem; }
+ .field:last-child { margin-bottom: 0; }
+ .field-label {
+ display: block; font-size: 0.93rem; font-weight: 700;
+ color: var(--ink); margin-bottom: 0.5rem;
+ }
+ .field-label .req { color: var(--red); margin-left: 3px; }
+ .field-hint { font-size: 0.78rem; color: var(--ink-light); margin-bottom: 0.5rem; }
+
+ input[type="text"],
+ input[type="tel"],
+ textarea {
+ width: 100%; padding: 0.8rem 1rem;
+ border: 1.5px solid var(--border); border-radius: 10px;
+ font-family: 'Inter', 'Noto Sans KR', sans-serif; font-size: 0.93rem; color: var(--ink);
+ background: #fcf9f8; transition: border-color 0.2s, box-shadow 0.2s;
+ outline: none;
+ }
+ input[type="text"]:focus,
+ input[type="tel"]:focus,
+ textarea:focus {
+ border-color: var(--green); box-shadow: 0 0 0 3px rgba(22,169,116,0.1);
+ }
+ input.error, textarea.error { border-color: var(--red); }
+ textarea { resize: vertical; min-height: 110px; line-height: 1.7; }
+
+ /* ── RADIO / CHECKBOX ── */
+ .options-grid { display: flex; flex-direction: column; gap: 0.5rem; }
+ .options-grid.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+ @media (max-width: 560px) { .options-grid.grid2 { grid-template-columns: 1fr; } }
+
+ .option-item {
+ display: flex; align-items: center; gap: 0.7rem;
+ padding: 0.7rem 1rem; border-radius: 10px;
+ border: 1.5px solid var(--border); cursor: pointer;
+ transition: all 0.15s; user-select: none;
+ font-size: 0.88rem; font-weight: 500; color: var(--ink);
+ }
+ .option-item:hover { border-color: var(--green); background: var(--green-light); }
+ .option-item input[type="radio"],
+ .option-item input[type="checkbox"] { display: none; }
+ .option-item.selected { border-color: var(--green); background: var(--green-light); color: var(--green-dark); font-weight: 700; }
+ .option-mark {
+ width: 18px; height: 18px; flex-shrink: 0;
+ border: 2px solid var(--border); border-radius: 50%;
+ display: flex; align-items: center; justify-content: center;
+ transition: all 0.15s;
+ }
+ .option-item.selected .option-mark { border-color: var(--green); background: var(--green); }
+ .option-mark-check { width: 8px; height: 8px; border-radius: 50%; background: #fcf9f8; display: none; }
+ .option-item.selected .option-mark-check { display: block; }
+
+ /* 체크박스 마크 */
+ .option-mark.square { border-radius: 4px; }
+ .option-mark-sq {
+ width: 10px; height: 7px; display: none;
+ border-left: 2px solid #fff; border-bottom: 2px solid #fff;
+ transform: rotate(-45deg) translate(1px, -1px);
+ }
+ .option-item.selected .option-mark-sq { display: block; }
+
+ /* 기타 직접 입력 */
+ .other-input {
+ display: none; margin-top: 0.5rem;
+ width: 100%; padding: 0.55rem 0.8rem;
+ border: 1.5px solid var(--border); border-radius: 8px;
+ font-family: 'Inter', 'Noto Sans KR', sans-serif; font-size: 0.85rem; color: var(--ink);
+ outline: none; transition: border-color 0.2s;
+ }
+ .other-input:focus { border-color: var(--green); }
+ .other-input.visible { display: block; }
+
+ /* ── ERROR MSG ── */
+ .field-error { font-size: 0.78rem; color: var(--red); margin-top: 0.35rem; display: none; }
+ .field-error.show { display: block; }
+
+ /* ── SUBMIT ── */
+ .submit-area { text-align: center; margin-top: 2.5rem; }
+ .btn-submit {
+ display: inline-flex; align-items: center; gap: 0.6rem;
+ background: var(--green); color: #fff;
+ font-family: 'Inter', 'Noto Sans KR', sans-serif; font-size: 1.05rem; font-weight: 700;
+ padding: 1rem 3rem; border-radius: 12px; border: none; cursor: pointer;
+ transition: all 0.2s; box-shadow: 0 6px 20px rgba(22,169,116,0.3);
+ }
+ .btn-submit:hover:not(:disabled) { background: var(--green-dark); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(22,169,116,0.4); }
+ .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+ .btn-submit .spinner {
+ width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.4);
+ border-top-color: #fff; border-radius: 50%;
+ animation: spin 0.7s linear infinite; display: none;
+ }
+ .btn-submit.loading .spinner { display: block; }
+ .btn-submit.loading .btn-text { display: none; }
+ @keyframes spin { to { transform: rotate(360deg); } }
+
+ .submit-note { font-size: 0.8rem; color: var(--ink-light); margin-top: 0.9rem; }
+
+ /* ── SUCCESS ── */
+ .success-screen {
+ display: none; text-align: center;
+ padding: 4rem 2rem; max-width: 520px; margin: 0 auto;
+ }
+ .success-screen.show { display: block; }
+ .success-icon {
+ width: 72px; height: 72px; border-radius: 50%;
+ background: var(--green-light); margin: 0 auto 1.5rem;
+ display: flex; align-items: center; justify-content: center;
+ }
+ .success-icon svg { width: 36px; height: 36px; stroke: var(--green); }
+ .success-screen h2 { font-size: 1.6rem; font-weight: 900; color: var(--ink); margin-bottom: 0.8rem; }
+ .success-screen p { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.8; }
+ .btn-back {
+ display: inline-flex; align-items: center; gap: 0.5rem;
+ margin-top: 2rem; padding: 0.75rem 1.8rem;
+ background: var(--green-light); color: var(--green-dark);
+ font-weight: 700; font-size: 0.9rem; border-radius: 10px;
+ text-decoration: none; transition: background 0.2s;
+ }
+ .btn-back:hover { background: #BFE6D2; }
+
+ /* ── FOOTER ── */
+ footer { background: #0A1F14; border-top: 1px solid rgba(255,255,255,0.08); padding: 2rem 5%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; font-size: 0.8rem; color: rgba(255,255,255,0.45); }
+ .footer-links { display: flex; gap: 1.5rem; }
+ .footer-links a { color: rgba(255,255,255,0.45); text-decoration: none; }
+ .footer-links a:hover { color: var(--green-mid); }
+ footer .flogo { color: var(--green-mid); font-weight: 900; text-decoration: none; }
+
+
+ /* ── FOOTER CONTACT BAR ── */
+ .footer-contact-bar {
+ width: 100%; text-align: center;
+ margin-bottom: 0.6rem;
+ }
+ .footer-contact-bar a {
+ display: inline-block;
+ font-size: 1rem; font-weight: 800; color: #16A974;
+ text-decoration: none; letter-spacing: 0.02em;
+ border-bottom: 2px solid rgba(22,169,116,0.3);
+ padding-bottom: 2px;
+ transition: color 0.2s, border-color 0.2s;
+ }
+ .footer-contact-bar a:hover { color: #0E7A52; border-color: #0E7A52; }
+</style>
+</head>
+<body>
+
+<header>
+ <a class="logo" href="index.html">Gpt<span>Class</span><span style="font-size: 0.72rem; font-weight: 700; color: #444655; letter-spacing: 0.05em; margin-left: 8px; vertical-align: middle; text-transform: uppercase; border-left: 1px solid #bccac1; padding-left: 8px; display: inline-block;">by LimeFriends</span></a>
+ <a class="header-back" href="index.html">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+ <path d="M19 12H5M5 12l7-7M5 12l7 7"/>
+ </svg>
+ 홈으로 돌아가기
+ </a>
+</header>
+
+<div class="hero">
+ <div class="hero-eyebrow"><span class="hero-dot"></span>기업 단체 교육 신청</div>
+ <h1>AI 회사 실무 교육<br><em>지금 신청하세요</em></h1>
+ <p class="hero-desc">접수 후 담당자가 바로 연락 드려서 상담 일정을 안내해드립니다.<br>수강료 및 교육 설계는 상담을 통해 맞춤 제안해 드립니다.</p>
+ <div class="hero-notice">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+ * 표시 항목은 필수 입력사항입니다
+ </div>
+</div>
+
+<div class="form-wrap">
+ <form id="applyForm" novalidate>
+
+ <!-- 기본 정보 -->
+ <div class="form-section">
+ <div class="form-section-title">기본 정보</div>
+
+ <div class="field" id="field-name">
+ <label class="field-label">담당자 성함 <span class="req">*</span></label>
+ <input type="text" name="name" id="name" placeholder="홍길동" autocomplete="name">
+ <div class="field-error" id="err-name">담당자 성함을 입력해주세요.</div>
+ </div>
+
+ <div class="field" id="field-phone">
+ <label class="field-label">담당자 연락처 (휴대폰) <span class="req">*</span></label>
+ <div class="field-hint">숫자만 입력해주세요 (예: 01012345678)</div>
+ <input type="tel" name="phone" id="phone" placeholder="01012345678" maxlength="11" inputmode="numeric">
+ <div class="field-error" id="err-phone">올바른 휴대폰 번호를 입력해주세요.</div>
+ </div>
+
+ <div class="field" id="field-company">
+ <label class="field-label">회사명 <span class="req">*</span></label>
+ <input type="text" name="company" id="company" placeholder="(주)회사명">
+ <div class="field-error" id="err-company">회사명을 입력해주세요.</div>
+ </div>
+ </div>
+
+ <!-- 교육 코스 -->
+ <div class="form-section">
+ <div class="form-section-title">교육 코스 선택</div>
+ <div class="field" id="field-courses">
+ <label class="field-label">원하시는 교육 코스를 선택해 주십시오. (복수 선택 가능) <span class="req">*</span></label>
+ <div class="options-grid" id="courses-group">
+ <label class="option-item" data-type="checkbox">
+ <input type="checkbox" name="courses" value="Course 01 챗지피티 3일만에 끝내기">
+ <span class="option-mark square"><span class="option-mark-sq"></span></span>
+ Course 01 · 챗지피티 3일만에 끝내기
+ </label>
+ <label class="option-item" data-type="checkbox">
+ <input type="checkbox" name="courses" value="Course 02 AI스마트워크 실전 10주 과정">
+ <span class="option-mark square"><span class="option-mark-sq"></span></span>
+ Course 02 · AI스마트워크 실전 10주 과정
+ </label>
+ <label class="option-item" data-type="checkbox">
+ <input type="checkbox" name="courses" value="Course 03 PBL 기반 AX AI 전환 중소기업 대표 과정">
+ <span class="option-mark square"><span class="option-mark-sq"></span></span>
+ Course 03 · PBL 기반 AX AI 전환 중소기업 대표 과정
+ </label>
+ <label class="option-item" data-type="checkbox">
+ <input type="checkbox" name="courses" value="Course 04 AI 이미지 & 영상 제작 전문 과정">
+ <span class="option-mark square"><span class="option-mark-sq"></span></span>
+ Course 04 · AI 이미지 &amp; 영상 제작 전문 과정
+ </label>
+ <label class="option-item" data-type="checkbox">
+ <input type="checkbox" name="courses" value="Course 05 노션 & 슬랙 업무 생산성 200% UP">
+ <span class="option-mark square"><span class="option-mark-sq"></span></span>
+ Course 05 · 노션 &amp; 슬랙 업무 생산성 200% UP
+ </label>
+ <label class="option-item" data-type="checkbox">
+ <input type="checkbox" name="courses" value="Course 06 바이브코딩-AI로 웹 서비스 만들기">
+ <span class="option-mark square"><span class="option-mark-sq"></span></span>
+ Course 06 · 바이브코딩 - AI로 웹 서비스 만들기
+ </label>
+ <label class="option-item" data-type="checkbox">
+ <input type="checkbox" name="courses" value="Course 07 Claude로 실무 문서 끝내기">
+ <span class="option-mark square"><span class="option-mark-sq"></span></span>
+ Course 07 · Claude로 실무 문서 끝내기
+ </label>
+ <label class="option-item" data-type="checkbox">
+ <input type="checkbox" name="courses" value="Course 08 AI 마케팅 콘텐츠 제작 실무">
+ <span class="option-mark square"><span class="option-mark-sq"></span></span>
+ Course 08 · AI 마케팅 콘텐츠 제작 실무
+ </label>
+ <label class="option-item" data-type="checkbox">
+ <input type="checkbox" name="courses" value="Course 09 DX/AX 마스터 커리큘럼">
+ <span class="option-mark square"><span class="option-mark-sq"></span></span>
+ Course 09 · DX/AX 마스터 커리큘럼
+ </label>
+ </div>
+ <div class="field-error" id="err-courses">교육 코스를 1개 이상 선택해주세요.</div>
+ </div>
+ </div>
+
+ <!-- 회사 정보 -->
+ <div class="form-section">
+ <div class="form-section-title">회사 정보</div>
+
+ <div class="field" id="field-industry">
+ <label class="field-label">회사 업종 <span class="req">*</span></label>
+ <div class="options-grid grid2" id="industry-group">
+ <label class="option-item" data-type="radio" data-group="industry">
+ <input type="radio" name="industry" value="제조">
+ <span class="option-mark"><span class="option-mark-check"></span></span>제조
+ </label>
+ <label class="option-item" data-type="radio" data-group="industry">
+ <input type="radio" name="industry" value="유통·물류">
+ <span class="option-mark"><span class="option-mark-check"></span></span>유통·물류
+ </label>
+ <label class="option-item" data-type="radio" data-group="industry">
+ <input type="radio" name="industry" value="서비스업">
+ <span class="option-mark"><span class="option-mark-check"></span></span>서비스업
+ </label>
+ <label class="option-item" data-type="radio" data-group="industry">
+ <input type="radio" name="industry" value="소매·도소매">
+ <span class="option-mark"><span class="option-mark-check"></span></span>소매·도소매
+ </label>
+ <label class="option-item" data-type="radio" data-group="industry">
+ <input type="radio" name="industry" value="의료">
+ <span class="option-mark"><span class="option-mark-check"></span></span>의료
+ </label>
+ <label class="option-item" data-type="radio" data-group="industry">
+ <input type="radio" name="industry" value="공공·교육">
+ <span class="option-mark"><span class="option-mark-check"></span></span>공공·교육
+ </label>
+ <label class="option-item" data-type="radio" data-group="industry">
+ <input type="radio" name="industry" value="IT·테크">
+ <span class="option-mark"><span class="option-mark-check"></span></span>IT·테크
+ </label>
+ <label class="option-item" data-type="radio" data-group="industry" id="industry-other-item">
+ <input type="radio" name="industry" value="기타">
+ <span class="option-mark"><span class="option-mark-check"></span></span>기타 (직접 입력)
+ </label>
+ </div>
+ <input type="text" class="other-input" id="industry-other-text" placeholder="업종을 직접 입력해주세요">
+ <div class="field-error" id="err-industry">회사 업종을 선택해주세요.</div>
+ </div>
+
+ <div class="field" id="field-headcount">
+ <label class="field-label">교육 예상 인원 <span class="req">*</span></label>
+ <div class="options-grid grid2" id="headcount-group">
+ <label class="option-item" data-type="radio" data-group="headcount">
+ <input type="radio" name="headcount" value="10인 미만">
+ <span class="option-mark"><span class="option-mark-check"></span></span>10인 미만
+ </label>
+ <label class="option-item" data-type="radio" data-group="headcount">
+ <input type="radio" name="headcount" value="10~30인">
+ <span class="option-mark"><span class="option-mark-check"></span></span>10~30인
+ </label>
+ <label class="option-item" data-type="radio" data-group="headcount">
+ <input type="radio" name="headcount" value="30~50인">
+ <span class="option-mark"><span class="option-mark-check"></span></span>30~50인
+ </label>
+ <label class="option-item" data-type="radio" data-group="headcount">
+ <input type="radio" name="headcount" value="50~100인">
+ <span class="option-mark"><span class="option-mark-check"></span></span>50~100인
+ </label>
+ <label class="option-item" data-type="radio" data-group="headcount">
+ <input type="radio" name="headcount" value="100인 이상">
+ <span class="option-mark"><span class="option-mark-check"></span></span>100인 이상
+ </label>
+ </div>
+ <div class="field-error" id="err-headcount">교육 예상 인원을 선택해주세요.</div>
+ </div>
+
+ <div class="field" id="field-jobtype">
+ <label class="field-label">교육 대상 직군 (복수 선택 가능) <span class="req">*</span></label>
+ <div class="options-grid grid2" id="jobtype-group">
+ <label class="option-item" data-type="checkbox">
+ <input type="checkbox" name="jobtype" value="대표·임원">
+ <span class="option-mark square"><span class="option-mark-sq"></span></span>대표·임원
+ </label>
+ <label class="option-item" data-type="checkbox">
+ <input type="checkbox" name="jobtype" value="팀장·중간관리자">
+ <span class="option-mark square"><span class="option-mark-sq"></span></span>팀장·중간관리자
+ </label>
+ <label class="option-item" data-type="checkbox">
+ <input type="checkbox" name="jobtype" value="실무 전 직군">
+ <span class="option-mark square"><span class="option-mark-sq"></span></span>실무 전 직군
+ </label>
+ <label class="option-item" data-type="checkbox">
+ <input type="checkbox" name="jobtype" value="영업·마케팅">
+ <span class="option-mark square"><span class="option-mark-sq"></span></span>영업·마케팅
+ </label>
+ <label class="option-item" data-type="checkbox">
+ <input type="checkbox" name="jobtype" value="경영지원·HR·총무">
+ <span class="option-mark square"><span class="option-mark-sq"></span></span>경영지원·HR·총무
+ </label>
+ <label class="option-item" data-type="checkbox" id="jobtype-other-item">
+ <input type="checkbox" name="jobtype" value="기타">
+ <span class="option-mark square"><span class="option-mark-sq"></span></span>기타 (직접 입력)
+ </label>
+ </div>
+ <input type="text" class="other-input" id="jobtype-other-text" placeholder="직군을 직접 입력해주세요">
+ <div class="field-error" id="err-jobtype">교육 대상 직군을 1개 이상 선택해주세요.</div>
+ </div>
+ </div>
+
+ <!-- 교육 목적 -->
+ <div class="form-section">
+ <div class="form-section-title">교육 목적 &amp; 일정</div>
+
+ <div class="field" id="field-goal">
+ <label class="field-label">AI 교육으로 귀사가 얻고 싶은 것은 무엇인가요? <span class="req">*</span></label>
+ <div class="options-grid" id="goal-group">
+ <label class="option-item" data-type="radio" data-group="goal">
+ <input type="radio" name="goal" value="반복 업무 자동화로 시간 절약">
+ <span class="option-mark"><span class="option-mark-check"></span></span>반복 업무 자동화로 시간 절약
+ </label>
+ <label class="option-item" data-type="radio" data-group="goal">
+ <input type="radio" name="goal" value="보고서·문서 작성 효율화">
+ <span class="option-mark"><span class="option-mark-check"></span></span>보고서·문서 작성 효율화
+ </label>
+ <label class="option-item" data-type="radio" data-group="goal">
+ <input type="radio" name="goal" value="AI 이미지·콘텐츠 제작 역량">
+ <span class="option-mark"><span class="option-mark-check"></span></span>AI 이미지·콘텐츠 제작 역량
+ </label>
+ <label class="option-item" data-type="radio" data-group="goal">
+ <input type="radio" name="goal" value="데이터 분석 및 인사이트 도출">
+ <span class="option-mark"><span class="option-mark-check"></span></span>데이터 분석 및 인사이트 도출
+ </label>
+ <label class="option-item" data-type="radio" data-group="goal">
+ <input type="radio" name="goal" value="사내 AI 도입을 위한 기초 역량 확보">
+ <span class="option-mark"><span class="option-mark-check"></span></span>사내 AI 도입을 위한 기초 역량 확보
+ </label>
+ <label class="option-item" data-type="radio" data-group="goal">
+ <input type="radio" name="goal" value="경쟁사 대비 AI 활용 격차 해소">
+ <span class="option-mark"><span class="option-mark-check"></span></span>경쟁사 대비 AI 활용 격차 해소
+ </label>
+ <label class="option-item" data-type="radio" data-group="goal" id="goal-other-item">
+ <input type="radio" name="goal" value="기타">
+ <span class="option-mark"><span class="option-mark-check"></span></span>기타 (직접 입력)
+ </label>
+ </div>
+ <input type="text" class="other-input" id="goal-other-text" placeholder="직접 입력해주세요">
+ <div class="field-error" id="err-goal">원하시는 목표를 선택해주세요.</div>
+ </div>
+
+ <div class="field" id="field-format">
+ <label class="field-label">희망 교육 형태 <span class="req">*</span></label>
+ <div class="options-grid grid2" id="format-group">
+ <label class="option-item" data-type="radio" data-group="format">
+ <input type="radio" name="format" value="사내 출강">
+ <span class="option-mark"><span class="option-mark-check"></span></span>사내 출강
+ </label>
+ <label class="option-item" data-type="radio" data-group="format">
+ <input type="radio" name="format" value="외부 교육장 집합 교육">
+ <span class="option-mark"><span class="option-mark-check"></span></span>외부 교육장 집합 교육
+ </label>
+ <label class="option-item" data-type="radio" data-group="format">
+ <input type="radio" name="format" value="온라인 라이브">
+ <span class="option-mark"><span class="option-mark-check"></span></span>온라인 라이브
+ </label>
+ <label class="option-item" data-type="radio" data-group="format">
+ <input type="radio" name="format" value="미정">
+ <span class="option-mark"><span class="option-mark-check"></span></span>미정
+ </label>
+ </div>
+ <div class="field-error" id="err-format">희망 교육 형태를 선택해주세요.</div>
+ </div>
+
+ <div class="field" id="field-timing">
+ <label class="field-label">희망 교육 시기 <span class="req">*</span></label>
+ <div class="options-grid grid2" id="timing-group">
+ <label class="option-item" data-type="radio" data-group="timing">
+ <input type="radio" name="timing" value="1개월 이내">
+ <span class="option-mark"><span class="option-mark-check"></span></span>1개월 이내
+ </label>
+ <label class="option-item" data-type="radio" data-group="timing">
+ <input type="radio" name="timing" value="1~3개월 이내">
+ <span class="option-mark"><span class="option-mark-check"></span></span>1~3개월 이내
+ </label>
+ <label class="option-item" data-type="radio" data-group="timing">
+ <input type="radio" name="timing" value="3개월 이후">
+ <span class="option-mark"><span class="option-mark-check"></span></span>3개월 이후
+ </label>
+ <label class="option-item" data-type="radio" data-group="timing">
+ <input type="radio" name="timing" value="미정">
+ <span class="option-mark"><span class="option-mark-check"></span></span>미정
+ </label>
+ </div>
+ <div class="field-error" id="err-timing">희망 교육 시기를 선택해주세요.</div>
+ </div>
+ </div>
+
+ <!-- 추가 정보 -->
+ <div class="form-section">
+ <div class="form-section-title">추가 정보</div>
+
+ <div class="field">
+ <label class="field-label">요청 사항 또는 교육 목표 <span style="font-weight:400;color:var(--ink-light);font-size:0.82rem;">(선택)</span></label>
+ <div class="field-hint">교육 목적, 특정 부서·직군, 현재 팀의 AI 활용 수준 등 자유롭게 적어주세요.</div>
+ <textarea name="memo" id="memo" placeholder="자유롭게 작성해주세요."></textarea>
+ </div>
+
+ <div class="field" id="field-channel">
+ <label class="field-label">어떻게 알게 되셨나요? <span class="req">*</span></label>
+ <div class="options-grid grid2" id="channel-group">
+ <label class="option-item" data-type="radio" data-group="channel">
+ <input type="radio" name="channel" value="지인·파트너사 추천">
+ <span class="option-mark"><span class="option-mark-check"></span></span>지인·파트너사 추천
+ </label>
+ <label class="option-item" data-type="radio" data-group="channel">
+ <input type="radio" name="channel" value="인스타그램·페이스북">
+ <span class="option-mark"><span class="option-mark-check"></span></span>인스타그램·페이스북
+ </label>
+ <label class="option-item" data-type="radio" data-group="channel">
+ <input type="radio" name="channel" value="블로그·유튜브">
+ <span class="option-mark"><span class="option-mark-check"></span></span>블로그·유튜브
+ </label>
+ <label class="option-item" data-type="radio" data-group="channel">
+ <input type="radio" name="channel" value="네이버 검색">
+ <span class="option-mark"><span class="option-mark-check"></span></span>네이버 검색
+ </label>
+ <label class="option-item" data-type="radio" data-group="channel">
+ <input type="radio" name="channel" value="지역 커뮤니티·협회">
+ <span class="option-mark"><span class="option-mark-check"></span></span>지역 커뮤니티·협회
+ </label>
+ <label class="option-item" data-type="radio" data-group="channel" id="channel-other-item">
+ <input type="radio" name="channel" value="기타">
+ <span class="option-mark"><span class="option-mark-check"></span></span>기타 (직접 입력)
+ </label>
+ </div>
+ <input type="text" class="other-input" id="channel-other-text" placeholder="직접 입력해주세요">
+ <div class="field-error" id="err-channel">알게 된 경로를 선택해주세요.</div>
+ </div>
+ </div>
+
+ <div class="submit-area">
+ <button type="submit" class="btn-submit" id="submitBtn">
+ <span class="btn-text">신청서 제출하기 →</span>
+ <span class="spinner"></span>
+ </button>
+ <p class="submit-note">제출 후 바로 담당자가 연락 드립니다.</p>
+ </div>
+
+ </form>
+
+ <!-- 성공 화면 -->
+ <div class="success-screen" id="successScreen">
+ <div class="success-icon">
+ <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M20 6L9 17l-5-5"/>
+ </svg>
+ </div>
+ <h2>신청이 완료됐습니다!</h2>
+ <p>담당자가 <strong>바로</strong> 입력하신 연락처로 연락드리겠습니다.<br><br>감사합니다 </p>
+ <a class="btn-back" href="index.html">← 홈으로 돌아가기</a>
+ </div>
+</div>
+
+<footer>
+ <a class="flogo" href="index.html">Gpt<span style="color:rgba(255,255,255,0.6)">Class</span></a>
+ <div class="footer-contact-bar"><a href="mailto:ax@limefriends.com"> Contact&nbsp;&nbsp;ax@limefriends.com</a></div>
+ <div>© 2026 Lime Friends. All rights reserved.</div>
+ <div class="footer-links">
+ <a href="#">이용약관</a>
+ <a href="#">개인정보처리방침</a>
+ <a href="#">고객센터</a>
+ </div>
+</footer>
+
+<script>
+ // ── 구글 Apps Script 웹앱 URL (배포 후 여기에 붙여넣기)
+ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby_nebVK2cp1Solu4xRzClXXBgqPh1S_p_KI0LzGq4BJjnzyHuDUXshKk8XqGz_DHT_/exec';
+
+ // ── 옵션 클릭 인터랙션
+ document.querySelectorAll('.option-item').forEach(item => {
+ item.addEventListener('click', (e) => {
+ e.preventDefault();
+ const input = item.querySelector('input');
+ const type = item.dataset.type;
+ const group = item.dataset.group;
+
+ if (type === 'radio') {
+ // 같은 그룹 선택 해제
+ document.querySelectorAll(`.option-item[data-group="${group}"]`).forEach(el => el.classList.remove('selected'));
+ item.classList.add('selected');
+ input.checked = true;
+
+ // 기타 직접 입력 처리
+ const otherId = group + '-other-item';
+ const otherText = document.getElementById(group + '-other-text');
+ if (otherText) {
+ if (item.id === otherId) {
+ otherText.classList.add('visible');
+ otherText.focus();
+ } else {
+ otherText.classList.remove('visible');
+ otherText.value = '';
+ }
+ }
+ } else {
+ // 체크박스
+ if (item.classList.contains('selected')) {
+ item.classList.remove('selected');
+ input.checked = false;
+ } else {
+ item.classList.add('selected');
+ input.checked = true;
+ }
+
+ // 직군 기타 처리
+ if (item.id === 'jobtype-other-item') {
+ const otherText = document.getElementById('jobtype-other-text');
+ if (input.checked) { otherText.classList.add('visible'); otherText.focus(); }
+ else { otherText.classList.remove('visible'); otherText.value = ''; }
+ }
+ }
+ });
+ });
+
+ // 숫자만 입력
+ document.getElementById('phone').addEventListener('input', e => {
+ e.target.value = e.target.value.replace(/\D/g, '');
+ });
+
+ // ── 유효성 검사
+ function validate() {
+ let ok = true;
+
+ const show = (id, show) => {
+ const el = document.getElementById(id);
+ if (el) el.classList.toggle('show', show);
+ };
+
+ const name = document.getElementById('name').value.trim();
+ show('err-name', !name);
+ if (!name) ok = false;
+
+ const phone = document.getElementById('phone').value.trim();
+ const phoneOk = /^01[0-9]{8,9}$/.test(phone);
+ show('err-phone', !phoneOk);
+ if (!phoneOk) ok = false;
+
+ const company = document.getElementById('company').value.trim();
+ show('err-company', !company);
+ if (!company) ok = false;
+
+ const courses = document.querySelectorAll('input[name="courses"]:checked');
+ show('err-courses', courses.length === 0);
+ if (!courses.length) ok = false;
+
+ const industry = document.querySelector('input[name="industry"]:checked');
+ show('err-industry', !industry);
+ if (!industry) ok = false;
+
+ const headcount = document.querySelector('input[name="headcount"]:checked');
+ show('err-headcount', !headcount);
+ if (!headcount) ok = false;
+
+ const jobtype = document.querySelectorAll('input[name="jobtype"]:checked');
+ show('err-jobtype', jobtype.length === 0);
+ if (!jobtype.length) ok = false;
+
+ const goal = document.querySelector('input[name="goal"]:checked');
+ show('err-goal', !goal);
+ if (!goal) ok = false;
+
+ const format = document.querySelector('input[name="format"]:checked');
+ show('err-format', !format);
+ if (!format) ok = false;
+
+ const timing = document.querySelector('input[name="timing"]:checked');
+ show('err-timing', !timing);
+ if (!timing) ok = false;
+
+ const channel = document.querySelector('input[name="channel"]:checked');
+ show('err-channel', !channel);
+ if (!channel) ok = false;
+
+ return ok;
+ }
+
+ // ── 제출
+ document.getElementById('applyForm').addEventListener('submit', async e => {
+ e.preventDefault();
+ if (!validate()) {
+ const firstErr = document.querySelector('.field-error.show');
+ if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+ return;
+ }
+
+ const btn = document.getElementById('submitBtn');
+ btn.classList.add('loading');
+ btn.disabled = true;
+
+ // 기타 값 처리
+ const getVal = (name, otherId) => {
+ const checked = document.querySelector(`input[name="${name}"]:checked`);
+ if (!checked) return '';
+ if (checked.value === '기타') {
+ const txt = document.getElementById(otherId)?.value.trim();
+ return txt ? `기타: ${txt}` : '기타';
+ }
+ return checked.value;
+ };
+
+ const getMulti = (name, otherId) => {
+ const checked = document.querySelectorAll(`input[name="${name}"]:checked`);
+ return Array.from(checked).map(c => {
+ if (c.value === '기타') {
+ const txt = document.getElementById(otherId)?.value.trim();
+ return txt ? `기타: ${txt}` : '기타';
+ }
+ return c.value;
+ }).join(', ');
+ };
+
+ const payload = {
+ timestamp: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }),
+ name: document.getElementById('name').value.trim(),
+ phone: document.getElementById('phone').value.trim(),
+ company: document.getElementById('company').value.trim(),
+ courses: getMulti('courses', null),
+ industry: getVal('industry', 'industry-other-text'),
+ headcount: getVal('headcount', null),
+ jobtype: getMulti('jobtype', 'jobtype-other-text'),
+ goal: getVal('goal', 'goal-other-text'),
+ format: getVal('format', null),
+ timing: getVal('timing', null),
+ memo: document.getElementById('memo').value.trim(),
+ channel: getVal('channel', 'channel-other-text'),
+ };
+
+ try {
+ await fetch(APPS_SCRIPT_URL, {
+ method: 'POST',
+ mode: 'no-cors',
+ headers: { 'Content-Type': 'application/json' },
+ body: JSON.stringify(payload),
+ });
+ document.getElementById('applyForm').style.display = 'none';
+ document.getElementById('successScreen').classList.add('show');
+ window.scrollTo({ top: 0, behavior: 'smooth' });
+ } catch (err) {
+ alert('제출 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+ btn.classList.remove('loading');
+ btn.disabled = false;
+ }
+ });
+</script>
+<script src="/chatbot.js"></script>
+</body>
+</html>
+
+
