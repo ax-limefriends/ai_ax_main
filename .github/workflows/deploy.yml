@@ -1,0 +1,56 @@
+name: Deploy gptclass.kr (Server AI)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-gptclass-kr
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, server-ai]
+    env:
+      APP_ROOT: /home/user1/prod/apps/gptclass-landing
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sync source to app root
+        run: |
+          set -euo pipefail
+          mkdir -p "$APP_ROOT"
+          rsync -a --delete \
+            --exclude '.git' \
+            --exclude '.github' \
+            ./ "$APP_ROOT/"
+
+      - name: Build and restart site container
+        run: |
+          set -euo pipefail
+          cd "$APP_ROOT"
+          docker-compose -f docker-compose.prod.yml up -d --build
+          docker image prune -f
+
+      - name: Install nginx vhost and reload
+        run: |
+          set -euo pipefail
+          cp "$APP_ROOT/deploy/gptclass.kr.nginx.conf" /home/user1/prod/nginx/conf.d/gptclass.kr.conf
+          docker exec prod-nginx nginx -t
+          docker exec prod-nginx nginx -s reload
+
+      - name: Health check
+        run: |
+          set -euo pipefail
+          for i in $(seq 1 20); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' -H 'Host: gptclass.kr' http://127.0.0.1/ 2>/dev/null || echo 000)
+            if [ "$code" = "200" ]; then
+              echo "gptclass.kr is up (HTTP $code)"
+              exit 0
+            fi
+            sleep 3
+          done
+          echo "health check failed"
+          docker logs --tail 60 gptclass-web || true
+          exit 1

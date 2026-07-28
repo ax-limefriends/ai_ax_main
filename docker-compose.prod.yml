@@ -1,0 +1,8 @@
+services:
+  gptclass-web:
+    build:
+      context: .
+    container_name: gptclass-web
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3320:80"
