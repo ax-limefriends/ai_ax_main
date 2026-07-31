@@ -348,7 +348,7 @@
     "section": "7. 교육 진행 절차",
     "question": "교육 신청은 어디서 하나요?",
     "keywords": ["신청", "신청방법", "신청서", "지원하기"],
-    "answer": "gptclass.netlify.app/apply 페이지에서 신청 폼을 작성하시면 담당자가 확인 후 바로 연락드립니다.",
+    "answer": "gptclass.kr/apply 페이지에서 신청 폼을 작성하시면 담당자가 확인 후 바로 연락드립니다.",
     "related": ["process_steps", "contact_general"]
   },
   {
