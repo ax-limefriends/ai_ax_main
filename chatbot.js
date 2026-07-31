@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  const FAQ_URL = '/ai_ax_main/data/faq.json';
+  const FAQ_URL = './data/faq.json';
   const INITIAL_IDS = ['refund_what', 'curriculum_all', 'coach_verify', 'process_apply_where', 'contact_general'];
 
   let faqData = [];
