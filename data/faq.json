@@ -108,7 +108,7 @@
     "section": "3. 정부지원 환급과정",
     "question": "환급과정 상담은 어떻게 신청하나요?",
     "keywords": ["환급상담", "환급신청어디", "환급문의"],
-    "answer": "'인재키움 사업 수요기업 신청서'를 통해 무료 상담을 신청할 수 있습니다. (gptclass.netlify.app/refund-apply)",
+    "answer": "'인재키움 사업 수요기업 신청서'를 통해 무료 상담을 신청할 수 있습니다. (gptclass.kr/refund-apply)",
     "related": ["contact_general"]
   },
   {
@@ -324,7 +324,7 @@
     "section": "5. 커리큘럼",
     "question": "세부 커리큘럼은 어디서 확인하나요?",
     "keywords": ["세부커리큘럼", "커리큘럼페이지", "자세히보기"],
-    "answer": "gptclass.netlify.app/curriculum 페이지에서 각 과정명을 클릭하면 세부 커리큘럼(course-c1 ~ course-c9)을 확인할 수 있습니다.",
+    "answer": "gptclass.kr/curriculum 페이지에서 각 과정명을 클릭하면 세부 커리큘럼(course-c1 ~ course-c9)을 확인할 수 있습니다.",
     "related": ["curriculum_all"]
   },
   {
